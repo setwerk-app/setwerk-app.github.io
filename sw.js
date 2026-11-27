@@ -1,8 +1,9 @@
 // Setwerk service worker: makes the app installable and fully usable offline.
-const VERSION = 'setwerk-v2';
+const VERSION = 'setwerk-v3';
 const SHELL = [
   './',
   './index.html',
+  './extra.js',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png',
@@ -50,7 +51,22 @@ self.addEventListener('fetch', (e) => {
     return;
   }
 
-  // Everything else (icons, manifest, PDF library): cache first, refresh in background.
+  // App code (our .js/.webmanifest): network first, so page and scripts always come from the same version.
+  if (ours && /\.(js|webmanifest)$/.test(url.pathname)) {
+    e.respondWith((async () => {
+      const c = await caches.open(VERSION);
+      try {
+        const res = await fetch(req, { cache: 'no-cache' });
+        if (res.ok) c.put(req, res.clone());
+        return res;
+      } catch (_) {
+        return (await c.match(req, { ignoreSearch: true })) || Response.error();
+      }
+    })());
+    return;
+  }
+
+  // Everything else (icons, PDF library): cache first, refresh in background.
   e.respondWith((async () => {
     const c = await caches.open(VERSION);
     const hit = await c.match(req);

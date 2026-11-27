@@ -3,7 +3,7 @@
 # Voraussetzung: Xcode Command Line Tools (xcode-select --install)
 set -euo pipefail
 cd "$(dirname "$0")"
-VERSION="${1:-1.0.0}"
+VERSION="${1:-1.1.0}"
 ROOT="$(cd .. && pwd)"
 OUT="$ROOT/mac/build"
 APP="$OUT/Setwerk.app"
@@ -20,7 +20,7 @@ lipo -create "$OUT/Setwerk-arm64" "$OUT/Setwerk-x86_64" -output "$APP/Contents/M
 rm "$OUT"/Setwerk-arm64 "$OUT"/Setwerk-x86_64
 
 echo "▸ Ressourcen …"
-cp "$ROOT/index.html" "$ROOT/manifest.webmanifest" "$APP/Contents/Resources/web/"
+cp "$ROOT/index.html" "$ROOT/extra.js" "$ROOT/manifest.webmanifest" "$APP/Contents/Resources/web/"
 cp "$ROOT"/icons/*.png "$APP/Contents/Resources/web/icons/"
 cp Setwerk.icns "$APP/Contents/Resources/"
 
@@ -62,7 +62,7 @@ Setwerk installieren
    • Oder im Terminal:  xattr -dr com.apple.quarantine /Applications/Setwerk.app
 Das ist nur beim ersten Start nötig.
 TXT
-DMG="$OUT/Setwerk-$VERSION.dmg"
+DMG="$OUT/Setwerk-macOS.dmg"
 hdiutil create -volname "Setwerk" -srcfolder "$STAGE" -ov -format UDZO -fs HFS+ "$DMG" >/dev/null
 rm -rf "$STAGE"
 echo "✓ $DMG ($(du -h "$DMG" | cut -f1))"
@@ -80,7 +80,7 @@ pkgbuild --root "$PKGROOT" --component-plist "$PKGWORK/component.plist" \
   "$PKGWORK/Setwerk-component.pkg" >/dev/null
 cp installer/welcome.html installer/conclusion.html installer/background.png "$PKGWORK/res/"
 sed "s/__VERSION__/$VERSION/" installer/distribution.xml > "$PKGWORK/distribution.xml"
-PKG="$OUT/Setwerk-$VERSION.pkg"
+PKG="$OUT/Setwerk-macOS.pkg"
 productbuild --distribution "$PKGWORK/distribution.xml" --resources "$PKGWORK/res" \
   --package-path "$PKGWORK" "$PKG" >/dev/null
 rm -rf "$PKGROOT" "$PKGWORK"

@@ -103,6 +103,49 @@ td input[type=number]{width:52px;padding:3px 5px}
 @media(max-width:1100px){.export{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.export{grid-template-columns:1fr}.tr{grid-template-columns:26px 1fr}.tr .act{grid-column:2}.tx{padding-left:0}}
 details summary{cursor:pointer;color:var(--muted);font-weight:600;margin:10px 0}
+@media(max-width:1250px){.tag{display:none}}
+@media(max-width:700px){header{gap:10px;padding:10px 12px}nav{flex-wrap:nowrap;overflow-x:auto;width:100%;margin-left:0;scrollbar-width:none;-webkit-overflow-scrolling:touch}nav::-webkit-scrollbar{display:none}nav button{flex:none;padding:7px 11px}#installBtn{margin-left:auto}
+  #result .stats{grid-template-columns:1fr 1fr!important}.score{font-size:36px}.hero h1{font-size:30px}.actions{grid-template-columns:1fr 1fr}.chrow{grid-template-columns:1fr 1fr}.sugg{grid-template-columns:40px 1fr}.sugg>.row:last-child{grid-column:1/-1;justify-content:flex-end}.gigcard{grid-template-columns:52px 1fr}}
+.parts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:4px 0 10px}
+.part{background:var(--panel2);border-radius:10px;padding:8px 10px;font-size:12px}
+.pbar{height:5px;background:var(--line);border-radius:3px;margin-top:6px;overflow:hidden}.pbar i{display:block;height:100%}
+.hintbox{background:#ffb23814;border:1px solid #ffb23855;border-radius:10px;padding:9px 12px;font-size:13px;margin-bottom:10px}
+.chap{margin:16px 0 6px;padding:6px 10px;border-left:3px solid var(--accent);font-weight:700;font-size:13px;background:#ff5c3910;border-radius:6px}
+details.coach{margin:0 0 6px 46px}details.coach summary{font-size:12px;margin:2px 0;color:var(--accent2)}
+.coachbox{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.5}
+.tl{position:relative;height:26px;margin:10px 8px 26px;border-radius:6px;background:linear-gradient(90deg,#5aa9ff40,#ffb23840 50%,#ff5c3960)}
+.tl .mk{position:absolute;top:-3px;bottom:-3px;width:2px;background:#fff;border-radius:1px}
+.tl .lb{position:absolute;top:30px;font-size:10px;transform:translateX(-50%);white-space:nowrap;color:var(--muted);font-weight:700}
+.steps{margin:6px 0;padding-left:18px}.steps li{margin:4px 0}
+.altbox{margin:4px 0 8px 46px;background:var(--bg);border:1px dashed var(--line);border-radius:10px;padding:8px 10px}
+.alt{display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;padding:6px 2px;border-bottom:1px solid var(--line)}.alt:last-child{border:0}
+.setcard{display:flex;gap:14px;align-items:center;background:var(--panel2);border-radius:12px;padding:12px 14px;margin-bottom:8px;flex-wrap:wrap}
+.sbadge{width:54px;height:54px;border:2px solid;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none}.sbadge b{font-size:20px;line-height:1}.sbadge span{font-size:9px;text-transform:uppercase;color:var(--muted)}
+input.rename{background:none;border:1px solid transparent;font-weight:700;font-size:15px;padding:2px 4px;border-radius:6px;width:100%}input.rename:hover,input.rename:focus{border-color:var(--line);background:var(--bg)}
+.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}.hero h1{font-size:36px;margin:0;line-height:1.05;letter-spacing:-.02em}.hero h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.action{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;text-align:left}.action:hover{border-color:var(--accent)}.action .ic{font-size:22px}.action b{display:block;margin:8px 0 2px;font-size:15px}.action span{font-size:12px;color:var(--muted)}
+.action.pri{border-color:var(--accent);background:#ff5c3912}
+.homegrid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;align-items:start}
+@media(max-width:900px){.actions{grid-template-columns:1fr 1fr}.homegrid{grid-template-columns:1fr}.parts{grid-template-columns:1fr 1fr}details.coach,.altbox{margin-left:0}}
+.ring{position:relative;width:110px;height:110px;flex:none}.ring b{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:28px;font-weight:900;line-height:1}.ring b small{font-size:9px;color:var(--muted);letter-spacing:.08em;margin-top:3px}
+.metric{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--line);font-size:13px}.metric:last-child{border:0}
+.gigcard{display:grid;grid-template-columns:64px 1fr;gap:14px;background:var(--panel2);border-radius:12px;padding:12px 14px;margin-bottom:10px;align-items:start}
+.datebox{background:var(--bg);border:1px solid var(--line);border-radius:10px;text-align:center;padding:6px 0}.datebox b{display:block;font-size:22px;line-height:1.1}.datebox span{font-size:11px;color:var(--muted);text-transform:uppercase}
+.check{display:flex;gap:8px;align-items:center;padding:4px 0;font-size:13px;cursor:pointer}.check input{accent-color:var(--good);width:16px;height:16px}
+textarea{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:inherit;font:inherit;width:100%;min-height:70px;resize:vertical}
+input[type=date],input[type=time]{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:7px 10px;color:inherit;font:inherit;color-scheme:dark}
+.lesson{background:var(--panel2);border-radius:12px;margin-bottom:10px;padding:0 16px}.lesson summary{font-weight:700;font-size:15px;padding:14px 0;color:var(--text);margin:0}.lesson .body{padding-bottom:16px;line-height:1.6}.lesson .body p{margin:0 0 10px}
+.wheel{width:100%;max-width:400px;margin:0 auto;display:block}.wheel path{cursor:pointer;stroke:#0d0f14;stroke-width:2;transition:opacity .15s}
+#player{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);background:var(--panel);border:1px solid var(--accent);border-radius:14px;padding:8px 12px;display:flex;gap:10px;align-items:center;z-index:40;box-shadow:0 10px 30px #0009;max-width:calc(100% - 24px);flex-wrap:wrap}
+#player audio{height:34px;max-width:320px}#pTitle{font-weight:700;font-size:13px;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sugg{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;background:var(--panel2);border-radius:10px;padding:10px 12px;margin-bottom:6px}
+.livecur{background:linear-gradient(135deg,#ff5c3922,#ffb23812);border:1px solid var(--accent);border-radius:14px;padding:16px}
+.dd{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:var(--panel);border:1px solid var(--line);border-radius:10px;z-index:10;max-height:320px;overflow:auto;box-shadow:0 10px 30px #0008}.dd div{padding:8px 10px;cursor:pointer;font-size:13px}.dd div:hover{background:var(--panel2)}
+.progress{height:8px;background:var(--line);border-radius:4px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .2s}
+.chrow{display:grid;grid-template-columns:1fr 1fr 1fr 64px 28px;gap:6px;margin-bottom:6px}.chrow input,.chrow select{width:100%;padding:6px 7px;font-size:12px}
+.tool{background:var(--panel2);border-radius:12px;padding:14px}.tool .big{font-size:40px;font-weight:900;line-height:1}
+.tapbtn{width:100%;height:90px;font-size:18px;font-weight:800;border-radius:12px;background:var(--bg);border:2px solid var(--accent);color:var(--text);cursor:pointer}.tapbtn:active{background:#ff5c3930}
 .brandgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 </style>
 </head>
@@ -115,15 +158,36 @@ details summary{cursor:pointer;color:var(--muted);font-weight:600;margin:10px 0}
   <div class="tag">Du nennst die Stimmung – Setwerk baut das Set.</div>
   <button class="btn sm" id="installBtn" hidden style="margin-left:auto">⬇ App installieren</button>
   <nav>
-    <button data-tab="build" class="on">Set-Builder</button>
+    <button data-tab="home" class="on">Home</button>
+    <button data-tab="build">Set-Builder</button>
+    <button data-tab="live">Live</button>
     <button data-tab="lib">Bibliothek <span class="cnt" id="libCnt">0</span></button>
-    <button data-tab="crates">Smart Crates <span class="cnt" id="crCnt">0</span></button>
+    <button data-tab="crates">Crates <span class="cnt" id="crCnt">0</span></button>
+    <button data-tab="sets">Sets <span class="cnt" id="setsCnt">0</span></button>
+    <button data-tab="gigs">Gigs <span class="cnt" id="gigsCnt">0</span></button>
+    <button data-tab="school">DJ-Schule</button>
   </nav>
 </header>
 
 <main>
 <!-- ============ BUILDER ============ -->
-<section class="tab on" id="tab-build">
+<section class="tab on" id="tab-home"><div id="home"></div></section>
+<section class="tab" id="tab-live"><div id="live"></div></section>
+<section class="tab" id="tab-sets"><div class="card"><h2>Gespeicherte Sets</h2><p class="sub">Deine Set-Historie – öffnen, weiter bearbeiten, exportieren. Der Name lässt sich direkt anklicken und ändern.</p><div id="setsList"></div></div></section>
+<section class="tab" id="tab-school"><div id="school"></div></section>
+<section class="tab" id="tab-gigs"><div class="grid2">
+  <div class="card"><h2 id="gFormTitle">Neuer Gig</h2><p class="sub">Plane deine Bookings – Setwerk baut dir das passende Set und hakt mit dir die Packliste ab.</p>
+    <div style="display:grid;gap:10px">
+      <label class="f">Name / Anlass<input type="text" id="gName" placeholder="z. B. Geburtstag Connor"></label>
+      <div class="row"><label class="f">Datum<input type="date" id="gDate"></label><label class="f">Beginn<input type="time" id="gTime"></label><label class="f">Set-Länge (min)<input type="number" id="gLen" value="60" min="15" max="600"></label></div>
+      <label class="f">Ort<input type="text" id="gPlace" placeholder="Club / Location, Stadt"></label>
+      <div class="row"><label class="f" style="flex:1">Stimmung<select id="gMood"></select></label><label class="f" style="flex:1">Energiekurve<select id="gCurve"></select></label></div>
+      <label class="f">Notizen (Wünsche, Kontakt, Technik vor Ort)<textarea id="gNotes" placeholder="z. B. Gastgeber wünscht 2000er-Hits, DDJ-FLX10 vor Ort, Ansprechpartner: …"></textarea></label>
+      <div class="row"><button class="btn pri" id="gSave">Gig speichern</button><button class="btn" id="gReset">Zurücksetzen</button></div>
+    </div></div>
+  <div class="card"><div id="gigList"></div></div>
+</div></section>
+<section class="tab" id="tab-build">
   <div class="grid2">
     <div class="card">
       <div class="sec">
@@ -139,6 +203,10 @@ details summary{cursor:pointer;color:var(--muted);font-weight:600;margin:10px 0}
         <div class="curves" id="curves"></div>
       </div>
       <div class="sec">
+        <label class="row" style="gap:8px;cursor:pointer"><input type="checkbox" id="chOn" style="accent-color:var(--accent);width:16px;height:16px"> <b>🌙 Ganze Nacht in Kapiteln planen</b></label>
+        <div id="chBox" hidden style="margin-top:10px"></div>
+      </div>
+      <div class="sec" id="lenSec">
         <h3>Länge: <span id="lenV" style="color:var(--text)">60 min</span></h3>
         <input type="range" id="len" min="15" max="240" step="5" value="60">
         <div class="row small muted" style="margin-top:8px">
@@ -177,6 +245,8 @@ details summary{cursor:pointer;color:var(--muted);font-weight:600;margin:10px 0}
         <select id="halftime"><option value="auto">nur Club-Genres</option><option value="all">immer</option><option value="off">nie</option></select></label>
       <span class="small muted">Energie fehlt? Setwerk liest „Energy N“ aus Kommentaren (z. B. Mixed In Key) oder schätzt sie aus BPM + Genre. Du kannst sie in der Tabelle anpassen.</span>
     </div>
+    <div id="health" style="margin-top:16px"></div>
+    <div id="audioBox" style="margin-top:12px"></div>
     <div class="stats" id="libStats"></div>
     <div class="row" style="margin-bottom:10px">
       <input type="search" id="q" placeholder="Suchen: Titel, Artist, Genre, 8A, 124 …" style="flex:1;min-width:200px">
@@ -220,6 +290,7 @@ details summary{cursor:pointer;color:var(--muted);font-weight:600;margin:10px 0}
 </section>
 </main>
 <div class="toast" id="toast"></div>
+<div id="player" hidden><span>🎧</span><span id="pTitle"></span><audio id="pAudio" controls></audio><button class="btn sm" id="pNext" hidden>⏭</button><button class="btn sm" id="pClose">✕</button></div>
 <div class="modal" id="installHelp" hidden><div class="card">
   <h2>Setwerk installieren</h2>
   <p class="sub" id="installTxt"></p>
@@ -288,10 +359,12 @@ function energyRel(a,b,target){
   const j=Math.abs(b.energy-a.energy),jp=j<=2?1:j<=3?.65:.25;
   return .7*fit+.3*jp;
 }
-const W_KEY=.4,W_BPM=.35,W_E=.25;
+const W_KEY=.38,W_BPM=.32,W_E=.2,W_G=.1;
+const gWords=g=>(g||'').toLowerCase().split(/[^a-z0-9äöü]+/).filter(w=>w&&!['music','mix','and','the'].includes(w));
+function genreRel(a,b){if(!a.genre||!b.genre)return .7;const A=a.genre.toLowerCase().trim(),B=b.genre.toLowerCase().trim();if(A===B)return 1;const wb=new Set(gWords(B));return gWords(A).some(w=>wb.has(w))?.75:.35}
 function trans(a,b,target){
-  const k=keyRel(a,b),bp=bpmRel(a.bpm,b.bpm),es=energyRel(a,b,target);
-  return{total:100*(W_KEY*k.s+W_BPM*bp.s+W_E*es),k,bp,es};
+  const k=keyRel(a,b),bp=bpmRel(a.bpm,b.bpm),es=energyRel(a,b,target),g=genreRel(a,b);
+  return{total:100*(W_KEY*k.s+W_BPM*bp.s+W_E*es+W_G*g),k,bp,es,g};
 }
 
 /* ================= Energy curves & moods ================= */
@@ -321,9 +394,9 @@ function moodFit(t,m){
 
 /* ================= State & persistence ================= */
 const LS='setwerk.v1';
-const state={tracks:[],crates:[],brand:{dj:'',title:'',event:'',color:'#ff5c39',logo:''},set:null,mood:'open',curve:'journey',src:'all',halftime:'auto'};
-function save(){libVer++;state.crates.forEach(c=>delete c._busy);try{localStorage.setItem(LS,JSON.stringify({tracks:state.tracks,crates:state.crates,brand:state.brand,mood:state.mood,curve:state.curve,halftime:state.halftime}))}catch(e){toast('Hinweis: Speichern im Browser nicht möglich (zu groß?)')}}
-function load(){try{const d=JSON.parse(localStorage.getItem(LS)||'null');if(d){Object.assign(state,{tracks:d.tracks||[],crates:d.crates||[],brand:Object.assign(state.brand,d.brand||{}),mood:d.mood||'open',curve:d.curve||'journey',halftime:d.halftime||'auto'})}}catch(e){}state.tracks.forEach(prep);$('#halftime').value=state.halftime}
+const state={tracks:[],crates:[],brand:{dj:'',title:'',event:'',color:'#ff5c39',logo:''},set:null,mood:'open',curve:'journey',src:'all',halftime:'auto',sets:[],gigs:[],chapters:[],chaptersOn:false,live:{cur:null,hist:[],dir:'hold'}};
+function save(){libVer++;state.crates.forEach(c=>delete c._busy);try{localStorage.setItem(LS,JSON.stringify({tracks:state.tracks,crates:state.crates,brand:state.brand,mood:state.mood,curve:state.curve,halftime:state.halftime,sets:state.sets,gigs:state.gigs,chapters:state.chapters,chaptersOn:state.chaptersOn,live:state.live,cur:state.set}))}catch(e){toast('Hinweis: Speichern im Browser nicht möglich (zu groß?)')}}
+function load(){try{const d=JSON.parse(localStorage.getItem(LS)||'null');if(d){Object.assign(state,{tracks:d.tracks||[],crates:d.crates||[],brand:Object.assign(state.brand,d.brand||{}),mood:d.mood||'open',curve:d.curve||'journey',halftime:d.halftime||'auto',sets:d.sets||[],gigs:d.gigs||[],chapters:d.chapters||[],chaptersOn:!!d.chaptersOn,live:d.live||{cur:null,hist:[],dir:'hold'},set:d.cur||null})}}catch(e){}state.tracks.forEach(prep);$('#halftime').value=state.halftime}
 function prep(t){const k=t.key;t.kn=k?parseInt(k):0;t.kl=k?k.slice(-1):'';return t}
 
 /* ================= Energy estimate ================= */
@@ -466,6 +539,9 @@ function demoLibrary(){
     let e=estimateEnergy(bpm,g)+(r()<.3?1:r()<.3?-1:0);e=clamp(e,1,10);
     out.push(prep({id:uid(),title,artist,genre:g,bpm,key,keyRaw:key,energy:e,eSrc:'tag',dur:Math.round(300+r()*240),comment:`${key} - Energy ${e}`,path:`/Users/dj/Music/Demo/${slug(artist)}-${slug(title)}.mp3`}));
   }
+  // realistic mess: genre spellings, missing tags, duplicates, untidy artist names
+  out.forEach((t,i)=>{if(i%23===0)t.genre=t.genre.toLowerCase();if(i%31===0)t.genre=t.genre.replace(/ /g,'-');if(i%41===0){t.key=null;t.keyRaw='';prep(t)}if(i%57===0)t.genre='';if(i%29===0)t.artist=' '+t.artist+'  ft. Mira'});
+  [5,77,150].forEach(i=>out.push(prep({...out[i],id:uid(),path:out[i].path.replace('.mp3',' (1).mp3')})));
   return out;
 }
 
@@ -510,7 +586,7 @@ function renderSource(){
   if(groups.length){h+=`<input type="search" id="srcQ" placeholder="Crates filtern …" value="${esc(srcQ)}" style="width:100%;margin:4px 0 6px"><div class="srclist">`;
     for(const[icon,label,cs]of groups){const vis=cs.filter(c=>!srcQ||c.name.toLowerCase().includes(srcQ.toLowerCase()));if(!vis.length)continue;h+=`<div class="srcgrp">${label}</div>`+vis.map(c=>item(c,icon)).join('')}
     h+='</div>'}
-  else h+='<div class="small muted">Noch keine Crates – im Tab „Smart Crates“ anlegen oder Serato-Crates importieren.</div>';
+  else h+='<div class="small muted">Noch keine Crates – im Tab „Crates“ anlegen oder Serato-Crates importieren.</div>';
   if(srcSel.size){const u=mergeUnion([...srcSel]);
     h+=`<div class="small" style="margin-top:8px"><b>${u.ts.length} Tracks</b> <span class="muted">aus ${srcSel.size} Crate${srcSel.size>1?'s':''}${u.sum>u.ts.length?` · ${u.sum-u.ts.length} Duplikate entfernt`:''}</span></div>`;
     if(srcSel.size>1)h+=`<div class="row" style="margin-top:8px;gap:6px"><input type="text" id="srcName" placeholder="Name für neue Crate" style="flex:1;min-width:120px"><button class="btn sm" id="srcSave">Als neue Crate speichern</button></div>`}
@@ -520,66 +596,102 @@ function renderSource(){
 }
 let srcQ='';
 function targetsFor(curve,mood,N){const[lo,hi]=mood.e;return Array.from({length:N},(_,i)=>lo+(hi-lo)*clamp(curve.f(N>1?i/(N-1):0),0,1))}
+const songKey=t=>((t.artist||'')+'|'+(t.title||'')).toLowerCase().replace(/[^a-z0-9äöüß|]+/g,'');
+function resample(a,n){if(!a||!a.length)return[];if(a.length===n)return a.slice();if(n<=1)return[a[0]];return Array.from({length:n},(_,i)=>{const p=i*(a.length-1)/(n-1),j=Math.floor(p),f=p-j;return a[j]+(a[Math.min(j+1,a.length-1)]-a[j])*f})}
+let undoStack=[],openAlt=-1;const openCoach=new Set();
+function pushUndo(){if(!state.set)return;undoStack.push(state.set.ids.slice());if(undoStack.length>50)undoStack.shift()}
 
-function generate(seed=Date.now()){
-  const t0=performance.now();
-  const mood=MOODS.find(m=>m.id===state.mood),curve=CURVES.find(c=>c.id===state.curve);
-  const src=sourceTracks().filter(t=>t.bpm>0);
-  if(src.length<3){toast('Zu wenige Tracks mit BPM in der Quelle');return}
-  const ppt=+$('#ppt').value,len=+$('#len').value;
-  const fit=new Map(src.map(t=>[t.id,moodFit(t,mood)]));
-  let pool=src.filter(t=>fit.get(t.id)>=.65);
-  let N=Math.round(len/ppt);
-  if(pool.length<N*1.5)pool=[...src].sort((a,b)=>fit.get(b.id)-fit.get(a.id)).slice(0,Math.max(Math.ceil(N*1.5),pool.length));
-  N=clamp(N,3,Math.min(pool.length,120));
-  const targets=targetsFor(curve,mood,N),rnd=mulberry32(seed&0xffffffff);
-  const startBpm=+$('#startBpm').value||0;
-  const W=24,K=6,J=6; // beam width, branch factor, jitter
-  // start candidates
-  let starts=pool.map(t=>{let s=100*clamp(1-Math.abs(t.energy-targets[0])/3,0,1)+20*fit.get(t.id)+rnd()*15;if(startBpm)s+=60*bpmRel(startBpm,t.bpm).s;return{t,s}}).sort((a,b)=>b.s-a.s).slice(0,W);
+// Beam search over transitions. prev = last track of the previous chapter (or null), used = tracks already placed.
+function buildSeq({pool,fit,targets,seed,startBpm=0,prev=null,used=new Set()}){
+  const N=targets.length,rnd=mulberry32(seed&0xffffffff),W=24,K=6,J=6;
+  const cand=pool.filter(t=>!used.has(t.id));if(!cand.length)return[];
+  const sc=(last,t,tg)=>100*(W_KEY*keyRel(last,t).s+W_BPM*bpmRel(last.bpm,t.bpm).s+W_E*energyRel(last,t,tg)+W_G*genreRel(last,t))+8*fit.get(t.id)+rnd()*J;
+  let starts=cand.map(t=>{let s=prev?sc(prev,t,targets[0]):100*clamp(1-Math.abs(t.energy-targets[0])/3,0,1)+20*fit.get(t.id)+rnd()*15;if(startBpm&&!prev)s+=60*bpmRel(startBpm,t.bpm).s;return{t,s}}).sort((a,b)=>b.s-a.s).slice(0,W);
   let beams=starts.map(x=>({seq:[x.t],used:new Set([x.t.id]),total:x.s}));
   for(let i=1;i<N;i++){
-    const next=[];const tg=targets[i];
+    const next=[],tg=targets[i];
     for(const b of beams){
-      const last=b.seq[b.seq.length-1];const top=[];
-      for(const t of pool){if(b.used.has(t.id))continue;
-        const k=keyRel(last,t).s,bp=bpmRel(last.bpm,t.bpm).s,es=energyRel(last,t,tg);
-        const sc=100*(W_KEY*k+W_BPM*bp+W_E*es)+8*fit.get(t.id)+rnd()*J;
-        if(top.length<K||sc>top[top.length-1][0]){top.push([sc,t]);top.sort((x,y)=>y[0]-x[0]);if(top.length>K)top.pop()}
-      }
-      for(const[sc,t]of top){const u=new Set(b.used);u.add(t.id);next.push({seq:[...b.seq,t],used:u,total:b.total+sc})}
+      const last=b.seq[b.seq.length-1],top=[];
+      for(const t of cand){if(b.used.has(t.id))continue;const v=sc(last,t,tg);
+        if(top.length<K||v>top[top.length-1][0]){top.push([v,t]);top.sort((x,y)=>y[0]-x[0]);if(top.length>K)top.pop()}}
+      for(const[v,t]of top){const u=new Set(b.used);u.add(t.id);next.push({seq:[...b.seq,t],used:u,total:b.total+v})}
     }
     if(!next.length)break;
     next.sort((a,b)=>b.total-a.total);
     const seen=new Set();beams=[];
     for(const n of next){const sig=n.seq.slice(-2).map(t=>t.id).join()+'|'+n.seq.length;if(seen.has(sig))continue;seen.add(sig);beams.push(n);if(beams.length>=W)break}
   }
-  const best=beams[0];
-  state.set={ids:best.seq.map(t=>t.id),pool:pool.map(t=>t.id),mood:mood.id,curve:curve.id,ppt,ms:performance.now()-t0,seed,rej:{}};
-  renderSet();
+  return beams[0]?beams[0].seq:[];
+}
+function generate(seed=Date.now(),opts={}){
+  const t0=performance.now();
+  const seenSong=new Set();
+  const src=sourceTracks().filter(t=>{if(!(t.bpm>0))return false;const k=songKey(t);if(seenSong.has(k))return false;seenSong.add(k);return true}); // same song twice (two files) never ends up twice in a set
+  if(src.length<3){toast('Zu wenige Tracks mit BPM in der Quelle');return}
+  const ppt=+$('#ppt').value,startBpm=+$('#startBpm').value||0;
+  const chapters=state.chaptersOn&&state.chapters.length?state.chapters:[{label:'',mood:state.mood,curve:state.curve,min:+$('#len').value}];
+  let seq=[],targets=[];const bounds=[],poolAll=new Set(),used=new Set();
+  chapters.forEach((ch,ci)=>{
+    const mood=MOODS.find(m=>m.id===ch.mood)||MOODS[0],curve=CURVES.find(c=>c.id===ch.curve)||CURVES[0];
+    const avail=src.filter(t=>!used.has(t.id));
+    const fit=new Map(avail.map(t=>[t.id,moodFit(t,mood)]));
+    let N=Math.max(2,Math.round((+ch.min||30)/ppt));
+    let pool=avail.filter(t=>fit.get(t.id)>=.65);
+    if(pool.length<N*1.5)pool=[...avail].sort((a,b)=>fit.get(b.id)-fit.get(a.id)).slice(0,Math.max(Math.ceil(N*1.5),pool.length));
+    N=Math.min(N,pool.length,150);if(N<1)return;
+    const tg=targetsFor(curve,mood,N);
+    const part=buildSeq({pool,fit,targets:tg,seed:seed+ci*7919,startBpm:ci?0:startBpm,prev:seq[seq.length-1]||null,used});
+    bounds.push({start:seq.length,n:part.length,mood:mood.id,curve:curve.id,label:ch.label||''});
+    part.forEach(t=>used.add(t.id));seq=seq.concat(part);targets=targets.concat(tg.slice(0,part.length));pool.forEach(t=>poolAll.add(t.id));
+  });
+  if(seq.length<2){toast('Zu wenige passende Tracks');return}
+  state.set={ids:seq.map(t=>t.id),pool:[...poolAll],mood:chapters[0].mood,curve:chapters[0].curve,ppt,ms:performance.now()-t0,seed,targets,chapters:bounds,gigId:opts.gigId||null,savedId:null};
+  undoStack=[];openAlt=-1;openCoach.clear();save();renderSet();
 }
 function evalSet(){
   const s=state.set;if(!s)return null;
   const byId=new Map(state.tracks.map(t=>[t.id,t]));
   const tracks=s.ids.map(id=>byId.get(id)).filter(Boolean);
-  const mood=MOODS.find(m=>m.id===s.mood),curve=CURVES.find(c=>c.id===s.curve);
-  const targets=targetsFor(curve,mood,tracks.length);
+  const mood=MOODS.find(m=>m.id===s.mood)||MOODS[0],curve=CURVES.find(c=>c.id===s.curve)||CURVES[0];
+  const targets=s.targets&&s.targets.length?resample(s.targets,tracks.length):targetsFor(curve,mood,tracks.length);
   const tx=[];for(let i=1;i<tracks.length;i++)tx.push(trans(tracks[i-1],tracks[i],targets[i]));
   const fit0=100*clamp(1-Math.abs((tracks[0]?.energy||0)-targets[0])/4,0,1);
   const score=tx.length?(tx.reduce((a,b)=>a+b.total,0)+fit0)/(tx.length+1):fit0;
-  return{tracks,targets,tx,score,mood,curve};
+  const avg=f=>tx.length?100*tx.reduce((a,x)=>a+f(x),0)/tx.length:100;
+  const parts={keys:avg(x=>x.k.s),tempo:avg(x=>x.bp.s),energy:avg(x=>x.es),genre:avg(x=>x.g)};
+  return{tracks,targets,tx,score,mood,curve,parts};
 }
-function replaceAt(i){
-  const s=state.set,byId=new Map(state.tracks.map(t=>[t.id,t]));
-  const ev=evalSet(),prev=ev.tracks[i-1],next=ev.tracks[i+1],tg=ev.targets[i];
-  s.rej[i]=s.rej[i]||[];s.rej[i].push(s.ids[i]);
-  const inSet=new Set(s.ids);let best=null,bs=-1;
-  for(const id of s.pool){if(inSet.has(id)||s.rej[i].includes(id))continue;const t=byId.get(id);if(!t)continue;
-    let sc=prev?trans(prev,t,tg).total:100*clamp(1-Math.abs(t.energy-tg)/4,0,1);
-    if(next)sc+=trans(t,next,ev.targets[i+1]).total;
-    if(sc>bs){bs=sc;best=t}}
-  if(!best){toast('Keine weitere passende Alternative');return}
-  s.ids[i]=best.id;renderSet();
+// Ranked replacements for slot i (fits both neighbours)
+function alternatives(i,k=3){
+  const s=state.set,ev=evalSet(),byId=new Map(state.tracks.map(t=>[t.id,t]));
+  const prev=ev.tracks[i-1],next=ev.tracks[i+1],tg=ev.targets[i];
+  const slot=t=>{let v=0,n=0;if(prev){v+=trans(prev,t,tg).total;n++}else{v+=100*clamp(1-Math.abs(t.energy-tg)/4,0,1);n++}if(next){v+=trans(t,next,ev.targets[i+1]).total;n++}return v/n};
+  const inSet=new Set(s.ids),songs=new Set(ev.tracks.map(songKey)),pool=s.pool&&s.pool.length?s.pool:state.tracks.map(t=>t.id),out=[];
+  for(const id of pool){if(inSet.has(id))continue;const t=byId.get(id);if(!t||!t.bpm)continue;const k=songKey(t);if(songs.has(k))continue;songs.add(k);out.push({t,sc:slot(t)})}
+  out.sort((a,b)=>b.sc-a.sc);
+  return{cur:slot(ev.tracks[i]),list:out.slice(0,k)};
+}
+// Beginner mix coach for the transition a → b
+function mixTip(a,b,x){
+  const dB=Math.abs(x.bp.d),ej=b.energy-a.energy,ks=x.k.s,bar=240/a.bpm;
+  let bars=ks>=.85&&dB<=2&&Math.abs(ej)<=1?32:ks>=.45&&dB<=5&&Math.abs(ej)<=2?16:8;
+  const secs=bars*bar,mult=x.bp.hd?(b.bpm>a.bpm?2:.5):1,tB=a.bpm*mult,pct=(tB/b.bpm-1)*100;
+  let tempo=Math.abs(pct)<.3?'Beide Tracks laufen im gleichen Tempo – nur noch die Beats übereinanderlegen (Sync oder Jogwheel).'
+    :`Track B von ${b.bpm.toFixed(1)} auf <b>${tB.toFixed(1)} BPM</b> pitchen (<b>${pct>0?'+':''}${pct.toFixed(1)} %</b>).${Math.abs(pct)>6?' Das ist viel – lieber Track A über ein paar Takte langsam angleichen oder per Echo-Out wechseln.':''}`;
+  if(x.bp.hd)tempo+=' Halftime/Double-Time: B läuft im Verhältnis 1:2 – das passt rhythmisch.';
+  const startAt=a.dur?` – das ist bei <b>${fmtTime(Math.max(0,a.dur-secs-bar*8))}</b> in Track A`:'';
+  const steps=bars>=16?[
+    `<b>Takt 1:</b> B auf der „Eins“ einer neuen Phrase starten. Bass von B ganz raus (Low-EQ links), Lautstärke von B langsam hochziehen.`,
+    `<b>Takt ${bars/2+1}: Bass-Swap</b> – Bass von A raus, Bass von B rein. Genau auf der Eins, nie beide Bässe gleichzeitig.`,
+    `<b>Takt ${bars*3/4+1}–${bars}:</b> A mit dem Fader oder einem Hochpass-Filter ausblenden.`]:[
+    `<b>Kurzer Wechsel:</b> B auf der Eins starten – am besten auf einen Break von A oder direkt auf den Drop von B.`,
+    `<b>Nach 4 Takten</b> Bass tauschen und A zügig rausnehmen – oder A mit Echo/Delay „ausklingen“ lassen.`];
+  const keyNote=x.k.l.startsWith('Energie-Boost')?'🔑 <b>Energie-Boost:</b> Die Tonart steigt um zwei Stufen – wirkt wie ein Lift, ideal vor einem Höhepunkt.'
+    :ks>=.85?'🔑 Die Tonarten passen – du kannst lange überblenden, Melodien klingen zusammen harmonisch.'
+    :ks>=.45?'🔑 Tonarten passen nur bedingt – Melodien nicht zu lange übereinanderlegen.'
+    :'🔑 <b>Tonarten beißen sich!</b> Melodien nicht überlagern – über die Drums wechseln (Intro/Outro ohne Melodie) oder Key-Shift nutzen.';
+  const eNote=ej>=2?'⚡ Energie springt nach oben – lass B auf dem Drop einsetzen, das gibt Druck.':ej<=-2?'🌙 Energie fällt deutlich – lange, weiche Blende mit Filter, damit die Tanzfläche nicht abreißt.':'';
+  return{bars,secs,tempo,steps,keyNote,eNote,startText:`Starte Track B ca. <b>${fmtTime(secs+bar*8)}</b> vor dem Ende von A${startAt}.`};
 }
 
 /* ================= Exports ================= */
@@ -653,15 +765,17 @@ function renderControls(){
   $('#hint').textContent=state.tracks.length?`Ziel: ca. ${Math.round(+$('#len').value/+$('#ppt').value)} Tracks`:'Bibliothek ist leer – zuerst importieren oder Demo laden.';
   $('#go').disabled=!state.tracks.length;
 }
+let libFilter=null;
 function renderLib(){
   const ts=state.tracks;$('#libCnt').textContent=ts.length;
   const genres=new Set(ts.map(t=>t.genre).filter(Boolean)),bpms=ts.map(t=>t.bpm).filter(Boolean),withKey=ts.filter(t=>t.key).length,est=ts.filter(t=>t.eSrc==='est').length;
   $('#libStats').innerHTML=[[ts.length,'Tracks'],[genres.size,'Genres'],[bpms.length?Math.round(Math.min(...bpms))+'–'+Math.round(Math.max(...bpms)):'–','BPM-Bereich'],[ts.length?Math.round(withKey/ts.length*100)+'%':'–','mit Tonart'],[est,'Energie geschätzt']].map(([v,l])=>`<div class="stat"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
   const q=$('#q').value.trim().toLowerCase();
-  const list=q?ts.filter(t=>(t.title+' '+t.artist+' '+t.genre+' '+t.key+' '+Math.round(t.bpm)).toLowerCase().includes(q)):ts;
+  let list=q?ts.filter(t=>(t.title+' '+t.artist+' '+t.genre+' '+t.key+' '+Math.round(t.bpm)).toLowerCase().includes(q)):ts;
+  if(libFilter&&typeof libFilterFn==='function')list=list.filter(libFilterFn(libFilter));
   const show=list.slice(0,600);
   $('#qInfo').textContent=list.length>show.length?`${show.length} von ${list.length} angezeigt`:`${list.length} Tracks`;
-  $('#libTbl tbody').innerHTML=show.map(t=>`<tr><td class="t"><b>${esc(t.title)}</b></td><td class="t">${esc(t.artist)}</td><td>${esc(t.genre)}</td><td>${t.bpm?t.bpm.toFixed(1):'–'}</td><td>${keyHtml(t.key)}</td><td><input type="number" min="1" max="10" value="${t.energy}" data-e="${t.id}" title="${t.eSrc==='est'?'geschätzt':t.eSrc==='manual'?'manuell':'aus Tag'}" style="${t.eSrc==='est'?'border-style:dashed':''}"></td><td>${fmtTime(t.dur)}</td></tr>`).join('')||`<tr><td colspan="7" class="empty">Noch keine Tracks.</td></tr>`;
+  $('#libTbl tbody').innerHTML=show.map(t=>`<tr><td class="t">${typeof fileFor==='function'&&fileFor(t)?`<button class="btn sm" data-lplay="${t.id}" style="margin-right:6px">▶</button>`:''}<b>${esc(t.title)}</b></td><td class="t">${esc(t.artist)}</td><td>${esc(t.genre)}</td><td>${t.bpm?t.bpm.toFixed(1):'–'}</td><td>${keyHtml(t.key)}</td><td><input type="number" min="1" max="10" value="${t.energy}" data-e="${t.id}" title="${t.eSrc==='est'?'geschätzt':t.eSrc==='manual'?'manuell':t.eSrc==='audio'?'aus Audio gemessen':'aus Tag'}" style="${t.eSrc==='est'?'border-style:dashed':''}"></td><td>${fmtTime(t.dur)}</td></tr>`).join('')||`<tr><td colspan="7" class="empty">Noch keine Tracks.</td></tr>`;
 }
 let crDraft={keys:[]},crEdit=null;const crSel=new Set();
 function mergeUnion(ids){const seen=new Set(),ts=[];let sum=0;for(const id of ids){const c=state.crates.find(x=>x.id===id);if(!c)continue;const l=crateTracks(c);sum+=l.length;for(const t of l)if(!seen.has(t.id)){seen.add(t.id);ts.push(t)}}return{ts,sum}}
@@ -692,37 +806,64 @@ function readCrateForm(){const n=id=>+$(id).value||0;return{name:$('#crName').va
 function fillCrateForm(c){$('#crName').value=c?.name||'';$('#crGenre').value=c?.genres||'';$('#crBmin').value=c?.bmin||'';$('#crBmax').value=c?.bmax||'';$('#crEmin').value=c?.emin||'';$('#crEmax').value=c?.emax||'';crDraft={keys:[...(c?.keys||[])]};crEdit=c?.id||null;$('#crFormTitle').textContent=c?'Crate bearbeiten':'Neue Smart Crate';$('#crSave').textContent=c?'Änderungen speichern':'Crate speichern';renderCrates()}
 
 function chartSvg(ev){
-  const W=800,H=190,P=26,N=ev.tracks.length,x=i=>P+(N>1?i/(N-1):.5)*(W-2*P),y=e=>H-P-(e-1)/9*(H-2*P);
-  const dense=[];for(let i=0;i<=80;i++){const t=i/80;const[lo,hi]=ev.mood.e;dense.push(`${(P+t*(W-2*P)).toFixed(1)},${y(lo+(hi-lo)*clamp(ev.curve.f(t),0,1)).toFixed(1)}`)}
+  const W=800,H=190,P=26,N=ev.tracks.length,x=i=>P+(N>1?i/(N-1):.5)*(W-2*P),y=e=>H-P-(clamp(e,1,10)-1)/9*(H-2*P);
+  const tgt=ev.targets.map((e,i)=>`${x(i).toFixed(1)},${y(e).toFixed(1)}`).join(' ');
   const act=ev.tracks.map((t,i)=>`${x(i).toFixed(1)},${y(t.energy).toFixed(1)}`).join(' ');
   let grid='';for(const e of[1,4,7,10])grid+=`<line x1="${P}" x2="${W-P}" y1="${y(e)}" y2="${y(e)}" stroke="#2a3040"/><text x="4" y="${y(e)+4}" fill="#8b93a7" font-size="11">${e}</text>`;
+  const ch=state.set.chapters;if(ch&&ch.length>1&&ch.reduce((a,c)=>a+c.n,0)===N)ch.slice(1).forEach(c=>{const xx=(x(c.start-1)+x(c.start))/2;grid+=`<line x1="${xx}" x2="${xx}" y1="8" y2="${H-P}" stroke="#ff5c39" stroke-dasharray="3 4" opacity=".6"/>`});
   const dots=ev.tracks.map((t,i)=>`<circle cx="${x(i)}" cy="${y(t.energy)}" r="4.5" fill="${keyColor(t.key)}" stroke="#0d0f14" stroke-width="1.5"><title>${i+1}. ${esc(t.artist)} – ${esc(t.title)} · E${t.energy} · ${t.key||'?'} · ${Math.round(t.bpm)} BPM</title></circle>`).join('');
-  return`<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${grid}<polyline points="${dense.join(' ')}" fill="none" stroke="#8b93a7" stroke-dasharray="5 5" stroke-width="1.5"/><polyline points="${act}" fill="none" stroke="url(#g)" stroke-width="3" stroke-linejoin="round"/>${dots}</svg><div class="row small muted"><span>┄ Ziel-Energiekurve</span><span style="color:var(--accent)">━ Dein Set</span><span>Punktfarbe = Camelot-Tonart</span></div>`;
+  return`<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${grid}<polyline points="${tgt}" fill="none" stroke="#8b93a7" stroke-dasharray="5 5" stroke-width="1.5"/><polyline points="${act}" fill="none" stroke="url(#g)" stroke-width="3" stroke-linejoin="round"/>${dots}</svg><div class="row small muted"><span>┄ Ziel-Energiekurve</span><span style="color:var(--accent)">━ Dein Set</span><span>Punktfarbe = Camelot-Tonart</span></div>`;
+}
+function coachHtml(i,a,b,x){
+  const t=mixTip(a,b,x),canBlend=typeof fileFor==='function'&&fileFor(a)&&fileFor(b);
+  const mk=(p,l)=>`<div class="mk" style="left:${p}%"></div><div class="lb" style="left:${p}%">${l}</div>`;
+  return`<details class="coach" data-ci="${i}" ${openCoach.has(i)?'open':''}><summary>🎧 Mix-Tipp · ${t.bars} Takte (${fmtTime(t.secs)})</summary><div class="coachbox">
+    <div>${t.startText}</div>
+    <div class="tl">${mk(0,'B startet')}${mk(50,'Bass-Swap')}${mk(100,'A ist raus')}</div>
+    <ol class="steps">${t.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+    <div>⏱ ${t.tempo}</div><div style="margin-top:6px">${t.keyNote}</div>${t.eNote?`<div style="margin-top:6px">${t.eNote}</div>`:''}
+    ${canBlend?`<div style="margin-top:10px"><button class="btn sm pri" data-blend="${i}">▶ Übergang anhören</button> <span class="small muted">beat-angepasst, mit Bass-Swap</span></div>`:'<div class="small muted" style="margin-top:8px">Tipp: Unter „Bibliothek“ den Musikordner verbinden, dann kannst du dir den Übergang anhören.</div>'}
+  </div></details>`;
+}
+function altHtml(i){
+  const{cur,list}=alternatives(i,3);
+  return`<div class="altbox"><div class="small muted" style="margin-bottom:4px">Ersatz für Slot ${i+1} – aktuell <b>${Math.round(cur)}</b> Punkte. Rangfolge nach Passung zu Vorgänger und Nachfolger:</div>${list.map(a=>`<div class="alt"><span class="sc" style="background:${scoreColor(a.sc)}">${Math.round(a.sc)}</span><div style="min-width:0"><b>${esc(a.t.title)}</b><div class="small muted">${esc(a.t.artist)} · ${a.t.bpm.toFixed(1)} BPM · ${esc(a.t.genre||'')}</div></div><span class="row" style="gap:6px">${keyHtml(a.t.key)}${eHtml(a.t.energy)}</span><button class="btn sm pri" data-pick="${i}:${a.t.id}">Einsetzen</button></div>`).join('')||'<div class="small muted">Keine weiteren Tracks in der Quelle.</div>'}</div>`;
 }
 function renderSet(){
   const ev=evalSet(),box=$('#result');
   if(!ev||!ev.tracks.length){box.innerHTML='<div class="empty">Kein Set.</div>';return}
-  const s=Math.round(ev.score),bpms=ev.tracks.map(t=>t.bpm),b=state.brand;
+  const S=state.set,s=Math.round(ev.score),bpms=ev.tracks.map(t=>t.bpm),b=state.brand,P=ev.parts,n=ev.tracks.length;
   const clashes=ev.tx.filter(t=>t.k.s<.3).length,jumps=ev.tx.filter(t=>Math.abs(t.bp.d)>5).length;
-  let h=`<div class="row" style="justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+  const weakest=[['Tonarten',P.keys,'Tausche Tracks mit rot markiertem Key-Clash über ⇄ gegen eine der Alternativen.'],['Tempo',P.tempo,'Große BPM-Sprünge glätten – oder Start-BPM setzen und Quelle auf ein Genre eingrenzen.'],['Energie',P.energy,'Die Energie folgt der Kurve nicht ganz – andere Energiekurve wählen oder die Energie-Werte in der Bibliothek prüfen.'],['Genre',P.genre,'Viele Genre-Wechsel – im Set-Builder nur passende Crates als Quelle anhaken.']].sort((x,y)=>x[1]-y[1])[0];
+  const gig=S.gigId&&state.gigs.find(g=>g.id===S.gigId);
+  const anyAudio=typeof audioFiles!=='undefined'&&audioFiles.size>0;
+  const chOk=S.chapters&&S.chapters.length>1&&S.chapters.reduce((a,c)=>a+c.n,0)===n;
+  const chAt=chOk?new Map(S.chapters.map((c,ci)=>[c.start,[c,ci]])):null;
+  let h=`<div class="row" style="justify-content:space-between;align-items:flex-start;margin-bottom:12px">
     <div><div class="muted small">FLOW-SCORE</div><span class="score" style="color:${scoreColor(s)}">${s}</span><span class="grade" style="background:${scoreColor(s)};color:#0d0f14">${grade(s)}</span></div>
     <div class="stats" style="margin:0;flex:1;max-width:640px;grid-template-columns:repeat(4,1fr)">
-      <div class="stat"><div class="v">${ev.tracks.length}</div><div class="l">Tracks</div></div>
-      <div class="stat"><div class="v">${Math.round(ev.tracks.length*state.set.ppt)}′</div><div class="l">Spielzeit</div></div>
+      <div class="stat"><div class="v">${n}</div><div class="l">Tracks</div></div>
+      <div class="stat"><div class="v">${fmtDur(n*S.ppt)}</div><div class="l">Spielzeit</div></div>
       <div class="stat"><div class="v">${Math.round(Math.min(...bpms))}–${Math.round(Math.max(...bpms))}</div><div class="l">BPM</div></div>
-      <div class="stat"><div class="v">${(state.set.ms/1000).toFixed(2)}s</div><div class="l">gebaut in</div></div>
+      <div class="stat"><div class="v">${S.ms?(S.ms/1000).toFixed(2)+'s':'💾'}</div><div class="l">${S.ms?'gebaut in':'gespeichert'}</div></div>
     </div></div>
-    <div class="small muted" style="margin-bottom:6px">${ev.mood.name} · ${ev.curve.name} · ${clashes} Key-Clash${clashes===1?'':'es'} · ${jumps} große Tempo-Sprünge</div>
+    <div class="parts">${[['🔑 Tonarten',P.keys],['⏱ Tempo',P.tempo],['⚡ Energie',P.energy],['🎵 Genre',P.genre]].map(([l,v])=>`<div class="part"><div class="row" style="justify-content:space-between"><span>${l}</span><b style="color:${scoreColor(v)}">${Math.round(v)}</b></div><div class="pbar"><i style="width:${v}%;background:${scoreColor(v)}"></i></div></div>`).join('')}</div>
+    ${weakest[1]<90?`<div class="hintbox">💡 <b>Die meisten Punkte verloren bei: ${weakest[0]}.</b> ${weakest[2]}</div>`:''}
+    <div class="small muted" style="margin-bottom:6px">${chOk?`🌙 ${S.chapters.length} Kapitel`:`${ev.mood.name} · ${ev.curve.name}`} · ${clashes} Key-Clash${clashes===1?'':'es'} · ${jumps} große Tempo-Sprünge${gig?` · 📅 für Gig „${esc(gig.name)}“`:''}</div>
     ${chartSvg(ev)}
     <div class="row" style="margin:16px 0 8px;justify-content:space-between">
       <h3 style="margin:0">Trackliste</h3>
-      <div class="row"><button class="btn sm" id="reroll">🎲 Neu würfeln</button></div>
+      <div class="row" style="gap:6px"><button class="btn sm" id="undo" ${undoStack.length?'':'disabled'}>↶ Rückgängig</button>${anyAudio?'<button class="btn sm" id="playSet">▶ Set vorhören</button>':''}<button class="btn sm ${S.savedId?'':'pri'}" id="saveSet">${S.savedId?'💾 Änderungen speichern':'💾 Set speichern'}</button><button class="btn sm" id="reroll">🎲 Neu würfeln</button></div>
     </div><div>`;
   ev.tracks.forEach((t,i)=>{
+    if(chAt&&chAt.has(i)){const[c,ci]=chAt.get(i);h+=`<div class="chap">Kapitel ${ci+1}${c.label?': '+esc(c.label):''} <span class="muted small" style="font-weight:500">· ${(MOODS.find(m=>m.id===c.mood)||{}).name||''} · ${(CURVES.find(x=>x.id===c.curve)||{}).name||''} · ${fmtTime(i*S.ppt*60)}</span></div>`}
     if(i>0){const x=ev.tx[i-1],tc=Math.round(x.total),d=x.bp.d;
-      h+=`<div class="tx"><span class="sc" style="background:${scoreColor(tc)}">${tc}</span><span class="pill" style="border-color:${x.k.s>=.8?'var(--good)':x.k.s>=.45?'var(--mid)':'var(--bad)'}">${ev.tracks[i-1].key||'?'} → ${t.key||'?'} · ${x.k.l}</span><span class="pill" style="border-color:${x.bp.s>=.8?'var(--good)':x.bp.s>=.5?'var(--mid)':'var(--bad)'}">BPM ${d>=0?'+':''}${d.toFixed(1)}%${x.bp.hd?' (½/2×)':''}</span><span class="pill" style="border-color:${x.es>=.75?'var(--good)':x.es>=.5?'var(--mid)':'var(--bad)'}">Energie ${ev.tracks[i-1].energy}→${t.energy} (Ziel ${ev.targets[i].toFixed(1)})</span></div>`}
-    h+=`<div class="tr"><div class="n">${i+1}</div><div><div class="ti">${esc(t.title)}</div><div class="ar">${esc(t.artist)} · ${esc(t.genre||'—')} · <span class="small">${fmtTime(i*state.set.ppt*60)}</span></div></div>
-      <div class="meta"><span>${t.bpm.toFixed(1)}</span>${keyHtml(t.key)}${eHtml(t.energy)}<div class="act"><button class="btn sm" data-up="${i}" title="nach oben" ${i===0?'disabled':''}>↑</button><button class="btn sm" data-dn="${i}" title="nach unten" ${i===ev.tracks.length-1?'disabled':''}>↓</button><button class="btn sm" data-rp="${i}" title="Durch beste Alternative ersetzen">⟳</button><button class="btn sm" data-rm="${i}" title="entfernen">✕</button></div></div></div>`;
+      h+=`<div class="tx"><span class="sc" style="background:${scoreColor(tc)}">${tc}</span><span class="pill" style="border-color:${x.k.s>=.8?'var(--good)':x.k.s>=.45?'var(--mid)':'var(--bad)'}">${ev.tracks[i-1].key||'?'} → ${t.key||'?'} · ${x.k.l}</span><span class="pill" style="border-color:${x.bp.s>=.8?'var(--good)':x.bp.s>=.5?'var(--mid)':'var(--bad)'}">BPM ${d>=0?'+':''}${d.toFixed(1)}%${x.bp.hd?' (½/2×)':''}</span><span class="pill" style="border-color:${x.es>=.75?'var(--good)':x.es>=.5?'var(--mid)':'var(--bad)'}">Energie ${ev.tracks[i-1].energy}→${t.energy} (Ziel ${ev.targets[i].toFixed(1)})</span>${x.g<.5?'<span class="pill" style="border-color:var(--mid)">Genre-Wechsel</span>':''}</div>`;
+      h+=coachHtml(i,ev.tracks[i-1],t,x)}
+    const hasF=typeof fileFor==='function'&&fileFor(t);
+    h+=`<div class="tr"><div class="n">${i+1}</div><div style="min-width:0"><div class="ti">${esc(t.title)}</div><div class="ar">${esc(t.artist)} · ${esc(t.genre||'—')} · <span class="small">${fmtTime(i*S.ppt*60)}</span></div></div>
+      <div class="meta"><span>${t.bpm.toFixed(1)}</span>${keyHtml(t.key)}${eHtml(t.energy)}<div class="act">${hasF?`<button class="btn sm" data-play="${t.id}" title="Vorhören">▶</button>`:''}<button class="btn sm" data-up="${i}" title="nach oben" ${i===0?'disabled':''}>↑</button><button class="btn sm" data-dn="${i}" title="nach unten" ${i===n-1?'disabled':''}>↓</button><button class="btn sm ${openAlt===i?'pri':''}" data-alt="${i}" title="3 Alternativen für diesen Slot">⇄</button><button class="btn sm" data-rm="${i}" title="entfernen">✕</button></div></div></div>`;
+    if(openAlt===i)h+=altHtml(i);
   });
   h+=`</div>
   <div class="card" style="margin-top:18px;background:var(--panel2)">
@@ -744,10 +885,11 @@ function renderSet(){
   </div>`;
   box.innerHTML=h;
 }
-function renderAll(){renderControls();renderLib();renderCrates();if(state.set)renderSet()}
+const fmtDur=min=>{min=Math.round(min);return min>=60?`${Math.floor(min/60)}h${min%60?String(min%60).padStart(2,'0'):''}`:min+'′'};
+function renderAll(){renderControls();renderLib();renderCrates();if(state.set)renderSet();if(typeof renderExtras==='function')renderExtras()}
 
 /* ================= Events ================= */
-$$('nav button').forEach(b=>b.onclick=()=>{$$('nav button').forEach(x=>x.classList.toggle('on',x===b));$$('.tab').forEach(t=>t.classList.toggle('on',t.id==='tab-'+b.dataset.tab))});
+$$('nav button').forEach(b=>b.onclick=()=>{$$('nav button').forEach(x=>x.classList.toggle('on',x===b));$$('.tab').forEach(t=>t.classList.toggle('on',t.id==='tab-'+b.dataset.tab));if(typeof onTab==='function')onTab(b.dataset.tab);scrollTo(0,0)});
 $('#moods').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;state.mood=b.dataset.m;save();renderControls()};
 $('#curves').onclick=e=>{const b=e.target.closest('[data-c]');if(!b)return;state.curve=b.dataset.c;save();renderControls()};
 $('#srcBox').addEventListener('change',e=>{const id=e.target.dataset.src;if(!id)return;
@@ -761,14 +903,21 @@ $('#ppt').onchange=renderControls;
 $('#go').onclick=()=>generate();
 $('#result').addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b||!state.set)return;const ids=state.set.ids,d=b.dataset;
-  if(b.id==='reroll')return generate(Date.now());
+  if(b.id==='reroll')return generate(Date.now(),{gigId:state.set.gigId});
   if(b.id==='exM3u')return exportM3U();if(b.id==='exRb')return exportRekordbox();if(b.id==='exSer')return exportSeratoCrate();if(b.id==='exPdf')return exportPDF();
   if(b.id==='bLogoRm'){state.brand.logo='';save();return renderSet()}
-  if(d.up){const i=+d.up;[ids[i-1],ids[i]]=[ids[i],ids[i-1]];state.set.rej={};renderSet()}
-  else if(d.dn){const i=+d.dn;[ids[i+1],ids[i]]=[ids[i],ids[i+1]];state.set.rej={};renderSet()}
-  else if(d.rm){if(ids.length<=2)return toast('Mindestens 2 Tracks');ids.splice(+d.rm,1);state.set.rej={};renderSet()}
-  else if(d.rp){replaceAt(+d.rp)}
+  if(b.id==='saveSet')return saveCurrentSet();
+  if(b.id==='undo'){if(undoStack.length){state.set.ids=undoStack.pop();openAlt=-1;save();renderSet()}return}
+  if(b.id==='playSet')return playSetFrom(0);
+  if(d.play)return playTrack(d.play);
+  if(d.blend)return playBlend(+d.blend);
+  if(d.alt!=null){const i=+d.alt;openAlt=openAlt===i?-1:i;return renderSet()}
+  if(d.pick){const[i,id]=d.pick.split(':');pushUndo();ids[+i]=id;openAlt=-1;save();return renderSet()}
+  if(d.up){const i=+d.up;pushUndo();[ids[i-1],ids[i]]=[ids[i],ids[i-1]];openAlt=-1;save();renderSet()}
+  else if(d.dn){const i=+d.dn;pushUndo();[ids[i+1],ids[i]]=[ids[i],ids[i+1]];openAlt=-1;save();renderSet()}
+  else if(d.rm){if(ids.length<=2)return toast('Mindestens 2 Tracks');pushUndo();ids.splice(+d.rm,1);openAlt=-1;openCoach.clear();save();renderSet()}
 });
+$('#result').addEventListener('toggle',e=>{const dd=e.target;if(dd.dataset&&dd.dataset.ci!=null){dd.open?openCoach.add(+dd.dataset.ci):openCoach.delete(+dd.dataset.ci)}},true);
 $('#result').addEventListener('change',e=>{
   const id=e.target.id,B=state.brand;
   if(id==='bDj')B.dj=e.target.value;else if(id==='bTitle')B.title=e.target.value;else if(id==='bEvent')B.event=e.target.value;else if(id==='bColor')B.color=e.target.value;
@@ -804,7 +953,7 @@ async function importMany(files){
   const b=bulk;bulk=null;renderAll();
   toast(`Import fertig: ${b.tracks} neue Tracks, ${b.crates} Crates/Playlists${b.err.length?` · ${b.err.length} übersprungen`:''}`);
 }
-$('#demo').onclick=()=>{state.tracks=demoLibrary();state.set=null;save();renderAll();$('#result').innerHTML='<div class="empty"><div class="big">✅</div>Demo-Bibliothek mit 260 Tracks geladen. Jetzt Stimmung wählen und <b>Set bauen</b>.</div>';toast('260 Demo-Tracks geladen')};
+$('#demo').onclick=()=>{state.tracks=demoLibrary();state.set=null;save();renderAll();$('#result').innerHTML='<div class="empty"><div class="big">✅</div>Demo-Bibliothek geladen. Jetzt Stimmung wählen und <b>Set bauen</b>.</div>';toast(state.tracks.length+' Demo-Tracks geladen')};
 $('#clear').onclick=()=>{const b=$('#clear');
   if(!b.dataset.armed){b.dataset.armed='1';b.textContent='Wirklich leeren? Nochmal klicken';b.style.borderColor='var(--bad)';b.style.color='var(--bad)';
     clearTimeout(b._t);b._t=setTimeout(()=>{delete b.dataset.armed;b.textContent='Bibliothek leeren';b.style.borderColor='';b.style.color=''},4000);return}
@@ -815,6 +964,7 @@ $('#clear').onclick=()=>{const b=$('#clear');
   save();renderAll();$('#q').value='';renderLib();$('#result').innerHTML='<div class="empty">Bibliothek geleert.</div>';toast(`${n} Tracks und importierte Crates entfernt`)};
 $('#q').oninput=renderLib;
 $('#halftime').onchange=e=>{state.halftime=e.target.value;state.tracks.forEach(t=>{if(t.eSrc==='est')t.energy=estimateEnergy(t.bpm,t.genre)});save();renderAll();toast('Energie neu geschätzt')};
+$('#libTbl').addEventListener('click',e=>{const b=e.target.closest('[data-lplay]');if(b)playTrack(b.dataset.lplay)});
 $('#libTbl').addEventListener('change',e=>{const id=e.target.dataset.e;if(!id)return;const t=state.tracks.find(t=>t.id===id);t.energy=clamp(Math.round(+e.target.value)||1,1,10);t.eSrc='manual';e.target.value=t.energy;e.target.style.borderStyle='';save();if(state.set)renderSet()});
 // crates
 $('#tab-crates').addEventListener('input',e=>{if(e.target.closest('.card')&&e.target.matches('input'))$('#crLive').textContent=state.tracks.filter(t=>crateMatch(readCrateForm(),t)).length});
@@ -849,7 +999,7 @@ if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))navigator.s
 const standalone=()=>matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: window-controls-overlay)').matches||navigator.standalone;
 let deferredInstall=null;const ib=$('#installBtn');
 const isMac=/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints<2;
-const MAC_DL='<br><br>Oder lade die <b>native Mac-App</b>: <a href="https://github.com/zthsydnhbt-hub/setwerk/releases/latest" target="_blank" style="color:var(--accent2)">Setwerk.dmg herunterladen</a>';
+const MAC_DL='<br><br>Oder lade die <b>native Mac-App</b>: <a href="https://zthsydnhbt-hub.github.io/setwerk/download/#pkg" target="_blank" style="color:var(--accent2)">Download & Anleitung</a>';
 
 addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;ib.hidden=false});
 addEventListener('appinstalled',()=>{ib.hidden=true;deferredInstall=null;toast('Setwerk ist installiert 🎉')});
@@ -872,5 +1022,6 @@ if('launchQueue' in window)launchQueue.setConsumer(async p=>{if(!p.files?.length
 // app shortcuts / deep links: #build #lib #crates
 const openHash=()=>{const t=location.hash.slice(1);const b=$(`nav button[data-tab="${t}"]`);if(b)b.click()};addEventListener('hashchange',openHash);openHash();
 </script>
+<script src="extra.js"></script>
 </body>
 </html>

@@ -15,5 +15,5 @@ for d in runtimes x86 x64 arm64; do [ -d "build/bin/$d" ] && cp -R "build/bin/$d
 cp "$ROOT/app/index.html" "$ROOT/app/extra.js" "$ROOT/app/manifest.webmanifest" build/app/web/
 cp "$ROOT/config.js" build/app/web/
 cp "$ROOT"/icons/*.png build/app/web/icons/
-makensis -V2 -DVERSION="$VERSION" setwerk.nsi
+LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 makensis -V2 -INPUTCHARSET UTF8 -DVERSION="$VERSION" setwerk.nsi
 echo "✓ $(pwd)/build/Setwerk-Windows-Setup.exe ($(du -h build/Setwerk-Windows-Setup.exe | cut -f1))"

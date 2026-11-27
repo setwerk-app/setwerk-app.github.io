@@ -30,6 +30,7 @@ Mit <b>Mix-Coach</b> für jeden Übergang, <b>Live-Assistent</b> und <b>DJ-Schul
 |---|---|---|
 | 🍎 **Mac** (empfohlen) | [**Setwerk-macOS.pkg**](https://github.com/setwerk-app/setwerk-app.github.io/releases/latest/download/Setwerk-macOS.pkg) | Installer öffnen, durchklicken, fertig |
 | 🍎 Mac (Alternative) | [Setwerk-macOS.dmg](https://github.com/setwerk-app/setwerk-app.github.io/releases/latest/download/Setwerk-macOS.dmg) | Setwerk auf „Programme“ ziehen |
+| 🪟 **Windows 10/11** | [**Setwerk-Windows-Setup.exe**](https://github.com/setwerk-app/setwerk-app.github.io/releases/latest/download/Setwerk-Windows-Setup.exe) | Bei „Windows hat den PC geschützt“: *Weitere Informationen → Trotzdem ausführen* |
 | 📱 iPhone & iPad | [Web-App öffnen](https://setwerk-app.github.io/app/) | Safari → Teilen → „Zum Home-Bildschirm“ |
 | 🌐 Android, Linux, Browser | [Web-App öffnen](https://setwerk-app.github.io/app/) | In Chrome/Edge auf „App installieren“ |
 

@@ -75,7 +75,8 @@ namespace Setwerk
             core.SetVirtualHostNameToFolderMapping(Host, root, CoreWebView2HostResourceAccessKind.Allow);
             core.Settings.IsStatusBarEnabled = false;
             core.Settings.AreDevToolsEnabled = true;
-            await core.AddScriptToExecuteOnDocumentCreatedAsync("window.__SETWERK_NATIVE__=true;");
+            string ver = Application.ProductVersion; int plus = ver.IndexOf('+'); if (plus > 0) ver = ver.Substring(0, plus);
+            await core.AddScriptToExecuteOnDocumentCreatedAsync("window.__SETWERK_NATIVE__=true;window.__SETWERK_VERSION__='" + ver + "';");
 
             // Externe Links im Standardbrowser öffnen
             core.NewWindowRequested += (s, e) => { e.Handled = true; OpenExternal(e.Uri); };

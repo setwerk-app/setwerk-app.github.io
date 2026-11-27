@@ -3,15 +3,15 @@
 </p>
 
 <p align="center">
-  <a href="https://zthsydnhbt-hub.github.io/setwerk/"><img alt="Download" src="https://img.shields.io/badge/Download-macOS-ff5c39?style=for-the-badge&logo=apple&logoColor=white"></a>
-  <a href="https://zthsydnhbt-hub.github.io/setwerk/app/"><img alt="Web-App" src="https://img.shields.io/badge/Web--App-öffnen-ffb238?style=for-the-badge&logo=googlechrome&logoColor=white"></a>
-  <a href="https://github.com/zthsydnhbt-hub/setwerk/releases/latest"><img alt="Version" src="https://img.shields.io/github/v/release/zthsydnhbt-hub/setwerk?style=for-the-badge&color=1c212d&label=Version"></a>
-  <a href="https://github.com/zthsydnhbt-hub/setwerk/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/zthsydnhbt-hub/setwerk/total?style=for-the-badge&color=1c212d&label=Downloads"></a>
+  <a href="https://setwerk-app.github.io/"><img alt="Download" src="https://img.shields.io/badge/Download-macOS-ff5c39?style=for-the-badge&logo=apple&logoColor=white"></a>
+  <a href="https://setwerk-app.github.io/app/"><img alt="Web-App" src="https://img.shields.io/badge/Web--App-öffnen-ffb238?style=for-the-badge&logo=googlechrome&logoColor=white"></a>
+  <a href="https://github.com/setwerk-app/setwerk-app.github.io/releases/latest"><img alt="Version" src="https://img.shields.io/github/v/release/setwerk-app/setwerk-app.github.io?style=for-the-badge&color=1c212d&label=Version"></a>
+  <a href="https://github.com/setwerk-app/setwerk-app.github.io/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/setwerk-app/setwerk-app.github.io/total?style=for-the-badge&color=1c212d&label=Downloads"></a>
 </p>
 
 <h3 align="center">DJ-Sets nach echter Mix-Theorie – für Mac, Web und iPhone.</h3>
 
-<p align="center"><a href="https://zthsydnhbt-hub.github.io/setwerk/"><b>🌐 zthsydnhbt-hub.github.io/setwerk</b></a></p>
+<p align="center"><a href="https://setwerk-app.github.io/"><b>🌐 setwerk-app.github.io</b></a></p>
 
 <p align="center">
 Setwerk plant DJ-Sets aus deiner <b>Serato-, Rekordbox- oder Traktor-Bibliothek</b>: passende Tonarten, saubere Tempos und eine Energiekurve, die zum Abend passt.<br>
@@ -24,18 +24,18 @@ Mit <b>Mix-Coach</b> für jeden Übergang, <b>Live-Assistent</b> und <b>DJ-Schul
 
 ## ⬇️ Download & Installation
 
-> **Die ausführliche Anleitung mit Bildern findest du hier: [zthsydnhbt-hub.github.io/setwerk](https://zthsydnhbt-hub.github.io/setwerk/#download)**
+> **Die ausführliche Anleitung mit Bildern findest du hier: [setwerk-app.github.io](https://setwerk-app.github.io/#download)**
 
 | Gerät | Download | Kurz-Anleitung |
 |---|---|---|
-| 🍎 **Mac** (empfohlen) | [**Setwerk-macOS.pkg**](https://github.com/zthsydnhbt-hub/setwerk/releases/latest/download/Setwerk-macOS.pkg) | Installer öffnen, durchklicken, fertig |
-| 🍎 Mac (Alternative) | [Setwerk-macOS.dmg](https://github.com/zthsydnhbt-hub/setwerk/releases/latest/download/Setwerk-macOS.dmg) | Setwerk auf „Programme“ ziehen |
-| 📱 iPhone & iPad | [Web-App öffnen](https://zthsydnhbt-hub.github.io/setwerk/app/) | Safari → Teilen → „Zum Home-Bildschirm“ |
-| 🌐 Windows, Android, Linux | [Web-App öffnen](https://zthsydnhbt-hub.github.io/setwerk/app/) | In Chrome/Edge auf „App installieren“ |
+| 🍎 **Mac** (empfohlen) | [**Setwerk-macOS.pkg**](https://github.com/setwerk-app/setwerk-app.github.io/releases/latest/download/Setwerk-macOS.pkg) | Installer öffnen, durchklicken, fertig |
+| 🍎 Mac (Alternative) | [Setwerk-macOS.dmg](https://github.com/setwerk-app/setwerk-app.github.io/releases/latest/download/Setwerk-macOS.dmg) | Setwerk auf „Programme“ ziehen |
+| 📱 iPhone & iPad | [Web-App öffnen](https://setwerk-app.github.io/app/) | Safari → Teilen → „Zum Home-Bildschirm“ |
+| 🌐 Windows, Android, Linux | [Web-App öffnen](https://setwerk-app.github.io/app/) | In Chrome/Edge auf „App installieren“ |
 
 ### 🍎 Mac in 4 Schritten
 
-**1. Installer herunterladen**: [**Setwerk-macOS.pkg**](https://github.com/zthsydnhbt-hub/setwerk/releases/latest/download/Setwerk-macOS.pkg) (ca. 230 KB, macOS 13 oder neuer, Apple Silicon & Intel).
+**1. Installer herunterladen**: [**Setwerk-macOS.pkg**](https://github.com/setwerk-app/setwerk-app.github.io/releases/latest/download/Setwerk-macOS.pkg) (ca. 230 KB, macOS 13 oder neuer, Apple Silicon & Intel).
 
 **2. Doppelklick auf die Datei.** macOS zeigt beim ersten Mal *„Setwerk-macOS.pkg wurde nicht geöffnet“*. **Das ist normal**: Klick auf **„Fertig“**.
 

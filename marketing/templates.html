@@ -35,7 +35,7 @@ const POSTS={
 1:()=>`${brand('left:72px;top:68px')}
   <div style="position:absolute;left:72px;top:190px;width:940px"><h1 style="font-size:92px">Du nennst<br>die Stimmung.<br><span>Setwerk baut<br>das Set.</span></h1></div>
   ${win('builder.jpg','left:470px;top:600px;width:900px;transform:rotate(-4deg)')}
-  <div class="badge" style="left:72px;top:760px"><div class="sub" style="font-size:24px">Flow-Score</div><div class="score" style="font-size:110px">95</div></div>`,
+  <div class="badge" style="left:72px;top:760px"><div class="sub" style="font-size:24px">Flow-Score</div><div class="score" style="font-size:110px">94</div></div>`,
 2:()=>`${brand('left:72px;top:68px',56,40)}
   <div style="position:absolute;left:72px;top:170px;width:940px"><span class="tag" style="font-size:22px;padding:10px 20px">Mix-Coach</span><h1 style="font-size:82px;margin-top:26px">Jeder Übergang.<br><span>Schritt für Schritt.</span></h1>
   <p class="sub" style="font-size:32px;margin-top:22px">Wann B startet, wie weit du pitchst und wann der Bass-Swap kommt.</p></div>
@@ -52,7 +52,7 @@ const POSTS={
 5:()=>`${brand('left:72px;top:68px',56,40)}
   <div style="position:absolute;left:72px;top:170px;width:560px"><span class="tag" style="font-size:22px;padding:10px 20px">Für Einsteiger</span><h1 style="font-size:78px;margin-top:26px">DJ werden.<br><span>Mit Plan.</span></h1>
   <div style="display:grid;gap:22px;margin-top:44px;font-size:30px"><div class="check">Beatmatching</div><div class="check">Phrasing & Bass-Swap</div><div class="check">Camelot-Rad</div><div class="check">Tap-Tempo & Pitch</div></div></div>
-  ${win('school.jpg','left:560px;top:250px;width:900px')}`,
+  <div class="win" style="left:560px;top:210px;width:820px"><div class="bar"><i></i><i></i><i></i></div><div style="overflow:hidden;height:760px"><img src="${S}school.jpg" style="width:190%;max-width:none;margin-left:-88%;margin-top:-40px"></div></div>`,
 };
 const STORIES={
 1:()=>`${brand('left:80px;top:120px',72,52)}
@@ -60,7 +60,7 @@ const STORIES={
   ${phone('mobile.jpg','left:230px;top:960px;width:620px;transform:rotate(-4deg)')}`,
 2:()=>`<div style="position:absolute;left:80px;top:150px;width:920px"><span class="tag" style="font-size:28px;padding:12px 24px">Mix-Coach</span><h1 style="font-size:104px;margin-top:34px">Jeder Übergang<br><span>erklärt.</span></h1>
   <p class="sub" style="font-size:40px;margin-top:30px">Startpunkt · Pitch · Bass-Swap · Tonart – und zum Anhören.</p></div>
-  ${win('coach.jpg','left:60px;top:860px;width:1500px')}
+  ${win('coach.jpg','left:60px;top:740px;width:1500px')}
   <div style="position:absolute;left:0;right:0;bottom:150px;text-align:center"><span class="cta" style="font-size:40px;padding:28px 50px">Kostenlos laden – Link in Bio</span></div>`,
 3:()=>`<div style="position:absolute;left:80px;top:150px;width:920px"><span class="tag" style="font-size:28px;padding:12px 24px">Live-Assistent</span><h1 style="font-size:110px;margin-top:34px">Was passt<br><span>als Nächstes?</span></h1></div>
   ${win('live.jpg','left:60px;top:720px;width:1480px;transform:rotate(-3deg)')}
@@ -71,7 +71,7 @@ const STORIES={
   <p class="sub" style="font-size:46px;margin:24px 0 60px">DJ-Sets nach echter Mix-Theorie</p>
   <div style="display:grid;gap:26px;font-size:40px;text-align:left"><div class="check">Kostenlos & ohne Anmeldung</div><div class="check">Serato · Rekordbox · Traktor</div><div class="check">Mac · Web · iPhone</div></div>
   <span class="cta" style="font-size:44px;padding:30px 56px;margin-top:80px">⬇ Link in Bio</span>
-  <div class="url" style="font-size:32px;margin-top:30px">zthsydnhbt-hub.github.io/setwerk</div></div>`,
+  <div class="url" style="font-size:32px;margin-top:30px">setwerk-app.github.io</div></div>`,
 };
 const c=document.createElement('div');c.className='c';c.style.width=W+'px';c.style.height=H+'px';
 c.innerHTML='<div class="bg"></div><div class="grid"></div>'+(F==='story'?STORIES:POSTS)[I]();

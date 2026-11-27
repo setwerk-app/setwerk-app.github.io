@@ -22,6 +22,7 @@ rm "$OUT"/Setwerk-arm64 "$OUT"/Setwerk-x86_64
 echo "▸ Ressourcen …"
 cp "$ROOT/app/index.html" "$ROOT/app/extra.js" "$ROOT/app/manifest.webmanifest" "$APP/Contents/Resources/web/"
 cp "$ROOT"/icons/*.png "$APP/Contents/Resources/web/icons/"
+cp "$ROOT/config.js" "$APP/Contents/Resources/web/"
 cp Setwerk.icns "$APP/Contents/Resources/"
 
 cat > "$APP/Contents/Info.plist" <<PLIST

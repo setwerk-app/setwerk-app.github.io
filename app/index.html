@@ -999,7 +999,7 @@ if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){navigator.
 const standalone=()=>matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: window-controls-overlay)').matches||navigator.standalone;
 let deferredInstall=null;const ib=$('#installBtn');
 const isMac=/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints<2;
-const MAC_DL='<br><br>Oder lade die <b>native Mac-App</b>: <a href="https://zthsydnhbt-hub.github.io/setwerk/#pkg" target="_blank" style="color:var(--accent2)">Download & Anleitung</a>';
+const MAC_DL='<br><br>Oder lade die <b>native Mac-App</b>: <a href="https://setwerk-app.github.io/#pkg" target="_blank" style="color:var(--accent2)">Download & Anleitung</a>';
 
 addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;ib.hidden=false});
 addEventListener('appinstalled',()=>{ib.hidden=true;deferredInstall=null;toast('Setwerk ist installiert 🎉')});
@@ -1022,6 +1022,7 @@ if('launchQueue' in window)launchQueue.setConsumer(async p=>{if(!p.files?.length
 // app shortcuts / deep links: #build #lib #crates
 const openHash=()=>{const t=location.hash.slice(1);const b=$(`nav button[data-tab="${t}"]`);if(b)b.click()};addEventListener('hashchange',openHash);openHash();
 </script>
+<script src="../config.js"></script>
 <script src="extra.js"></script>
 </body>
 </html>

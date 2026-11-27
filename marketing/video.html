@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><title>Setwerk Promo</title>
+<!-- Animierte Szene für das Promo-Video. render(t) setzt den Zustand für Sekunde t (deterministisch, ohne CSS-Animationen). -->
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:540px;height:960px;overflow:hidden;background:#0b0d11;color:#e8ebf2;font-family:-apple-system,system-ui,"SF Pro Display",sans-serif}
+#s{position:relative;width:540px;height:960px;overflow:hidden}
+.bg{position:absolute;inset:-100px;background:radial-gradient(45% 30% at 75% 20%,#ff5c3955,transparent 70%),radial-gradient(40% 28% at 15% 85%,#ffb23833,transparent 70%),#0b0d11}
+.grid{position:absolute;inset:0;background-image:linear-gradient(#ffffff09 1px,transparent 1px),linear-gradient(90deg,#ffffff09 1px,transparent 1px);background-size:36px 36px}
+.l{position:absolute;inset:0;opacity:0}
+h1{margin:0;font-weight:880;letter-spacing:-.045em;line-height:1}
+.g{background:linear-gradient(90deg,#ff5c39,#ffb238);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{display:inline-block;background:#ff5c3922;border:1px solid #ff5c3977;color:#ffb238;font-weight:800;letter-spacing:.14em;text-transform:uppercase;border-radius:999px;font-size:13px;padding:7px 14px}
+.win{position:absolute;border-radius:14px;overflow:hidden;border:1px solid #2a3040;box-shadow:0 30px 70px #000d;background:#0d0f14}
+.win .bar{height:24px;background:#151922;display:flex;align-items:center;gap:6px;padding:0 10px;border-bottom:1px solid #2a3040}.win .bar i{width:8px;height:8px;border-radius:50%}.win .bar i:nth-child(1){background:#ff5f57}.win .bar i:nth-child(2){background:#febc2e}.win .bar i:nth-child(3){background:#28c840}
+.win img{display:block;width:100%}
+.phone{position:absolute;border-radius:34px;overflow:hidden;border:7px solid #1c212d;box-shadow:0 30px 80px #000e;background:#0d0f14}.phone img{display:block;width:100%}
+.badge{position:absolute;background:#151922f0;border:1px solid #2a3040;border-radius:16px;box-shadow:0 20px 50px #000c;padding:14px 18px}
+.chip{display:inline-block;border:1px solid #2a3040;background:#151922;border-radius:999px;padding:9px 16px;font-weight:700;font-size:17px;color:#d5dae5;margin:5px}
+.cta{display:inline-block;background:linear-gradient(135deg,#ff5c39,#ffb238);color:#1a0c05;font-weight:850;border-radius:999px;font-size:24px;padding:16px 30px;box-shadow:0 14px 40px #ff5c3977}
+.prog{position:absolute;left:24px;right:24px;top:22px;height:3px;background:#ffffff1a;border-radius:2px;overflow:hidden}.prog i{display:block;height:100%;background:linear-gradient(90deg,#ff5c39,#ffb238)}
+.sub{color:#9aa2b5;font-weight:500}
+</style></head><body>
+<div id="s">
+  <div class="bg" id="bg"></div><div class="grid"></div>
+  <div class="prog"><i id="prog"></i></div>
+
+  <!-- 1 Intro -->
+  <div class="l" id="L1" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+    <img id="ic1" src="../icons/icon-512.png" style="width:150px;height:150px;filter:drop-shadow(0 18px 46px #ff5c3999)">
+    <h1 style="font-size:58px;margin-top:26px" id="t1a">Du nennst<br>die Stimmung.</h1>
+  </div>
+  <!-- 2 Set wird gebaut -->
+  <div class="l" id="L2">
+    <div style="position:absolute;left:32px;top:70px;right:32px"><h1 style="font-size:56px" id="t2"><span class="g">Setwerk<br>baut das Set.</span></h1>
+      <div class="sub" style="font-size:20px;margin-top:14px">In Sekunden – nach Tonart, Tempo & Energie.</div></div>
+    <div class="win" id="w2" style="left:24px;top:330px;width:760px"><div class="bar"><i></i><i></i><i></i></div><img src="../assets/screens/builder.jpg"></div>
+    <div class="badge" id="b2" style="left:32px;top:700px"><div class="sub" style="font-size:14px">Flow-Score</div><div style="font-size:64px;font-weight:900;color:#3ddc97;line-height:1" id="score">0</div></div>
+  </div>
+  <!-- 3 Mix-Coach -->
+  <div class="l" id="L3">
+    <div style="position:absolute;left:32px;top:70px;right:32px"><span class="tag">Mix-Coach</span><h1 style="font-size:52px;margin-top:16px">Jeder Übergang<br><span class="g">erklärt.</span></h1>
+      <div class="sub" style="font-size:19px;margin-top:12px">Startpunkt · Pitch · Bass-Swap · Tonart</div></div>
+    <div class="win" id="w3" style="left:-40px;top:350px;width:820px"><div class="bar"><i></i><i></i><i></i></div><img src="../assets/screens/coach.jpg"></div>
+  </div>
+  <!-- 4 Live -->
+  <div class="l" id="L4">
+    <div style="position:absolute;left:32px;top:70px;right:32px"><span class="tag">Live-Assistent</span><h1 style="font-size:52px;margin-top:16px">Was passt<br><span class="g">als Nächstes?</span></h1></div>
+    <div class="win" id="w4" style="left:-160px;top:300px;width:900px"><div class="bar"><i></i><i></i><i></i></div><img src="../assets/screens/live.jpg"></div>
+  </div>
+  <!-- 5 Features -->
+  <div class="l" id="L5">
+    <div style="position:absolute;left:32px;top:70px;right:32px"><h1 style="font-size:46px">Plus:</h1></div>
+    <div id="f5" style="position:absolute;left:32px;right:32px;top:150px;display:grid;gap:14px;font-size:24px;font-weight:750"></div>
+    <div class="phone" id="p5" style="left:300px;top:640px;width:200px"><img src="../assets/screens/mobile-home.jpg"></div>
+  </div>
+  <!-- 6 CTA -->
+  <div class="l" id="L6" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px">
+    <img id="ic6" src="../icons/icon-512.png" style="width:130px;height:130px;filter:drop-shadow(0 18px 46px #ff5c3999)">
+    <h1 style="font-size:64px;margin-top:22px">Setwerk</h1>
+    <div class="sub" style="font-size:21px;margin:10px 0 22px">Kostenlos für Mac, Web & iPhone</div>
+    <div id="chips6"><span class="chip">Serato DJ Pro</span><span class="chip">Rekordbox</span><span class="chip">Traktor</span></div>
+    <div style="margin-top:34px" id="cta6"><span class="cta">⬇ Link in Bio</span></div>
+    <div style="margin-top:18px;color:#ffb238;font-weight:700;font-size:17px" id="url6">setwerk-app.github.io</div>
+  </div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const ease=x=>1-Math.pow(1-clamp(x),3);            // easeOutCubic
+const inout=x=>{x=clamp(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+// scene windows [start,end]
+const SC=[[0,2.6],[2.6,6.2],[6.2,9.6],[9.6,13],[13,16],[16,19.5]];
+const TOTAL=19.5;
+const FEAT=['🌙 Ganze Nacht in Kapiteln','📅 Gigs & Packliste','🩺 Library Health','🎓 DJ-Schule & Camelot-Rad','⇄ 3 Alternativen pro Slot','📤 Export zu Serato & Rekordbox'];
+$('f5').innerHTML=FEAT.map((f,i)=>`<div id="fi${i}" style="background:#151922;border:1px solid #2a3040;border-radius:14px;padding:12px 16px;width:fit-content">${f}</div>`).join('');
+function vis(id,i,t){const[a,b]=SC[i],fade=.35;const o=t<a||t>b?0:Math.min(clamp((t-a)/fade),clamp((b-t)/fade));$(id).style.opacity=o;return clamp((t-a)/(b-a))}
+function render(t){
+  $('prog').style.width=(t/TOTAL*100)+'%';
+  $('bg').style.transform=`translate(${Math.sin(t*.4)*30}px,${Math.cos(t*.3)*24}px)`;
+  // 1
+  let p=vis('L1',0,t);const k=ease(p*2.2);
+  $('ic1').style.transform=`scale(${.6+.4*k})`;$('ic1').style.opacity=k;
+  $('t1a').style.transform=`translateY(${(1-ease(p*2-.3))*30}px)`;$('t1a').style.opacity=ease(p*2-.3);
+  // 2
+  p=vis('L2',1,t);
+  $('w2').style.transform=`translateY(${(1-ease(p*2.2))*240}px) rotate(-4deg)`;
+  $('t2').style.transform=`translateY(${(1-ease(p*2.5))*24}px)`;
+  const sc=Math.round(94*inout((p-.25)/.45));$('score').textContent=Math.max(0,sc);
+  $('b2').style.transform=`scale(${.8+.2*ease((p-.2)*3)})`;$('b2').style.opacity=ease((p-.2)*3);
+  // 3
+  p=vis('L3',2,t);$('w3').style.transform=`translateY(${(1-ease(p*2.4))*200-p*120}px)`;
+  // 4
+  p=vis('L4',3,t);$('w4').style.transform=`translate(${(1-ease(p*2.2))*300}px,${-p*60}px) rotate(-3deg)`;
+  // 5
+  p=vis('L5',4,t);FEAT.forEach((_,i)=>{const e=ease((p-.05-i*.07)*4);const el=$('fi'+i);el.style.opacity=e;el.style.transform=`translateX(${(1-e)*-40}px)`});
+  $('p5').style.transform=`translateY(${(1-ease(p*2))*300}px) rotate(5deg)`;
+  // 6
+  p=vis('L6',5,t);const e6=ease(p*2.4);$('ic6').style.transform=`scale(${.7+.3*e6}) rotate(${(1-e6)*-12}deg)`;
+  $('chips6').style.opacity=ease((p-.15)*3);$('cta6').style.transform=`scale(${.85+.15*ease((p-.25)*3)+.03*Math.sin(t*6)*(p>.4?1:0)})`;$('cta6').style.opacity=ease((p-.25)*3);
+  $('url6').style.opacity=ease((p-.35)*3);
+}
+render(0);
+</script></body></html>

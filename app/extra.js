@@ -438,6 +438,7 @@ function renderHome(){
   box.innerHTML=`<div class="hero"><div><h1>${greet}${name?',':''}<br><span>${name?esc(name):'DJ'}</span></h1>
       <div class="muted" style="margin-top:6px">${d.toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'})}${up.length?` · ${up.length} kommende${up.length===1?'r Gig':' Gigs'}`:''}${state.sets.length?` · ${state.sets.length} gespeicherte Sets`:''}</div></div>
       <button class="btn pri" style="padding:14px 22px;font-size:16px" data-go="build">⚡ Set bauen</button></div>
+    ${updateBannerHtml()}
     ${name?'':`<div class="small muted" style="margin-top:8px">Tipp: Trag deinen DJ-Namen ein – er erscheint hier und auf deinen PDF-Tracklisten. <input type="text" id="homeName" placeholder="DJ-Name" style="width:160px;margin-left:6px"></div>`}
     <div class="stats" style="margin-top:18px">
       <div class="stat"><div class="v">${state.sets.length}</div><div class="l">Gespeicherte Sets</div></div>
@@ -452,7 +453,7 @@ function renderHome(){
     <div class="homegrid">
       <div class="card"><div class="row" style="justify-content:space-between"><h3 style="margin:0">Letzte Sets</h3><button class="btn sm" data-go="sets">Alle anzeigen →</button></div>
         <div style="margin-top:10px">${state.sets.slice(0,5).map(r=>{const sm=setSummary(r.ids);return`<div class="setcard" style="cursor:pointer" data-hopen="${r.id}"><div class="sbadge" style="border-color:${scoreColor(r.score)};color:${scoreColor(r.score)};width:46px;height:46px"><b style="font-size:17px">${r.score}</b><span>Score</span></div><div style="flex:1;min-width:0"><b>${esc(r.name)}</b><div class="small muted">${sm.ts.length} Tracks · ${sm.bpm} BPM · ${new Date(r.updated).toLocaleDateString('de-DE')}</div></div><div class="row" style="gap:4px">${sm.keys.map(keyHtml).join('')}</div></div>`}).join('')||`<div class="empty" style="padding:30px">Noch keine Sets gespeichert.<br><span class="small">${state.tracks.length?'Bau dein erstes Set und speichere es.':'Starte mit „Bibliothek importieren“ oder lade die Demo.'}</span></div>`}</div>
-        <div class="hintbox" style="margin:14px 0 0">💡 <b>Tipp des Tages:</b> ${tip}</div></div>
+        <div class="hintbox" style="margin:14px 0 0">💡 <b>Tipp des Tages:</b> ${tip}</div>${NL()?`<div style="border-top:1px solid var(--line);margin-top:14px">${newsletterHtml(true)}</div>`:''}</div>
       <div style="display:grid;gap:16px">
         <div class="card"><div class="row" style="justify-content:space-between"><h3 style="margin:0">Library Health</h3><button class="btn sm" data-go="lib">Verbessern →</button></div>
           ${state.tracks.length?`<div class="row" style="margin-top:10px;gap:16px">${ringSvg(H.score,96)}<div style="flex:1;min-width:150px">
@@ -468,6 +469,51 @@ $('#home').addEventListener('click',e=>{const el=e.target.closest('[data-go],[da
   if(d.go){if(d.go==='lib'&&!state.tracks.length)toast('Tipp: Ohne eigene Bibliothek kannst du die Demo laden');goTab(d.go)}
   else if(d.hopen)openSet(d.hopen);else if(d.hgig)buildForGig(d.hgig)});
 $('#home').addEventListener('change',e=>{if(e.target.id==='homeName'){state.brand.dj=e.target.value.trim();save();renderHome()}});
+
+/* ================= Versionen, Neuigkeiten, Updates, Newsletter ================= */
+const APP_VERSION='1.2.0';
+const SITE_URL='https://setwerk-app.github.io/';
+const RELEASES_API='https://api.github.com/repos/setwerk-app/setwerk-app.github.io/releases/latest';
+const CHANGELOG={
+  '1.2.0':['🪟 Setwerk gibt es jetzt auch für Windows (Installer)','🔔 Update-Hinweise direkt in der App','📬 Newsletter für neue Funktionen und Videos','🎵 Doppelte Songs landen nie zweimal im Set','📱 Besseres Layout auf dem Handy'],
+  '1.1.0':['🏠 Home-Dashboard','🎧 Mix-Coach für jeden Übergang','⇄ 3 Alternativen pro Slot + Rückgängig','🎚️ Live-Assistent','🌙 Ganze Nacht in Kapiteln','📅 Gigs mit Packliste','🩺 Library Health','🎓 DJ-Schule mit Camelot-Rad'],
+};
+const vNum=v=>String(v||'0').replace(/^v/,'').split('.').map(n=>+n||0).reduce((a,n)=>a*1000+n,0);
+const lsGet=k=>{try{return localStorage.getItem(k)}catch(_){return null}},lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(_){}};
+const NL=()=>window.SETWERK_NEWSLETTER&&window.SETWERK_NEWSLETTER.action?window.SETWERK_NEWSLETTER:null;
+function newsletterHtml(compact){
+  const nl=NL();
+  if(!nl)return compact?'':`<div class="small muted" style="margin-top:10px">🔔 Keine Neuigkeit verpassen: Auf <a href="https://github.com/setwerk-app/setwerk-app.github.io" target="_blank" style="color:var(--accent2)">GitHub</a> oben rechts auf <b>Watch → Custom → Releases</b> klicken.</div>`;
+  return`<form class="nlform" action="${esc(nl.action)}" method="post" target="_blank" style="margin-top:12px">
+    <div class="small" style="font-weight:700;margin-bottom:6px">📬 Updates, neue Funktionen & Video-Tutorials per E-Mail</div>
+    <div class="row" style="gap:6px"><input type="email" name="${esc(nl.field||'email')}" required placeholder="deine@email.de" style="flex:1;min-width:180px"><button class="btn sm pri" type="submit">Anmelden</button></div>
+    <div class="small muted" style="margin-top:6px">Du bekommst eine Bestätigungsmail (Double-Opt-in). Abmelden jederzeit mit einem Klick.</div></form>`;
+}
+function showWhatsNew(from){
+  const vs=Object.keys(CHANGELOG).filter(v=>vNum(v)>vNum(from)).sort((a,b)=>vNum(b)-vNum(a));if(!vs.length)return;
+  const m=document.createElement('div');m.className='modal';m.innerHTML=`<div class="card" style="max-width:480px"><h2>✨ Neu in Setwerk ${APP_VERSION}</h2>
+    ${vs.map(v=>`<div style="margin-top:12px"><div class="small muted" style="font-weight:700">Version ${v}</div><ul style="margin:6px 0 0;padding-left:18px;line-height:1.7">${CHANGELOG[v].map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}
+    ${newsletterHtml()}
+    <div class="row" style="margin-top:16px;justify-content:flex-end"><button class="btn pri" id="wnOk">Los geht’s</button></div></div>`;
+  document.body.appendChild(m);const close=()=>m.remove();m.querySelector('#wnOk').onclick=close;m.onclick=e=>{if(e.target===m)close()};
+}
+let updateInfo=null;
+async function checkForUpdate(){
+  const cur=window.__SETWERK_VERSION__;if(!cur)return; // nur in der Mac-/Windows-App; die Web-App aktualisiert sich selbst
+  try{
+    const cache=JSON.parse(lsGet('setwerk.update')||'null');let tag,url;
+    if(cache&&Date.now()-cache.t<6*36e5){tag=cache.tag}else{const r=await fetch(RELEASES_API);if(!r.ok)return;const j=await r.json();tag=j.tag_name;lsSet('setwerk.update',JSON.stringify({t:Date.now(),tag}))}
+    if(vNum(tag)>vNum(cur)){updateInfo={tag};if($('nav button.on')?.dataset.tab==='home')renderHome()}
+  }catch(_){}
+}
+function updateBannerHtml(){
+  if(!updateInfo)return'';
+  const dl=SITE_URL+(/Windows/.test(navigator.userAgent)?'#web':'#pkg');
+  return`<div class="hintbox" style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:14px 0 0;border-color:#3ddc9766;background:#3ddc9712">
+    <span>🔔 <b>Neue Version ${esc(updateInfo.tag.replace(/^v/,''))} verfügbar</b> – du nutzt ${esc(window.__SETWERK_VERSION__)}.</span>
+    <a class="btn sm pri" href="${dl}" target="_blank" style="text-decoration:none">Jetzt aktualisieren</a></div>`;
+}
+(()=>{const seen=lsGet('setwerk.seenVersion');if(seen&&vNum(seen)<vNum(APP_VERSION))setTimeout(()=>showWhatsNew(seen),600);lsSet('setwerk.seenVersion',APP_VERSION);setTimeout(checkForUpdate,1500)})();
 
 /* ================= Wiring ================= */
 function renderExtras(){

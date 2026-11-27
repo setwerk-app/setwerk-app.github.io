@@ -56,7 +56,8 @@ final class MainWindowController: NSWindowController, WKNavigationDelegate, WKUI
         cfg.setURLSchemeHandler(BundleSchemeHandler(root: webRoot), forURLScheme: appScheme)
         cfg.websiteDataStore = .default()
         cfg.preferences.setValue(true, forKey: "developerExtrasEnabled")
-        let flag = WKUserScript(source: "window.__SETWERK_NATIVE__=true;", injectionTime: .atDocumentStart, forMainFrameOnly: true)
+        let ver = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
+        let flag = WKUserScript(source: "window.__SETWERK_NATIVE__=true;window.__SETWERK_VERSION__='\(ver)';", injectionTime: .atDocumentStart, forMainFrameOnly: true)
         cfg.userContentController.addUserScript(flag)
 
         webView = WKWebView(frame: .zero, configuration: cfg)

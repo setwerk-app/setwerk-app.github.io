@@ -2,8 +2,8 @@
 import Cocoa
 import WebKit
 
-let adminURL = URL(string: "https://zthsydnhbt-hub.github.io/setwerk/admin/")!
-let repoAPI = "https://api.github.com/repos/zthsydnhbt-hub/setwerk"
+let adminURL = URL(string: "https://setwerk-app.github.io/admin/")!
+let repoAPI = "https://api.github.com/repos/setwerk-app/setwerk-app.github.io"
 
 // Holt GitHub-Statistiken mit der vorhandenen GitHub-Anmeldung dieses Macs (gh CLI).
 // Der Zugangsschlüssel bleibt in der App und wird nie an die Webseite weitergegeben.

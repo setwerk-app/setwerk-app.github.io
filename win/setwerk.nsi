@@ -42,7 +42,7 @@ VIAddVersionKey /LANG=1031 "LegalCopyright" "Setwerk"
 !define MUI_FINISHPAGE_RUN "$INSTDIR\Setwerk.exe"
 !define MUI_FINISHPAGE_RUN_TEXT "Setwerk jetzt starten"
 !define MUI_FINISHPAGE_LINK "Anleitung & Neuigkeiten auf der Website"
-!define MUI_FINISHPAGE_LINK_LOCATION "https://zthsydnhbt-hub.github.io/setwerk/"
+!define MUI_FINISHPAGE_LINK_LOCATION "https://setwerk-app.github.io/"
 
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_COMPONENTS
@@ -64,7 +64,7 @@ Section "Setwerk (erforderlich)" SecMain
   WriteRegStr HKCU "${UNINST}" "DisplayVersion" "${VERSION}"
   WriteRegStr HKCU "${UNINST}" "Publisher" "Setwerk"
   WriteRegStr HKCU "${UNINST}" "DisplayIcon" "$INSTDIR\Setwerk.exe"
-  WriteRegStr HKCU "${UNINST}" "URLInfoAbout" "https://zthsydnhbt-hub.github.io/setwerk/"
+  WriteRegStr HKCU "${UNINST}" "URLInfoAbout" "https://setwerk-app.github.io/"
   WriteRegStr HKCU "${UNINST}" "InstallLocation" "$INSTDIR"
   WriteRegStr HKCU "${UNINST}" "UninstallString" "$\"$INSTDIR\Deinstallieren.exe$\""
   WriteRegDWORD HKCU "${UNINST}" "NoModify" 1

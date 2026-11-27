@@ -1,14 +1,14 @@
 // Setwerk service worker: makes the app installable and fully usable offline.
-const VERSION = 'setwerk-v3';
+const VERSION = 'setwerk-app-v1';
 const SHELL = [
   './',
   './index.html',
   './extra.js',
   './manifest.webmanifest',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
-  './icons/icon-maskable-512.png',
-  './icons/apple-touch-icon.png',
+  '../icons/icon-192.png',
+  '../icons/icon-512.png',
+  '../icons/icon-maskable-512.png',
+  '../icons/apple-touch-icon.png',
 ];
 const CDN = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
 

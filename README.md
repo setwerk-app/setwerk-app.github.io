@@ -3,13 +3,15 @@
 </p>
 
 <p align="center">
-  <a href="https://zthsydnhbt-hub.github.io/setwerk/download/"><img alt="Download" src="https://img.shields.io/badge/Download-macOS-ff5c39?style=for-the-badge&logo=apple&logoColor=white"></a>
-  <a href="https://zthsydnhbt-hub.github.io/setwerk/"><img alt="Web-App" src="https://img.shields.io/badge/Web--App-öffnen-ffb238?style=for-the-badge&logo=googlechrome&logoColor=white"></a>
+  <a href="https://zthsydnhbt-hub.github.io/setwerk/"><img alt="Download" src="https://img.shields.io/badge/Download-macOS-ff5c39?style=for-the-badge&logo=apple&logoColor=white"></a>
+  <a href="https://zthsydnhbt-hub.github.io/setwerk/app/"><img alt="Web-App" src="https://img.shields.io/badge/Web--App-öffnen-ffb238?style=for-the-badge&logo=googlechrome&logoColor=white"></a>
   <a href="https://github.com/zthsydnhbt-hub/setwerk/releases/latest"><img alt="Version" src="https://img.shields.io/github/v/release/zthsydnhbt-hub/setwerk?style=for-the-badge&color=1c212d&label=Version"></a>
   <a href="https://github.com/zthsydnhbt-hub/setwerk/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/zthsydnhbt-hub/setwerk/total?style=for-the-badge&color=1c212d&label=Downloads"></a>
 </p>
 
 <h3 align="center">DJ-Sets nach echter Mix-Theorie – für Mac, Web und iPhone.</h3>
+
+<p align="center"><a href="https://zthsydnhbt-hub.github.io/setwerk/"><b>🌐 zthsydnhbt-hub.github.io/setwerk</b></a></p>
 
 <p align="center">
 Setwerk plant DJ-Sets aus deiner <b>Serato-, Rekordbox- oder Traktor-Bibliothek</b>: passende Tonarten, saubere Tempos und eine Energiekurve, die zum Abend passt.<br>
@@ -22,14 +24,14 @@ Mit <b>Mix-Coach</b> für jeden Übergang, <b>Live-Assistent</b> und <b>DJ-Schul
 
 ## ⬇️ Download & Installation
 
-> **Die ausführliche Anleitung mit Bildern findest du hier: [zthsydnhbt-hub.github.io/setwerk/download](https://zthsydnhbt-hub.github.io/setwerk/download/)**
+> **Die ausführliche Anleitung mit Bildern findest du hier: [zthsydnhbt-hub.github.io/setwerk](https://zthsydnhbt-hub.github.io/setwerk/#download)**
 
 | Gerät | Download | Kurz-Anleitung |
 |---|---|---|
 | 🍎 **Mac** (empfohlen) | [**Setwerk-macOS.pkg**](https://github.com/zthsydnhbt-hub/setwerk/releases/latest/download/Setwerk-macOS.pkg) | Installer öffnen, durchklicken, fertig |
 | 🍎 Mac (Alternative) | [Setwerk-macOS.dmg](https://github.com/zthsydnhbt-hub/setwerk/releases/latest/download/Setwerk-macOS.dmg) | Setwerk auf „Programme“ ziehen |
-| 📱 iPhone & iPad | [Web-App öffnen](https://zthsydnhbt-hub.github.io/setwerk/) | Safari → Teilen → „Zum Home-Bildschirm“ |
-| 🌐 Windows, Android, Linux | [Web-App öffnen](https://zthsydnhbt-hub.github.io/setwerk/) | In Chrome/Edge auf „App installieren“ |
+| 📱 iPhone & iPad | [Web-App öffnen](https://zthsydnhbt-hub.github.io/setwerk/app/) | Safari → Teilen → „Zum Home-Bildschirm“ |
+| 🌐 Windows, Android, Linux | [Web-App öffnen](https://zthsydnhbt-hub.github.io/setwerk/app/) | In Chrome/Edge auf „App installieren“ |
 
 ### 🍎 Mac in 4 Schritten
 
@@ -90,4 +92,4 @@ Setwerk speichert deine Bibliothek, Crates, Sets und Gigs **nur auf deinem Gerä
 ./mac/build.sh 1.1.0
 ```
 
-Erzeugt `Setwerk.app`, `Setwerk-macOS.dmg` und `Setwerk-macOS.pkg` (benötigt die Xcode Command Line Tools). Die Web-App besteht aus `index.html` und `extra.js` und läuft ohne Build-Schritt.
+Erzeugt `Setwerk.app`, `Setwerk-macOS.dmg` und `Setwerk-macOS.pkg` (benötigt die Xcode Command Line Tools). Die Web-App liegt in `app/` (`index.html`, `extra.js`) und läuft ohne Build-Schritt. Die Website (Vorstellung & Download) ist `index.html` im Hauptordner.

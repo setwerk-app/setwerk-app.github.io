@@ -8,7 +8,7 @@ if ! lsof -i :$PORT >/dev/null 2>&1; then
   sleep 1
 fi
 if [ -d "/Applications/Google Chrome.app" ]; then
-  open -a "Google Chrome" "http://localhost:$PORT"
+  open -a "Google Chrome" "http://localhost:$PORT/app/"
 else
-  open "http://localhost:$PORT"
+  open "http://localhost:$PORT/app/"
 fi

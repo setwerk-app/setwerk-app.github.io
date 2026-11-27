@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Setwerk Admin</title>
+<link rel="icon" type="image/png" href="../icons/icon-192.png">
+<style>
+:root{--bg:#0b0d11;--panel:#151922;--panel2:#1c212d;--line:#2a3040;--text:#e8ebf2;--muted:#8b93a7;--accent:#ff5c39;--accent2:#ffb238;--good:#3ddc97;--mid:#ffc857;--bad:#ff5d73;--blue:#5aa9ff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 -apple-system,system-ui,"Segoe UI",Roboto,sans-serif}
+header{display:flex;align-items:center;gap:14px;padding:14px 24px;border-bottom:1px solid var(--line);background:#0b0d11;position:sticky;top:0;z-index:5;flex-wrap:wrap}
+header img{width:30px;height:30px;border-radius:8px}header b{font-size:18px}.pill{font-size:11px;font-weight:800;letter-spacing:.08em;background:#ff5c3922;color:var(--accent2);border:1px solid #ff5c3955;border-radius:999px;padding:3px 9px}
+header .r{margin-left:auto;display:flex;gap:8px;align-items:center;color:var(--muted);font-size:12px}
+main{max-width:1280px;margin:0 auto;padding:24px}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:30px 0 12px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.kpi .v{font-size:32px;font-weight:850;letter-spacing:-.02em;line-height:1.1}.kpi .l{color:var(--muted);font-size:12.5px;margin-top:4px}.kpi .s{font-size:12px;margin-top:6px;color:var(--muted)}
+.kpi.hl{background:linear-gradient(135deg,#ff5c3922,#ffb23812);border-color:#ff5c3966}
+.grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card h3{margin:0 0 12px;font-size:15px}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);font-size:13px}th{color:var(--muted);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em}td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;min-width:60px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.btn{background:var(--panel2);border:1px solid var(--line);padding:8px 14px;border-radius:9px;cursor:pointer;font-weight:700;color:var(--text);font:inherit;font-weight:700}
+.btn.pri{background:linear-gradient(135deg,var(--accent),var(--accent2));border:0;color:#1a0c05}
+input{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 11px;color:var(--text);font:inherit;min-width:0}
+.muted{color:var(--muted)}.small{font-size:12px}
+.lock{border:1px dashed var(--line);border-radius:14px;padding:18px;background:#151922aa}
+.lock ol{margin:8px 0 12px;padding-left:20px;color:var(--muted)}.lock ol b{color:var(--text)}
+svg text{fill:#8b93a7;font-size:10px}
+.err{color:var(--bad)}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-size:11px;font-weight:700;margin-left:6px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}main{padding:16px}}
+</style>
+</head>
+<body>
+<header>
+  <img src="../icons/icon-192.png" alt=""><b>Setwerk</b><span class="pill">ADMIN</span>
+  <div class="r"><span id="upd">lädt …</span><button class="btn" id="reload">↻ Aktualisieren</button></div>
+</header>
+<main>
+  <h2>Überblick</h2>
+  <div class="kpis" id="kpis"></div>
+
+  <div class="grid" style="margin-top:16px">
+    <div class="card"><h3>Downloads pro Version</h3><div id="relChart"></div><div id="relTable" style="margin-top:12px"></div></div>
+    <div class="card"><h3>Downloads nach Datei</h3><div id="assetTable"></div>
+      <div class="small muted" style="margin-top:10px">Mac-Installationen ≈ Downloads von <b>.pkg</b> und <b>.dmg</b>. GitHub zählt jeden Download, auch wiederholte.</div></div>
+  </div>
+
+  <h2>Besucher & Herkunft <span class="tag">GitHub, letzte 14 Tage</span></h2>
+  <div id="traffic"></div>
+
+  <h2>Web-App-Nutzung <span class="tag">Statistik-Dienst</span></h2>
+  <div id="web"></div>
+</main>
+
+<script>
+const REPO='zthsydnhbt-hub/setwerk',API='https://api.github.com/repos/'+REPO;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>Number(n||0).toLocaleString('de-DE');
+const LS='setwerk.admin.token';
+const getToken=()=>{try{return localStorage.getItem(LS)||''}catch(_){return''}};
+async function gh(path,auth){
+  const h={Accept:'application/vnd.github+json'};const t=getToken();if(auth&&t)h.Authorization='Bearer '+t;
+  const r=await fetch(API+path,{headers:h});if(!r.ok)throw new Error(r.status+' '+(await r.text()).slice(0,120));return r.json();
+}
+function kpi(v,l,s,hl){return`<div class="kpi ${hl?'hl':''}"><div class="v">${v}</div><div class="l">${l}</div>${s?`<div class="s">${s}</div>`:''}</div>`}
+function bars(items,h=150){ // [{label,value}]
+  const max=Math.max(1,...items.map(i=>i.value)),W=Math.max(320,items.length*56),bw=Math.min(40,W/items.length-14);
+  return`<svg viewBox="0 0 ${W} ${h+30}" style="width:100%;height:${h+30}px">${items.map((it,i)=>{const x=i*(W/items.length)+(W/items.length-bw)/2,bh=Math.max(2,it.value/max*(h-18));
+    return`<rect x="${x}" y="${h-bh}" width="${bw}" height="${bh}" rx="5" fill="url(#gg)"/><text x="${x+bw/2}" y="${h-bh-5}" text-anchor="middle" style="fill:#e8ebf2;font-weight:700;font-size:11px">${fmt(it.value)}</text><text x="${x+bw/2}" y="${h+16}" text-anchor="middle">${esc(it.label)}</text>`}).join('')}
+    <defs><linearGradient id="gg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff5c39"/><stop offset="1" stop-color="#ffb238"/></linearGradient></defs></svg>`;
+}
+function line(days,keyA,keyB){ // daily views: [{timestamp,count,uniques}]
+  const W=700,H=170,P=28,n=days.length;if(!n)return'<div class="muted">Noch keine Daten.</div>';
+  const max=Math.max(1,...days.map(d=>d[keyA])),x=i=>P+(n>1?i/(n-1):.5)*(W-2*P),y=v=>H-P-v/max*(H-2*P);
+  const path=k=>days.map((d,i)=>`${i?'L':'M'}${x(i).toFixed(1)},${y(d[k]).toFixed(1)}`).join('');
+  return`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px"><path d="${path(keyA)}" fill="none" stroke="#ff5c39" stroke-width="2.5"/><path d="${path(keyB)}" fill="none" stroke="#5aa9ff" stroke-width="2" stroke-dasharray="4 4"/>
+    ${days.map((d,i)=>i%2?'':`<text x="${x(i)}" y="${H-8}" text-anchor="middle">${new Date(d.timestamp).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})}</text>`).join('')}
+    <text x="${P}" y="14">max ${fmt(max)}</text></svg><div class="small"><span style="color:#ff5c39">━ Aufrufe</span> &nbsp; <span style="color:#5aa9ff">┅ Eindeutige Besucher</span></div>`;
+}
+
+async function loadPublic(){
+  const [repo,rels]=await Promise.all([gh(''),gh('/releases?per_page=100')]);
+  const assets=rels.flatMap(r=>r.assets.map(a=>({rel:r.tag_name,name:a.name,dl:a.download_count,date:r.published_at})));
+  const total=assets.reduce((a,x)=>a+x.dl,0),mac=assets.filter(a=>/\.(pkg|dmg)$/i.test(a.name)).reduce((a,x)=>a+x.dl,0);
+  const latest=rels[0],latestDl=latest?latest.assets.reduce((a,x)=>a+x.download_count,0):0;
+  $('#kpis').innerHTML=kpi(fmt(mac),'Mac-Downloads gesamt','≈ Installationen der Mac-App',true)+
+    kpi(fmt(latestDl),'Downloads aktuelle Version',latest?esc(latest.tag_name)+' · seit '+new Date(latest.published_at).toLocaleDateString('de-DE'):'')+
+    kpi(fmt(repo.stargazers_count),'⭐ Sterne auf GitHub')+kpi(fmt(repo.subscribers_count),'👀 Beobachter','bekommen Release-Benachrichtigungen')+
+    kpi(fmt(repo.forks_count),'Forks')+kpi(fmt(rels.length),'Veröffentlichte Versionen')+
+    `<div id="kpiTraffic" style="display:contents"></div>`;
+  const perRel=rels.slice().reverse().map(r=>({label:r.tag_name,value:r.assets.reduce((a,x)=>a+x.download_count,0)}));
+  $('#relChart').innerHTML=bars(perRel);
+  $('#relTable').innerHTML=`<table><tr><th>Version</th><th>Datum</th><th style="text-align:right">Downloads</th></tr>${rels.map(r=>`<tr><td><a href="${r.html_url}" target="_blank" style="color:var(--accent2)">${esc(r.name||r.tag_name)}</a></td><td>${new Date(r.published_at).toLocaleDateString('de-DE')}</td><td class="n">${fmt(r.assets.reduce((a,x)=>a+x.download_count,0))}</td></tr>`).join('')}</table>`;
+  const byName={};assets.forEach(a=>{const k=a.name.replace(/-\d+\.\d+\.\d+/,'');byName[k]=(byName[k]||0)+a.dl});
+  const maxA=Math.max(1,...Object.values(byName));
+  $('#assetTable').innerHTML=`<table><tr><th>Datei</th><th></th><th style="text-align:right">Downloads</th></tr>${Object.entries(byName).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<tr><td>${esc(k)}</td><td style="width:40%"><div class="bar"><i style="width:${v/maxA*100}%"></i></div></td><td class="n">${fmt(v)}</td></tr>`).join('')}</table>`;
+}
+
+async function loadTraffic(){
+  const box=$('#traffic');
+  if(!getToken()){box.innerHTML=lockHtml();return}
+  try{
+    const [views,clones,refs,paths]=await Promise.all([gh('/traffic/views',1),gh('/traffic/clones',1),gh('/traffic/popular/referrers',1),gh('/traffic/popular/paths',1)]);
+    $('#kpiTraffic').innerHTML=kpi(fmt(views.count),'GitHub-Seitenaufrufe (14 T.)',fmt(views.uniques)+' eindeutige Besucher')+kpi(fmt(clones.uniques),'Code-Kopien (14 T.)',fmt(clones.count)+' Klone');
+    const maxR=Math.max(1,...refs.map(r=>r.count));
+    box.innerHTML=`<div class="grid"><div class="card"><h3>Besucher pro Tag</h3>${line(views.views,'count','uniques')}</div>
+      <div class="card"><h3>Woher kommen die Besucher?</h3>${refs.length?`<table><tr><th>Quelle</th><th></th><th style="text-align:right">Aufrufe</th><th style="text-align:right">Personen</th></tr>${refs.map(r=>`<tr><td>${esc(r.referrer)}</td><td style="width:30%"><div class="bar"><i style="width:${r.count/maxR*100}%"></i></div></td><td class="n">${fmt(r.count)}</td><td class="n">${fmt(r.uniques)}</td></tr>`).join('')}</table>`:'<div class="muted">Noch keine externen Quellen.</div>'}</div></div>
+      <div class="card" style="margin-top:16px"><h3>Meistbesuchte GitHub-Seiten</h3>${paths.length?`<table><tr><th>Seite</th><th style="text-align:right">Aufrufe</th><th style="text-align:right">Personen</th></tr>${paths.map(p=>`<tr><td>${esc(p.path.replace('/'+REPO,'')||'/')} <span class="muted small">${esc(p.title)}</span></td><td class="n">${fmt(p.count)}</td><td class="n">${fmt(p.uniques)}</td></tr>`).join('')}</table>`:'<div class="muted">Noch keine Daten.</div>'}
+      <div class="row small muted" style="margin-top:10px">Zugang ist nur in diesem Browser gespeichert. <button class="btn" id="logout" style="padding:4px 10px;font-size:12px">Zugang entfernen</button></div></div>`;
+  }catch(e){box.innerHTML=lockHtml(`Zugang funktioniert nicht (${esc(e.message)}). Bitte prüfen.`)}
+}
+function lockHtml(err){return`<div class="lock"><b>🔒 Besucherzahlen, Herkunft & Seiten freischalten</b>
+  <div class="muted small" style="margin-top:4px">GitHub gibt diese Daten nur an den Besitzer heraus. Erstelle einmalig einen Lese-Zugang:</div>
+  <ol><li>Öffne <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" style="color:var(--accent2)">github.com → Settings → Fine-grained tokens → Generate new token</a></li>
+  <li>Name: <b>Setwerk Admin</b> · Repository access: <b>Only select repositories → setwerk</b></li>
+  <li>Permissions → Repository → <b>Administration: Read-only</b> · dann <b>Generate token</b></li>
+  <li>Token hier einfügen. Er bleibt nur in diesem Browser gespeichert.</li></ol>
+  <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="password" id="tok" placeholder="github_pat_…" style="flex:1;min-width:240px"><button class="btn pri" id="saveTok">Freischalten</button></div>
+  ${err?`<div class="err small" style="margin-top:8px">${err}</div>`:''}</div>`}
+
+/* Web-App usage: filled once an analytics service is connected (see SETWERK_ANALYTICS in config.js) */
+function loadWeb(){
+  const cfg=window.SETWERK_ANALYTICS;
+  if(cfg&&cfg.dashboard){$('#web').innerHTML=`<div class="card"><h3>Web-App & installierte Apps</h3><p class="muted">Anonyme Nutzungsstatistik (ohne Cookies, ohne persönliche Daten): Besuche, App-Starts, gebaute Sets, Plattformen, Länder.</p><a class="btn pri" href="${esc(cfg.dashboard)}" target="_blank" style="text-decoration:none;display:inline-block">Statistik-Dashboard öffnen →</a></div>`;return}
+  $('#web').innerHTML=`<div class="lock"><b>📊 Noch nicht verbunden</b><div class="muted" style="margin-top:6px">Die Web-App speichert alles nur lokal beim Nutzer. Für Zahlen wie <b>aktive Nutzer, App-Starts, installierte Web-Apps, gebaute Sets, Länder und Geräte</b> braucht es einen anonymen, cookie-freien Zähldienst. Sobald der verbunden ist, erscheinen die Zahlen hier.</div></div>`;
+}
+
+async function loadAll(){
+  $('#upd').textContent='lädt …';
+  try{await loadPublic()}catch(e){$('#kpis').innerHTML=`<div class="err">GitHub nicht erreichbar: ${esc(e.message)}</div>`}
+  await loadTraffic();loadWeb();
+  $('#upd').textContent='Stand: '+new Date().toLocaleString('de-DE');
+}
+document.addEventListener('click',e=>{
+  if(e.target.id==='reload')loadAll();
+  if(e.target.id==='saveTok'){const v=$('#tok').value.trim();if(!v)return;try{localStorage.setItem(LS,v)}catch(_){};loadAll()}
+  if(e.target.id==='logout'){try{localStorage.removeItem(LS)}catch(_){};loadAll()}
+});
+loadAll();
+</script>
+<script src="../config.js" onerror="void 0"></script>
+</body>
+</html>

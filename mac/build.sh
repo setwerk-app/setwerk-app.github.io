@@ -20,7 +20,7 @@ lipo -create "$OUT/Setwerk-arm64" "$OUT/Setwerk-x86_64" -output "$APP/Contents/M
 rm "$OUT"/Setwerk-arm64 "$OUT"/Setwerk-x86_64
 
 echo "▸ Ressourcen …"
-cp "$ROOT/index.html" "$ROOT/extra.js" "$ROOT/manifest.webmanifest" "$APP/Contents/Resources/web/"
+cp "$ROOT/app/index.html" "$ROOT/app/extra.js" "$ROOT/app/manifest.webmanifest" "$APP/Contents/Resources/web/"
 cp "$ROOT"/icons/*.png "$APP/Contents/Resources/web/icons/"
 cp Setwerk.icns "$APP/Contents/Resources/"
 

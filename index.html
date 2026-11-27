@@ -290,6 +290,15 @@ footer a{text-decoration:none}footer a:hover{color:var(--text)}
   <div class="note" style="max-width:980px;margin:22px auto 0">🔒 <b>Warum warnen macOS und Windows überhaupt?</b> Apple und Microsoft zeigen diese Meldung bei jeder App, die nicht über ein kostenpflichtiges Entwickler-Zertifikat signiert wurde. Setwerk ist quelloffen – den kompletten Code kannst du auf <a href="https://github.com/setwerk-app/setwerk-app.github.io">GitHub</a> einsehen. Die App braucht keine Internetverbindung (außer für den PDF-Export) und sendet keine Daten.</div>
 </div></section>
 
+<section id="newsletter" hidden style="padding-top:20px"><div class="wrap"><div style="max-width:720px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:34px;text-align:center">
+  <div class="eyebrow">Newsletter</div><h2 style="font-size:34px">Keine Neuigkeit verpassen</h2>
+  <p class="sublead" style="font-size:17px">Neue Versionen, neue Funktionen und Video-Tutorials – ungefähr einmal im Monat per E-Mail.</p>
+  <form id="nlForm" method="post" target="_blank" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px">
+    <input type="email" id="nlEmail" required placeholder="deine@email.de" style="flex:1;min-width:240px;max-width:380px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--text);font:inherit">
+    <button class="btn pri" type="submit">Anmelden</button></form>
+  <p style="color:var(--muted);font-size:13px;margin:14px 0 0">Du bekommst eine Bestätigungsmail (Double-Opt-in). Abmelden jederzeit mit einem Klick. Details in der <a href="datenschutz/">Datenschutzerklärung</a>.</p>
+</div></div></section>
+
 <section id="faq"><div class="wrap">
   <div class="center"><div class="eyebrow">Fragen & Antworten</div><h2>Gut zu wissen</h2></div>
   <div class="faq">
@@ -325,6 +334,13 @@ const h=location.hash.slice(1);
 if(['pkg','dmg','win','ios','web'].includes(h)){show(h);document.getElementById('download').scrollIntoView()}
 else if(ios)show('ios');else if(/Windows/.test(ua)&&!document.querySelector('[data-p=win]').hidden)show('win');else if(!mac)show('web');
 document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>{navigator.clipboard.writeText(document.getElementById(b.dataset.copy).textContent).then(()=>{b.textContent='Kopiert ✓';setTimeout(()=>b.textContent='Kopieren',1500)})});
+</script>
+<script src="config.js"></script>
+<script>
+(function(){var nl=window.SETWERK_NEWSLETTER;if(!nl||!nl.action)return;var f=document.getElementById('nlForm');f.action=nl.action;
+  document.getElementById('nlEmail').name=nl.field||'email';
+  Object.keys(nl.extra||{}).forEach(function(k){var i=document.createElement('input');i.type='hidden';i.name=k;i.value=nl.extra[k];f.appendChild(i)});
+  document.getElementById('newsletter').hidden=false;})();
 </script>
 </body>
 </html>

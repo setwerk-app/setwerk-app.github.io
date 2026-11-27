@@ -487,7 +487,7 @@ function newsletterHtml(compact){
   if(!nl)return compact?'':`<div class="small muted" style="margin-top:10px">🔔 Keine Neuigkeit verpassen: Auf <a href="https://github.com/setwerk-app/setwerk-app.github.io" target="_blank" style="color:var(--accent2)">GitHub</a> oben rechts auf <b>Watch → Custom → Releases</b> klicken.</div>`;
   return`<form class="nlform" action="${esc(nl.action)}" method="post" target="_blank" style="margin-top:12px">
     <div class="small" style="font-weight:700;margin-bottom:6px">📬 Updates, neue Funktionen & Video-Tutorials per E-Mail</div>
-    <div class="row" style="gap:6px"><input type="email" name="${esc(nl.field||'email')}" required placeholder="deine@email.de" style="flex:1;min-width:180px"><button class="btn sm pri" type="submit">Anmelden</button></div>
+    ${Object.entries(nl.extra||{}).map(([k,v])=>`<input type="hidden" name="${esc(k)}" value="${esc(v)}">`).join('')}<div class="row" style="gap:6px"><input type="email" name="${esc(nl.field||'email')}" required placeholder="deine@email.de" style="flex:1;min-width:180px"><button class="btn sm pri" type="submit">Anmelden</button></div>
     <div class="small muted" style="margin-top:6px">Du bekommst eine Bestätigungsmail (Double-Opt-in). Abmelden jederzeit mit einem Klick.</div></form>`;
 }
 function showWhatsNew(from){

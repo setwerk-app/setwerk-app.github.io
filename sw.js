@@ -1,5 +1,5 @@
 // Setwerk service worker: makes the app installable and fully usable offline.
-const VERSION = 'setwerk-v1';
+const VERSION = 'setwerk-v2';
 const SHELL = [
   './',
   './index.html',

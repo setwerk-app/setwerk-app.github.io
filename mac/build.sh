@@ -66,3 +66,22 @@ DMG="$OUT/Setwerk-$VERSION.dmg"
 hdiutil create -volname "Setwerk" -srcfolder "$STAGE" -ov -format UDZO -fs HFS+ "$DMG" >/dev/null
 rm -rf "$STAGE"
 echo "✓ $DMG ($(du -h "$DMG" | cut -f1))"
+
+echo "▸ PKG-Installer …"
+PKGROOT="$OUT/pkgroot"; PKGWORK="$OUT/pkgwork"
+mkdir -p "$PKGROOT/Applications" "$PKGWORK/res"
+cp -R "$APP" "$PKGROOT/Applications/"
+# Immer nach /Applications installieren (nicht an einen alten Ort "umziehen")
+pkgbuild --analyze --root "$PKGROOT" "$PKGWORK/component.plist" >/dev/null
+plutil -replace 0.BundleIsRelocatable -bool NO "$PKGWORK/component.plist"
+plutil -replace 0.BundleOverwriteAction -string upgrade "$PKGWORK/component.plist"
+pkgbuild --root "$PKGROOT" --component-plist "$PKGWORK/component.plist" \
+  --identifier io.github.setwerk.app --version "$VERSION" --install-location / \
+  "$PKGWORK/Setwerk-component.pkg" >/dev/null
+cp installer/welcome.html installer/conclusion.html installer/background.png "$PKGWORK/res/"
+sed "s/__VERSION__/$VERSION/" installer/distribution.xml > "$PKGWORK/distribution.xml"
+PKG="$OUT/Setwerk-$VERSION.pkg"
+productbuild --distribution "$PKGWORK/distribution.xml" --resources "$PKGWORK/res" \
+  --package-path "$PKGWORK" "$PKG" >/dev/null
+rm -rf "$PKGROOT" "$PKGWORK"
+echo "✓ $PKG ($(du -h "$PKG" | cut -f1))"

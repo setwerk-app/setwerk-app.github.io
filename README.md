@@ -11,8 +11,7 @@ Du nennst die Stimmung – Setwerk baut das Set.
 ## Benutzen
 
 - **Web-App:** https://zthsydnhbt-hub.github.io/setwerk/ (über „App installieren“ als App auf Mac, PC, iPhone und Android)
-- **Mac-App (DMG):** [neueste Version herunterladen](https://github.com/zthsydnhbt-hub/setwerk/releases/latest)
-  Die App ist nicht von Apple signiert. Beim ersten Start: Systemeinstellungen → Datenschutz & Sicherheit → „Trotzdem öffnen“
-  (oder `xattr -dr com.apple.quarantine /Applications/Setwerk.app`).
+- **Mac-App:** [neueste Version herunterladen](https://github.com/zthsydnhbt-hub/setwerk/releases/latest) – als Installer (`.pkg`, empfohlen) oder Disk-Image (`.dmg`).
+  Nicht von Apple signiert: beim ersten Öffnen Systemeinstellungen → Datenschutz & Sicherheit → „Trotzdem öffnen“.
 
-Mac-App selbst bauen: `./mac/build.sh 1.0.0` (benötigt die Xcode Command Line Tools).
+Mac-App, DMG und PKG selbst bauen: `./mac/build.sh 1.0.0` (benötigt die Xcode Command Line Tools).

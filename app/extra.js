@@ -514,7 +514,8 @@ function updateBannerHtml(){
     <span>🔔 <b>Neue Version ${esc(updateInfo.tag.replace(/^v/,''))} verfügbar</b> – du nutzt ${esc(window.__SETWERK_VERSION__)}.</span>
     <a class="btn sm pri" href="${dl}" target="_blank" style="text-decoration:none">Jetzt aktualisieren</a></div>`;
 }
-(()=>{const seen=lsGet('setwerk.seenVersion');if(seen&&vNum(seen)<vNum(APP_VERSION))setTimeout(()=>showWhatsNew(seen),600);lsSet('setwerk.seenVersion',APP_VERSION);setTimeout(checkForUpdate,1500)})();
+(()=>{const seen=lsGet('setwerk.seenVersion')||(state.tracks.length||state.sets.length?'1.1.0':null); // Nutzer von 1.1 hatten noch keine Versionsnummer gespeichert
+  if(seen&&vNum(seen)<vNum(APP_VERSION))setTimeout(()=>showWhatsNew(seen),600);lsSet('setwerk.seenVersion',APP_VERSION);setTimeout(checkForUpdate,1500)})();
 
 /* ================= Wiring ================= */
 function renderExtras(){

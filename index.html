@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Setwerk – DJ-Set-Planer</title>
+<meta name="description" content="Du nennst die Stimmung – Setwerk baut das Set.">
+<meta name="theme-color" content="#0b0d11">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Setwerk">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{
+  --bg:#0d0f14;--panel:#151922;--panel2:#1c212d;--line:#2a3040;--text:#e8ebf2;--muted:#8b93a7;
+  --accent:#ff5c39;--accent2:#ffb238;--good:#3ddc97;--mid:#ffc857;--bad:#ff5d73;--blue:#5aa9ff;
+  --r:12px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button,input,select{font:inherit;color:inherit}
+header{display:flex;align-items:center;gap:20px;padding:14px 24px;border-bottom:1px solid var(--line);background:#0b0d11;position:sticky;top:0;z-index:5;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.02em}
+.logo svg{width:28px;height:28px}
+.tag{color:var(--muted);font-size:13px}
+nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+#installBtn:not([hidden])+nav{margin-left:0}
+.modal{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;z-index:60;padding:16px}.modal .card{max-width:440px}
+nav button{background:none;border:0;padding:8px 14px;border-radius:8px;color:var(--muted);cursor:pointer;font-weight:600}
+nav button.on{background:var(--panel2);color:var(--text)}
+nav button .cnt{font-size:11px;background:var(--line);border-radius:10px;padding:1px 7px;margin-left:6px}
+main{max-width:1320px;margin:0 auto;padding:24px}
+.tab{display:none}.tab.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+h2{margin:0 0 4px;font-size:20px}h3{margin:0 0 10px;font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.sub{color:var(--muted);margin:0 0 16px}
+.btn{background:var(--panel2);border:1px solid var(--line);padding:9px 14px;border-radius:9px;cursor:pointer;font-weight:600;white-space:nowrap}
+.btn:hover{border-color:#3d4560}
+.btn.pri{background:linear-gradient(135deg,var(--accent),var(--accent2));border:0;color:#140a05}
+.btn.big{padding:14px 20px;font-size:16px;width:100%}
+.btn.sm{padding:4px 9px;font-size:12px;border-radius:7px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+input[type=text],input[type=number],input[type=search],select{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-width:0}
+input[type=number]{width:80px}
+label.f{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--muted);font-weight:600}
+.drop{border:2px dashed var(--line);border-radius:var(--r);padding:28px;text-align:center;cursor:pointer;transition:.15s}
+.drop.over,.drop:hover{border-color:var(--accent);background:#ff5c3910}
+.drop b{display:block;font-size:16px;margin-bottom:4px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:16px 0}
+.stat{background:var(--panel2);border-radius:10px;padding:12px 14px}
+.stat .v{font-size:22px;font-weight:800}.stat .l{font-size:12px;color:var(--muted)}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);position:sticky;top:0;background:var(--panel)}
+td.t{white-space:normal;max-width:340px}
+.tblwrap{max-height:60vh;overflow:auto;border-radius:8px}
+.key{display:inline-block;min-width:34px;text-align:center;padding:2px 6px;border-radius:6px;font-weight:700;font-size:12px;color:#0d0f14}
+.e{display:inline-flex;align-items:center;gap:6px}
+.ebar{width:46px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}.ebar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--accent))}
+.muted{color:var(--muted)}.small{font-size:12px}
+.grid2{display:grid;grid-template-columns:360px 1fr;gap:20px;align-items:start}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}main{padding:16px}header{padding:12px 16px}}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--panel2);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:13px;font-weight:600}
+.chip.on{border-color:var(--accent);background:#ff5c3922;color:#fff}
+.curves{display:grid;grid-template-columns:1fr;gap:6px}
+.curve{display:flex;gap:10px;align-items:center;border:1px solid var(--line);background:var(--panel2);border-radius:10px;padding:8px 10px;cursor:pointer}
+.curve.on{border-color:var(--accent);background:#ff5c3915}
+.curve svg{width:74px;height:30px;flex:none}
+.curve b{display:block;font-size:13px}.curve span{font-size:11px;color:var(--muted)}
+.sec{margin-bottom:18px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.score{font-size:42px;font-weight:900;line-height:1}
+.grade{font-size:14px;font-weight:800;padding:3px 9px;border-radius:7px;margin-left:8px;vertical-align:middle}
+.empty{padding:60px 20px;text-align:center;color:var(--muted)}
+.empty .big{font-size:44px;margin-bottom:6px}
+.tr{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;background:var(--panel2);border-radius:10px;padding:10px 12px}
+.tr .n{font-weight:800;color:var(--muted);text-align:center}
+.tr .ti{font-weight:700}.tr .ar{color:var(--muted);font-size:13px}
+.tr .meta{display:flex;gap:10px;align-items:center}
+.tr .act{display:flex;gap:4px}
+.tx{display:flex;gap:8px;align-items:center;padding:4px 0 4px 46px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.pill{border-radius:6px;padding:1px 7px;font-weight:700;font-size:11px;border:1px solid var(--line)}
+.sc{font-weight:800;border-radius:6px;padding:1px 7px;color:#0d0f14;font-size:11px}
+.srcitem{display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:center;padding:5px 4px;border-radius:6px;cursor:pointer;font-size:13px}
+.srcitem:hover{background:var(--panel2)}.srcitem input{accent-color:var(--accent);width:16px;height:16px;margin:0}
+.srclist{max-height:240px;overflow:auto}.srcgrp{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:8px 4px 2px;font-weight:700}
+.crate{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--panel2);border-radius:10px;padding:12px 14px;margin-bottom:8px}
+.keygrid{display:grid;grid-template-columns:repeat(12,1fr);gap:3px}
+.keygrid button{border:1px solid var(--line);background:var(--panel2);border-radius:5px;padding:4px 0;font-size:11px;font-weight:700;cursor:pointer}
+.keygrid button.on{color:#0d0f14}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#fff;color:#111;padding:10px 18px;border-radius:10px;font-weight:600;opacity:0;transition:.25s;pointer-events:none;z-index:50}
+.toast.on{opacity:1}
+.chart{width:100%;height:190px;display:block}
+td input[type=number]{width:52px;padding:3px 5px}
+.export{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(max-width:1100px){.export{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.export{grid-template-columns:1fr}.tr{grid-template-columns:26px 1fr}.tr .act{grid-column:2}.tx{padding-left:0}}
+details summary{cursor:pointer;color:var(--muted);font-weight:600;margin:10px 0}
+.brandgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+</style>
+</head>
+<body>
+<header style="padding-top:max(14px,env(safe-area-inset-top))">
+  <div class="logo">
+    <svg viewBox="0 0 32 32"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#ff5c39"/><stop offset="1" stop-color="#ffb238"/></linearGradient></defs><rect width="32" height="32" rx="8" fill="#1c212d"/><path d="M4 22 C9 22 9 10 14 10 S19 20 23 16 S27 8 28 8" stroke="url(#g)" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+    Setwerk
+  </div>
+  <div class="tag">Du nennst die Stimmung – Setwerk baut das Set.</div>
+  <button class="btn sm" id="installBtn" hidden style="margin-left:auto">⬇ App installieren</button>
+  <nav>
+    <button data-tab="build" class="on">Set-Builder</button>
+    <button data-tab="lib">Bibliothek <span class="cnt" id="libCnt">0</span></button>
+    <button data-tab="crates">Smart Crates <span class="cnt" id="crCnt">0</span></button>
+  </nav>
+</header>
+
+<main>
+<!-- ============ BUILDER ============ -->
+<section class="tab on" id="tab-build">
+  <div class="grid2">
+    <div class="card">
+      <div class="sec">
+        <h3>Quelle <span style="text-transform:none;letter-spacing:0;font-weight:500">– mehrere Crates anhaken zum Kombinieren</span></h3>
+        <div id="srcBox"></div>
+      </div>
+      <div class="sec">
+        <h3>Stimmung</h3>
+        <div class="chips" id="moods"></div>
+      </div>
+      <div class="sec">
+        <h3>Energiekurve</h3>
+        <div class="curves" id="curves"></div>
+      </div>
+      <div class="sec">
+        <h3>Länge: <span id="lenV" style="color:var(--text)">60 min</span></h3>
+        <input type="range" id="len" min="15" max="240" step="5" value="60">
+        <div class="row small muted" style="margin-top:8px">
+          Ø Spielzeit/Track
+          <select id="ppt"><option value="3">3 min</option><option value="4" selected>4 min</option><option value="5">5 min</option><option value="6">6 min</option></select>
+          Start-BPM <input type="number" id="startBpm" placeholder="auto" min="60" max="200">
+        </div>
+      </div>
+      <button class="btn pri big" id="go">⚡ Set bauen</button>
+      <p class="small muted" id="hint" style="margin:10px 0 0"></p>
+    </div>
+
+    <div>
+      <div class="card" id="result">
+        <div class="empty"><div class="big">🎛️</div>Wähle Stimmung und Energiekurve und klick auf <b>Set bauen</b>.<br><span class="small">Noch keine Bibliothek? Unter „Bibliothek“ Rekordbox-XML / Traktor-NML importieren oder die Demo laden.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LIBRARY ============ -->
+<section class="tab" id="tab-lib">
+  <div class="card">
+    <h2>Bibliothek</h2>
+    <p class="sub">Importiere deine <b>Rekordbox</b>-Collection (Datei → Collection im XML-Format exportieren), deine <b>Traktor</b> <code>collection.nml</code> oder deine <b>Serato DJ Pro</b>-Datenbank <code>Musik/_Serato_/database V2</code>. Alles bleibt lokal in deinem Browser.</p>
+    <div class="drop" id="drop">
+      <b>Datei hierher ziehen oder klicken</b>
+      <span class="muted">rekordbox.xml · collection.nml · Serato „database V2“ · Serato .crate-Dateien · ganzer _Serato_-Ordner</span>
+      <input type="file" id="file" multiple hidden>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <label class="btn" style="cursor:pointer">📁 Ordner importieren (z. B. _Serato_)<input type="file" id="dir" webkitdirectory multiple hidden></label>
+      <button class="btn" id="demo">Demo-Bibliothek laden</button>
+      <button class="btn" id="clear">Bibliothek leeren</button>
+      <label class="small muted row" style="gap:6px" title="Serato & Co. erkennen schnelle Tracks oft im halben Tempo (z. B. 80 statt 160 BPM)">Tracks &lt; 100 BPM als Double-Time
+        <select id="halftime"><option value="auto">nur Club-Genres</option><option value="all">immer</option><option value="off">nie</option></select></label>
+      <span class="small muted">Energie fehlt? Setwerk liest „Energy N“ aus Kommentaren (z. B. Mixed In Key) oder schätzt sie aus BPM + Genre. Du kannst sie in der Tabelle anpassen.</span>
+    </div>
+    <div class="stats" id="libStats"></div>
+    <div class="row" style="margin-bottom:10px">
+      <input type="search" id="q" placeholder="Suchen: Titel, Artist, Genre, 8A, 124 …" style="flex:1;min-width:200px">
+      <span class="small muted" id="qInfo"></span>
+    </div>
+    <div class="tblwrap"><table id="libTbl"><thead><tr><th>Titel</th><th>Artist</th><th>Genre</th><th>BPM</th><th>Key</th><th>Energie</th><th>Dauer</th></tr></thead><tbody></tbody></table></div>
+  </div>
+</section>
+
+<!-- ============ CRATES ============ -->
+<section class="tab" id="tab-crates">
+  <div class="grid2">
+    <div class="card">
+      <h2 id="crFormTitle">Neue Smart Crate</h2>
+      <p class="sub">Filtert automatisch nach Genre, BPM, Energie und Tonart – und bleibt aktuell, wenn du neu importierst.</p>
+      <div style="display:grid;gap:12px">
+        <label class="f">Name<input type="text" id="crName" placeholder="z. B. Peak Techno 130+"></label>
+        <label class="f">Genre enthält (Komma-getrennt, leer = alle)<input type="text" id="crGenre" placeholder="techno, acid"></label>
+        <div class="row">
+          <label class="f">BPM von<input type="number" id="crBmin" placeholder="—"></label>
+          <label class="f">bis<input type="number" id="crBmax" placeholder="—"></label>
+          <label class="f">Energie von<input type="number" id="crEmin" min="1" max="10" placeholder="1"></label>
+          <label class="f">bis<input type="number" id="crEmax" min="1" max="10" placeholder="10"></label>
+        </div>
+        <label class="f">Tonart (Camelot – leer = alle)</label>
+        <div>
+          <div class="keygrid" id="crKeysA"></div>
+          <div class="keygrid" id="crKeysB" style="margin-top:3px"></div>
+        </div>
+        <div class="row"><span class="small muted">Live-Treffer: <b id="crLive">0</b></span></div>
+        <div class="row">
+          <button class="btn pri" id="crSave">Crate speichern</button>
+          <button class="btn" id="crReset">Zurücksetzen</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div id="crList"></div>
+    </div>
+  </div>
+</section>
+</main>
+<div class="toast" id="toast"></div>
+<div class="modal" id="installHelp" hidden><div class="card">
+  <h2>Setwerk installieren</h2>
+  <p class="sub" id="installTxt"></p>
+  <button class="btn pri" onclick="this.closest('.modal').hidden=true">Alles klar</button>
+</div></div>
+
+<script>
+/* ================= Utils ================= */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const fmtTime=s=>{s=Math.round(s||0);const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return h?`${h}:${String(m).padStart(2,'0')}:${String(x).padStart(2,'0')}`:`${m}:${String(x).padStart(2,'0')}`};
+const uid=()=>Math.random().toString(36).slice(2,10);
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2200)}
+function download(name,content,type){const b=content instanceof Blob?content:new Blob([content],{type});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+const slug=s=>(s||'set').normalize('NFKD').replace(/[^\w\s-]/g,'').trim().replace(/\s+/g,'-').toLowerCase()||'set';
+const scoreColor=s=>s>=85?'var(--good)':s>=65?'var(--mid)':'var(--bad)';
+const grade=s=>s>=92?'A+':s>=85?'A':s>=75?'B':s>=65?'C':'D';
+
+/* ================= Keys (Camelot) ================= */
+const MAJ={C:8,G:9,D:10,A:11,E:12,B:1,CB:1,'F#':2,GB:2,DB:3,'C#':3,AB:4,'G#':4,EB:5,'D#':5,BB:6,'A#':6,F:7,'E#':7};
+const MIN={A:8,E:9,B:10,'F#':11,GB:11,'C#':12,DB:12,'G#':1,AB:1,'D#':2,EB:2,'A#':3,BB:3,F:4,C:5,G:6,D:7};
+const TRAKTOR_KEYS=['8B','3B','10B','5B','12B','7B','2B','9B','4B','11B','6B','1B','5A','12A','7A','2A','9A','4A','11A','6A','1A','8A','3A','10A'];
+function parseKey(raw){
+  if(raw==null)return null;let s=String(raw).trim();if(!s)return null;
+  let m=s.match(/^0?(\d{1,2})\s*([AB])$/i);if(m){const n=+m[1];if(n>=1&&n<=12)return n+m[2].toUpperCase()}
+  m=s.match(/^(\d{1,2})\s*([dm])$/i);if(m){const n=+m[1];if(n>=1&&n<=12)return(((n+6)%12)+1)+(m[2].toLowerCase()==='d'?'B':'A')}
+  s=s.replace(/♯/g,'#').replace(/♭/g,'b').replace(/\s+/g,'');
+  let minor=false;
+  if(/(minor|min|moll)$/i.test(s)){minor=true;s=s.replace(/(minor|min|moll)$/i,'')}
+  else if(/(major|maj|dur)$/i.test(s)){s=s.replace(/(major|maj|dur)$/i,'')}
+  else if(/m$/.test(s)&&s.length>1){minor=true;s=s.slice(0,-1)}
+  s=s.toUpperCase();const n=(minor?MIN:MAJ)[s];return n?n+(minor?'A':'B'):null;
+}
+// Camelot wheel colours
+function keyColor(k){if(!k)return'#555';const n=parseInt(k),l=k.slice(-1);const h=((n-1)*30+150)%360;return`hsl(${h} ${l==='A'?'70%':'85%'} ${l==='A'?'62%':'72%'})`}
+const keyHtml=k=>k?`<span class="key" style="background:${keyColor(k)}">${k}</span>`:'<span class="muted">–</span>';
+const eHtml=e=>`<span class="e"><span class="ebar"><i style="width:${e*10}%"></i></span>${e}</span>`;
+
+/* ================= Mix theory scoring ================= */
+function keyRel(a,b){
+  if(!a.kn||!b.kn)return{s:.5,l:'Key unbekannt'};
+  const d=((b.kn-a.kn)+12)%12,same=a.kl===b.kl;
+  if(same){
+    if(d===0)return{s:1,l:'Perfekt'};
+    if(d===1||d===11)return{s:.9,l:'Harmonisch'};
+    if(d===2)return{s:.62,l:'Energie-Boost +2'};
+    if(d===10)return{s:.5,l:'Energie −2'};
+    if(d===7)return{s:.45,l:'Halbton-Boost'};
+    return{s:.1,l:'Key-Clash'};
+  }
+  if(d===0)return{s:.85,l:'Relativ (Dur/Moll)'};
+  if((a.kl==='A'&&d===1)||(a.kl==='B'&&d===11))return{s:.55,l:'Diagonal'};
+  return{s:.12,l:'Key-Clash'};
+}
+function bpmRel(a,b){
+  if(!a||!b)return{s:.5,d:0,hd:false};
+  const r=b/a;let best=r,hd=false;
+  for(const c of[r*2,r/2])if(Math.abs(c-1)<Math.abs(best-1)){best=c;hd=true}
+  const d=(best-1)*100,ad=Math.abs(d);
+  return{s:ad<=1?1:ad<=3?.85:ad<=5?.6:ad<=8?.35:.08,d,hd};
+}
+function energyRel(a,b,target){
+  const fit=clamp(1-Math.abs(b.energy-target)/4,0,1);
+  const j=Math.abs(b.energy-a.energy),jp=j<=2?1:j<=3?.65:.25;
+  return .7*fit+.3*jp;
+}
+const W_KEY=.4,W_BPM=.35,W_E=.25;
+function trans(a,b,target){
+  const k=keyRel(a,b),bp=bpmRel(a.bpm,b.bpm),es=energyRel(a,b,target);
+  return{total:100*(W_KEY*k.s+W_BPM*bp.s+W_E*es),k,bp,es};
+}
+
+/* ================= Energy curves & moods ================= */
+const CURVES=[
+  {id:'journey',name:'Warm-up → Peak → Cooldown',desc:'Der klassische Club-Bogen',f:t=>t<.7?.12+.88*Math.pow(t/.7,1.25):1-.6*((t-.7)/.3)},
+  {id:'build',name:'Stetiger Aufbau',desc:'Opener / Warm-up-Slot',f:t=>.08+.92*t},
+  {id:'peak',name:'Peak Time',desc:'Hoch einsteigen, oben bleiben',f:t=>.72+.28*Math.sin(Math.min(1,t*1.5)*Math.PI/2)-(t>.85?(t-.85)*1.2:0)},
+  {id:'waves',name:'Wellen',desc:'Spannung, Breaks, neue Peaks',f:t=>.55+.36*Math.sin(t*Math.PI*3.5-Math.PI/2)*(.55+.45*t)},
+  {id:'sunset',name:'Sunset / Cooldown',desc:'Closing & Afterhour',f:t=>.95-.87*t},
+];
+const MOODS=[
+  {id:'open',name:'🎲 Offen',re:null,bpm:[0,999],e:[2,10],mode:null},
+  {id:'deep',name:'🌊 Deep & hypnotisch',re:/deep|minimal|dub|hypno|organic|melodic|micro/i,bpm:[116,127],e:[3,7],mode:'A'},
+  {id:'dark',name:'🖤 Dunkel & treibend',re:/techno|industrial|dark|peak|hard|acid|ebm|rave/i,bpm:[125,145],e:[5,10],mode:'A'},
+  {id:'euph',name:'☀️ Euphorisch',re:/trance|progressive|big ?room|uplift|edm|melodic|vocal|house/i,bpm:[122,140],e:[5,10],mode:'B'},
+  {id:'groove',name:'🕺 Groovy & funky',re:/house|disco|funk|soul|jack|garage|boogie|tech house/i,bpm:[112,128],e:[4,8],mode:null},
+  {id:'emo',name:'💫 Melodisch & emotional',re:/melodic|progressive|indie|afro|organic|downtempo|deep/i,bpm:[110,127],e:[3,8],mode:'A'},
+  {id:'chill',name:'🍹 Chill / Lounge',re:/chill|lounge|downtempo|ambient|lo-?fi|balearic|jazz|hip ?hop|dub/i,bpm:[70,116],e:[1,5],mode:null},
+];
+function moodFit(t,m){
+  let g=1;if(m.re)g=t.genre?(m.re.test(t.genre)?1:0):.4;
+  const[b0,b1]=m.bpm,tb=effBpm(t.bpm,t.genre);let bp=1;if(tb<b0)bp=clamp(1-(b0-tb)/8,0,1);else if(tb>b1)bp=clamp(1-(tb-b1)/8,0,1);
+  const[e0,e1]=m.e;const ef=t.energy<e0?clamp(1-(e0-t.energy)/2,0,1):t.energy>e1?clamp(1-(t.energy-e1)/2,0,1):1;
+  const md=!m.mode||!t.kl?1:t.kl===m.mode?1:.6;
+  return .45*g+.25*bp+.15*ef+.15*md;
+}
+
+/* ================= State & persistence ================= */
+const LS='setwerk.v1';
+const state={tracks:[],crates:[],brand:{dj:'',title:'',event:'',color:'#ff5c39',logo:''},set:null,mood:'open',curve:'journey',src:'all',halftime:'auto'};
+function save(){libVer++;state.crates.forEach(c=>delete c._busy);try{localStorage.setItem(LS,JSON.stringify({tracks:state.tracks,crates:state.crates,brand:state.brand,mood:state.mood,curve:state.curve,halftime:state.halftime}))}catch(e){toast('Hinweis: Speichern im Browser nicht möglich (zu groß?)')}}
+function load(){try{const d=JSON.parse(localStorage.getItem(LS)||'null');if(d){Object.assign(state,{tracks:d.tracks||[],crates:d.crates||[],brand:Object.assign(state.brand,d.brand||{}),mood:d.mood||'open',curve:d.curve||'journey',halftime:d.halftime||'auto'})}}catch(e){}state.tracks.forEach(prep);$('#halftime').value=state.halftime}
+function prep(t){const k=t.key;t.kn=k?parseInt(k):0;t.kl=k?k.slice(-1):'';return t}
+
+/* ================= Energy estimate ================= */
+function energyFromComment(c){if(!c)return null;let m=String(c).match(/energy\s*[:#-]?\s*(\d{1,2})/i);if(m){const v=+m[1];if(v>=1&&v<=10)return v}return null}
+// Analysers (esp. Serato) often detect half-time on fast club music: 80 → 160
+const CLUB_RE=/techno|house|trance|tech|hard|drum|dnb|psy|rave|edm|dance|schranz|hardstyle|bass|club/i;
+const effBpm=(bpm,genre)=>{if(!bpm||bpm>=100||state.halftime==='off')return bpm;if(state.halftime==='all')return bpm*2;return CLUB_RE.test(genre||'')?bpm*2:bpm};
+function estimateEnergy(bpm,genre){
+  bpm=effBpm(bpm,genre);
+  let e=bpm<95?2:bpm<110?3:bpm<118?4:bpm<123?5:bpm<127?6:bpm<130?7:bpm<136?8:9;
+  const g=(genre||'').toLowerCase();
+  if(/ambient|chill|lounge|downtempo|lo-?fi|jazz/.test(g))e-=2;
+  else if(/deep|minimal|organic|dub/.test(g))e-=1;
+  if(/hard|peak|industrial|trance|drum|dnb|psy|rave|big room/.test(g))e+=1;
+  return clamp(e,1,10);
+}
+function finalize(t){
+  t.bpm=+(+t.bpm||0).toFixed(2);
+  const ce=energyFromComment(t.comment);
+  if(ce){t.energy=ce;t.eSrc='tag'}else{t.energy=estimateEnergy(t.bpm,t.genre);t.eSrc='est'}
+  return prep(t);
+}
+
+/* ================= Import: Rekordbox XML / Traktor NML ================= */
+function pathFromRbLocation(loc){if(!loc)return'';let p=loc.replace(/^file:\/\/localhost/i,'').replace(/^file:\/\//i,'');try{p=decodeURIComponent(p)}catch(e){}if(/^\/[A-Za-z]:/.test(p))p=p.slice(1);return p}
+function parseRekordbox(doc){
+  return $$('COLLECTION > TRACK',doc).map(n=>{const a=x=>n.getAttribute(x)||'';const loc=a('Location');
+    return finalize({id:uid(),srcId:a('TrackID'),title:a('Name')||'(ohne Titel)',artist:a('Artist'),album:a('Album'),genre:a('Genre'),bpm:parseFloat(a('AverageBpm'))||0,keyRaw:a('Tonality'),key:parseKey(a('Tonality')),dur:+a('TotalTime')||0,comment:a('Comments'),path:pathFromRbLocation(loc),kind:a('Kind'),size:a('Size')});
+  });
+}
+function parseTraktor(doc){
+  return $$('COLLECTION > ENTRY',doc).map(n=>{
+    const info=$('INFO',n),tempo=$('TEMPO',n),mk=$('MUSICAL_KEY',n),lo=$('LOCATION',n);
+    const g=(el,x)=>el?el.getAttribute(x)||'':'';
+    let key=null;if(mk&&mk.getAttribute('VALUE')!=null){key=TRAKTOR_KEYS[+mk.getAttribute('VALUE')]||null}
+    if(!key)key=parseKey(g(info,'KEY'));
+    let path='';if(lo){const vol=g(lo,'VOLUME');path=g(lo,'DIR').replace(/\/:/g,'/')+g(lo,'FILE');if(/^[A-Za-z]:$/.test(vol))path=vol+path}
+    return finalize({id:uid(),title:n.getAttribute('TITLE')||'(ohne Titel)',artist:n.getAttribute('ARTIST')||'',album:g($('ALBUM',n),'TITLE'),genre:g(info,'GENRE'),bpm:parseFloat(g(tempo,'BPM'))||0,keyRaw:g(info,'KEY'),key,dur:+g(info,'PLAYTIME')||0,comment:g(info,'COMMENT'),path});
+  });
+}
+/* ---- Serato DJ Pro: binary "database V2" (tag + u32 BE length + payload, text = UTF-16BE) ---- */
+function parseSerato(buf){
+  const dv=new DataView(buf),u8=new Uint8Array(buf);
+  const tag=o=>String.fromCharCode(u8[o],u8[o+1],u8[o+2],u8[o+3]);
+  const utf16=(o,l)=>{let s='';for(let i=o;i+1<o+l;i+=2)s+=String.fromCharCode(dv.getUint16(i));return s.replace(/\0+$/,'')};
+  const fields=(o,end)=>{const f={};while(o+8<=end){const t=tag(o),l=dv.getUint32(o+4),d=o+8;if(d+l>end)break;if(t[0]==='t'||t[0]==='p')f[t]=utf16(d,l);o=d+l}return f};
+  const out=[];let o=0;
+  while(o+8<=u8.length){const t=tag(o),l=dv.getUint32(o+4);if(o+8+l>u8.length)break;
+    if(t==='otrk'){const f=fields(o+8,o+8+l);const raw=f.pfil||'';
+      let path=raw.replace(/\\/g,'/');if(!/^[A-Za-z]:/.test(path)&&!path.startsWith('/'))path='/'+path;
+      let dur=0;const m=(f.tlen||'').match(/(?:(\d+):)?(\d+):(\d+(?:\.\d+)?)/);if(m)dur=(+m[1]||0)*3600+(+m[2])*60+(+m[3]);
+      out.push(finalize({id:uid(),title:f.tsng||raw.split(/[\\/]/).pop()||'(ohne Titel)',artist:f.tart||'',album:f.talb||'',genre:f.tgen||'',bpm:parseFloat(f.tbpm)||0,keyRaw:f.tkey||'',key:parseKey(f.tkey),dur,comment:f.tcom||'',path,seratoPath:raw}));
+    }
+    o+=8+l}
+  return out;
+}
+function seratoVersion(buf){const dv=new DataView(buf);const l=dv.getUint32(4);let s='';for(let i=8;i+1<8+l&&i+1<buf.byteLength;i+=2)s+=String.fromCharCode(dv.getUint16(i));return s}
+function parseSeratoCrate(buf){
+  const dv=new DataView(buf),u8=new Uint8Array(buf),tag=o=>String.fromCharCode(u8[o],u8[o+1],u8[o+2],u8[o+3]),paths=[];let o=0;
+  while(o+8<=u8.length){const t=tag(o),l=dv.getUint32(o+4);if(o+8+l>u8.length)break;
+    if(t==='otrk'){let p=o+8;const end=p+l;while(p+8<=end){const tt=tag(p),ll=dv.getUint32(p+4);if(tt==='ptrk'){let s='';for(let i=p+8;i+1<p+8+ll;i+=2)s+=String.fromCharCode(dv.getUint16(i));paths.push(s)}p+=8+ll}}
+    o+=8+l}
+  return paths;
+}
+function crateNameFromFile(name){return name.replace(/^.*[\\/]/,'').replace(/\.s?crate$/i,'').split('%%').join(' › ')}
+function importBuffer(buf,name){
+  const head=String.fromCharCode(...new Uint8Array(buf.slice(0,4)));
+  if(head==='vrsn'){
+    const ver=seratoVersion(buf);
+    if(/smart/i.test(ver)||/\.scrate$/i.test(name))throw new Error(`${crateNameFromFile(name)}: Serato-Smart-Crates enthalten nur Regeln – leg sie hier als Smart Crate neu an`);
+    if(/crate/i.test(ver)||/\.crate$/i.test(name)){
+      return addLists([{name:crateNameFromFile(name),from:'Serato',paths:parseSeratoCrate(buf)}],name);
+    }
+    const tracks=parseSerato(buf);
+    if(!tracks.length)throw new Error('Keine Tracks in der Serato-Datenbank gefunden');
+    return mergeTracks(tracks,name);
+  }
+  importText(new TextDecoder('utf-8').decode(buf),name);
+}
+function importText(text,name){
+  const doc=new DOMParser().parseFromString(text,'application/xml');
+  if(doc.querySelector('parsererror'))throw new Error('Unbekanntes Format – erwartet Rekordbox-XML, Traktor-NML, Serato „database V2“ oder .crate');
+  const root=doc.documentElement.nodeName;let tracks,lists;
+  if(root==='DJ_PLAYLISTS'){tracks=parseRekordbox(doc);lists=rbPlaylists(doc,tracks)}
+  else if(root==='NML'){tracks=parseTraktor(doc);lists=nmlPlaylists(doc)}
+  else throw new Error('Unbekanntes Format – erwartet Rekordbox-XML, Traktor-NML, Serato „database V2“ oder .crate');
+  mergeTracks(tracks,name,lists);
+}
+/* Playlists from Rekordbox XML */
+function rbPlaylists(doc,tracks){
+  const byId=new Map(tracks.map(t=>[t.srcId,t])),out=[];
+  const walk=(node,prefix)=>{for(const ch of node.children){if(ch.nodeName!=='NODE')continue;const nm=ch.getAttribute('Name')||'';
+    if(ch.getAttribute('Type')==='1'){const kt=ch.getAttribute('KeyType');
+      const paths=[...ch.children].filter(x=>x.nodeName==='TRACK').map(x=>{const k=x.getAttribute('Key');return kt==='1'?pathFromRbLocation(k):byId.get(k)?.path}).filter(Boolean);
+      out.push({name:prefix+nm,from:'Rekordbox',paths})}
+    else walk(ch,prefix+(nm&&nm!=='ROOT'?nm+' › ':''))}};
+  const root=doc.querySelector('PLAYLISTS > NODE');if(root)walk(root,'');return out;
+}
+/* Playlists from Traktor NML */
+function nmlKeyToPath(k){if(!k)return'';const i=k.indexOf('/:');if(i<0)return'';const vol=k.slice(0,i);let p=k.slice(i).replace(/\/:/g,'/');if(/^[A-Za-z]:$/.test(vol))p=vol+p;return p}
+function nmlPlaylists(doc){
+  const out=[];
+  const walk=(node,prefix)=>{const subs=[...node.children].find(x=>x.nodeName==='SUBNODES');if(!subs)return;
+    for(const n of subs.children){if(n.nodeName!=='NODE')continue;const nm=n.getAttribute('NAME')||'',type=n.getAttribute('TYPE');
+      if(type==='PLAYLIST'){if(nm.startsWith('_'))continue;const paths=$$('PLAYLIST > ENTRY > PRIMARYKEY',n).map(k=>nmlKeyToPath(k.getAttribute('KEY'))).filter(Boolean);out.push({name:prefix+nm,from:'Traktor',paths})}
+      else if(type==='FOLDER')walk(n,prefix+(nm&&nm!=='$ROOT'?nm+' › ':''))}};
+  const root=doc.querySelector('PLAYLISTS > NODE');if(root)walk(root,'');return out;
+}
+let bulk=null; // collects stats while importing many files at once
+function addLists(lists,name,quiet){
+  let n=0;
+  for(const l of lists){const ex=state.crates.find(c=>c.kind==='list'&&c.from===l.from&&c.name===l.name);
+    if(ex)ex.paths=l.paths;else state.crates.push({id:uid(),kind:'list',name:l.name,from:l.from,paths:l.paths});n++}
+  if(quiet)return n;
+  save();renderAll();
+  if(bulk)bulk.crates+=n;else toast(lists.length===1?`Crate „${lists[0].name}“ importiert (${crateTracks(state.crates.find(c=>c.kind==='list'&&c.name===lists[0].name&&c.from===lists[0].from)).length}/${lists[0].paths.length} Tracks gefunden)`:`${n} Playlists importiert`);
+}
+function mergeTracks(tracks,name,lists=[]){
+  // merge by path (or artist+title)
+  const keyOf=t=>(t.path||'').toLowerCase()||(t.artist+'|'+t.title).toLowerCase();
+  const map=new Map(state.tracks.map(t=>[keyOf(t),t]));let added=0,upd=0;
+  for(const t of tracks){const k=keyOf(t),old=map.get(k);if(old){if(old.eSrc==='manual'){t.energy=old.energy;t.eSrc='manual'}t.id=old.id;Object.assign(old,t);upd++}else{map.set(k,t);added++}}
+  state.tracks=[...map.values()];
+  const nl=addLists(lists,name,true);
+  save();renderAll();
+  if(bulk){bulk.tracks+=added;bulk.crates+=nl}else toast(`${name}: ${added} neu, ${upd} aktualisiert${nl?`, ${nl} Playlists`:''}`);
+}
+
+/* ================= Demo library ================= */
+function demoLibrary(){
+  const r=mulberry32(42),pick=a=>a[Math.floor(r()*a.length)];
+  const G=[['Deep House',118,124],['Tech House',124,128],['Techno',128,136],['Peak Time Techno',132,140],['Melodic Techno',120,126],['Progressive House',122,128],['Nu Disco',110,122],['Afro House',118,124],['Trance',134,140],['Downtempo',88,110],['House',120,126],['Minimal / Deep Tech',123,127]];
+  const A1=['Kal','Mor','Vel','Ana','Rho','Zen','Lu','Dax','Ori','Sol','Neo','Tam','Ira','Bex','Nor'],A2=['ven','ix','ara','do','rin','tek','mo','sa','lon','ka','is','um'];
+  const W1=['Midnight','Velvet','Hollow','Solar','Neon','Silent','Broken','Golden','Liquid','Distant','Electric','Paper','Crystal','Lost','Wild','Analog','Blue','Deep','Rising','Burning'];
+  const W2=['Signal','Horizon','Ritual','Garden','Pulse','Echo','Tides','Machine','Dreams','Motion','Fever','Orbit','Shadows','Waves','Temple','Circuit','Bloom','Mirage','Voltage','Memory'];
+  const MX=['Original Mix','Extended Mix','Club Mix','Dub','Remix','Vocal Mix'];
+  const out=[];
+  for(let i=0;i<260;i++){const[g,b0,b1]=pick(G);const bpm=Math.round(b0+r()*(b1-b0));const key=(1+Math.floor(r()*12))+(r()<.65?'A':'B');
+    const artist=pick(A1)+pick(A2)+(r()<.25?' & '+pick(A1)+pick(A2):'');const title=`${pick(W1)} ${pick(W2)} (${pick(MX)})`;
+    let e=estimateEnergy(bpm,g)+(r()<.3?1:r()<.3?-1:0);e=clamp(e,1,10);
+    out.push(prep({id:uid(),title,artist,genre:g,bpm,key,keyRaw:key,energy:e,eSrc:'tag',dur:Math.round(300+r()*240),comment:`${key} - Energy ${e}`,path:`/Users/dj/Music/Demo/${slug(artist)}-${slug(title)}.mp3`}));
+  }
+  return out;
+}
+
+/* ================= Crates ================= */
+function crateMatch(c,t){
+  if(c.genres){const gs=c.genres.split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);if(gs.length&&!gs.some(g=>(t.genre||'').toLowerCase().includes(g)))return false}
+  if(c.bmin&&t.bpm<c.bmin)return false;if(c.bmax&&t.bpm>c.bmax)return false;
+  if(c.emin&&t.energy<c.emin)return false;if(c.emax&&t.energy>c.emax)return false;
+  if(c.keys&&c.keys.length&&!c.keys.includes(t.key))return false;
+  return true;
+}
+/* path index for playlist/crate resolution (rebuilt whenever the library is saved) */
+let libVer=0,pathIdx=null,pathIdxVer=-1;const crCache=new Map();
+const normP=p=>(p||'').normalize('NFC').replace(/\\/g,'/').replace(/^[A-Za-z]:/,'').replace(/^\/+/,'').toLowerCase();
+function resolvePath(p){
+  if(pathIdxVer!==libVer){pathIdx=new Map();for(const t of state.tracks){if(t.path)pathIdx.set(normP(t.path),t);if(t.seratoPath)pathIdx.set(normP(t.seratoPath),t)}pathIdxVer=libVer}
+  const n=normP(p);let t=pathIdx.get(n);if(t)return t;
+  // Serato paths are relative to the drive root: "Tekk/x.wav" ↔ "/Volumes/FK MUSIK/Tekk/x.wav"
+  const m=n.match(/^volumes\/[^/]+\/(.*)$/);if(m&&(t=pathIdx.get(m[1])))return t;
+  for(const[k,v]of pathIdx)if(k.endsWith('/'+n)||n.endsWith('/'+k))return v;
+  return null;
+}
+function crateTracks(c){
+  if(c.kind==='merge'){if(c._busy)return[];c._busy=true;const seen=new Set(),ts=[];
+    try{for(const id of c.members){const m=state.crates.find(x=>x.id===id);if(!m)continue;for(const t of crateTracks(m))if(!seen.has(t.id)){seen.add(t.id);ts.push(t)}}}finally{c._busy=false}
+    return ts}
+  if(c.kind!=='list')return state.tracks.filter(t=>crateMatch(c,t));
+  const hit=crCache.get(c.id);if(hit&&hit.v===libVer&&hit.n===c.paths.length)return hit.ts;
+  const seen=new Set(),ts=[];for(const p of c.paths){const t=resolvePath(p);if(t&&!seen.has(t.id)){seen.add(t.id);ts.push(t)}}
+  crCache.set(c.id,{v:libVer,n:c.paths.length,ts});return ts;
+}
+function crateDesc(c){const p=[];if(c.genres)p.push('Genre: '+c.genres);if(c.bmin||c.bmax)p.push(`BPM ${c.bmin||'…'}–${c.bmax||'…'}`);if(c.emin||c.emax)p.push(`Energie ${c.emin||1}–${c.emax||10}`);if(c.keys&&c.keys.length)p.push('Keys: '+c.keys.join(' '));return p.join(' · ')||'Alle Tracks'}
+
+/* ================= Set generation (beam search) ================= */
+const srcSel=new Set(); // empty = whole library
+function sourceTracks(){for(const id of[...srcSel])if(!state.crates.find(c=>c.id===id))srcSel.delete(id);return srcSel.size?mergeUnion([...srcSel]).ts:state.tracks}
+function renderSource(){
+  for(const id of[...srcSel])if(!state.crates.find(c=>c.id===id))srcSel.delete(id);
+  const groups=[['📦','Smart Crates',state.crates.filter(c=>!c.kind)],['🔗','Zusammengeführt',state.crates.filter(c=>c.kind==='merge')],...['Serato','Rekordbox','Traktor','Setwerk'].map(f=>['💿',f+'-Crates',state.crates.filter(c=>c.kind==='list'&&c.from===f)])].filter(g=>g[2].length);
+  const item=(c,icon)=>`<label class="srcitem"><input type="checkbox" data-src="${c.id}" ${srcSel.has(c.id)?'checked':''}><span>${icon} ${esc(c.name)}</span><span class="muted small">${crateTracks(c).length}</span></label>`;
+  let h=`<label class="srcitem" style="border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:4px"><input type="checkbox" data-src="all" ${srcSel.size?'':'checked'}><span><b>Gesamte Bibliothek</b></span><span class="muted small">${state.tracks.length}</span></label>`;
+  if(groups.length){h+=`<input type="search" id="srcQ" placeholder="Crates filtern …" value="${esc(srcQ)}" style="width:100%;margin:4px 0 6px"><div class="srclist">`;
+    for(const[icon,label,cs]of groups){const vis=cs.filter(c=>!srcQ||c.name.toLowerCase().includes(srcQ.toLowerCase()));if(!vis.length)continue;h+=`<div class="srcgrp">${label}</div>`+vis.map(c=>item(c,icon)).join('')}
+    h+='</div>'}
+  else h+='<div class="small muted">Noch keine Crates – im Tab „Smart Crates“ anlegen oder Serato-Crates importieren.</div>';
+  if(srcSel.size){const u=mergeUnion([...srcSel]);
+    h+=`<div class="small" style="margin-top:8px"><b>${u.ts.length} Tracks</b> <span class="muted">aus ${srcSel.size} Crate${srcSel.size>1?'s':''}${u.sum>u.ts.length?` · ${u.sum-u.ts.length} Duplikate entfernt`:''}</span></div>`;
+    if(srcSel.size>1)h+=`<div class="row" style="margin-top:8px;gap:6px"><input type="text" id="srcName" placeholder="Name für neue Crate" style="flex:1;min-width:120px"><button class="btn sm" id="srcSave">Als neue Crate speichern</button></div>`}
+  const box=$('#srcBox'),sc=box.querySelector('.srclist')?.scrollTop||0,hadFocus=document.activeElement?.id==='srcQ';
+  box.innerHTML=h;const l=box.querySelector('.srclist');if(l)l.scrollTop=sc;
+  if(hadFocus){const q=$('#srcQ');q.focus();q.setSelectionRange(q.value.length,q.value.length)}
+}
+let srcQ='';
+function targetsFor(curve,mood,N){const[lo,hi]=mood.e;return Array.from({length:N},(_,i)=>lo+(hi-lo)*clamp(curve.f(N>1?i/(N-1):0),0,1))}
+
+function generate(seed=Date.now()){
+  const t0=performance.now();
+  const mood=MOODS.find(m=>m.id===state.mood),curve=CURVES.find(c=>c.id===state.curve);
+  const src=sourceTracks().filter(t=>t.bpm>0);
+  if(src.length<3){toast('Zu wenige Tracks mit BPM in der Quelle');return}
+  const ppt=+$('#ppt').value,len=+$('#len').value;
+  const fit=new Map(src.map(t=>[t.id,moodFit(t,mood)]));
+  let pool=src.filter(t=>fit.get(t.id)>=.65);
+  let N=Math.round(len/ppt);
+  if(pool.length<N*1.5)pool=[...src].sort((a,b)=>fit.get(b.id)-fit.get(a.id)).slice(0,Math.max(Math.ceil(N*1.5),pool.length));
+  N=clamp(N,3,Math.min(pool.length,120));
+  const targets=targetsFor(curve,mood,N),rnd=mulberry32(seed&0xffffffff);
+  const startBpm=+$('#startBpm').value||0;
+  const W=24,K=6,J=6; // beam width, branch factor, jitter
+  // start candidates
+  let starts=pool.map(t=>{let s=100*clamp(1-Math.abs(t.energy-targets[0])/3,0,1)+20*fit.get(t.id)+rnd()*15;if(startBpm)s+=60*bpmRel(startBpm,t.bpm).s;return{t,s}}).sort((a,b)=>b.s-a.s).slice(0,W);
+  let beams=starts.map(x=>({seq:[x.t],used:new Set([x.t.id]),total:x.s}));
+  for(let i=1;i<N;i++){
+    const next=[];const tg=targets[i];
+    for(const b of beams){
+      const last=b.seq[b.seq.length-1];const top=[];
+      for(const t of pool){if(b.used.has(t.id))continue;
+        const k=keyRel(last,t).s,bp=bpmRel(last.bpm,t.bpm).s,es=energyRel(last,t,tg);
+        const sc=100*(W_KEY*k+W_BPM*bp+W_E*es)+8*fit.get(t.id)+rnd()*J;
+        if(top.length<K||sc>top[top.length-1][0]){top.push([sc,t]);top.sort((x,y)=>y[0]-x[0]);if(top.length>K)top.pop()}
+      }
+      for(const[sc,t]of top){const u=new Set(b.used);u.add(t.id);next.push({seq:[...b.seq,t],used:u,total:b.total+sc})}
+    }
+    if(!next.length)break;
+    next.sort((a,b)=>b.total-a.total);
+    const seen=new Set();beams=[];
+    for(const n of next){const sig=n.seq.slice(-2).map(t=>t.id).join()+'|'+n.seq.length;if(seen.has(sig))continue;seen.add(sig);beams.push(n);if(beams.length>=W)break}
+  }
+  const best=beams[0];
+  state.set={ids:best.seq.map(t=>t.id),pool:pool.map(t=>t.id),mood:mood.id,curve:curve.id,ppt,ms:performance.now()-t0,seed,rej:{}};
+  renderSet();
+}
+function evalSet(){
+  const s=state.set;if(!s)return null;
+  const byId=new Map(state.tracks.map(t=>[t.id,t]));
+  const tracks=s.ids.map(id=>byId.get(id)).filter(Boolean);
+  const mood=MOODS.find(m=>m.id===s.mood),curve=CURVES.find(c=>c.id===s.curve);
+  const targets=targetsFor(curve,mood,tracks.length);
+  const tx=[];for(let i=1;i<tracks.length;i++)tx.push(trans(tracks[i-1],tracks[i],targets[i]));
+  const fit0=100*clamp(1-Math.abs((tracks[0]?.energy||0)-targets[0])/4,0,1);
+  const score=tx.length?(tx.reduce((a,b)=>a+b.total,0)+fit0)/(tx.length+1):fit0;
+  return{tracks,targets,tx,score,mood,curve};
+}
+function replaceAt(i){
+  const s=state.set,byId=new Map(state.tracks.map(t=>[t.id,t]));
+  const ev=evalSet(),prev=ev.tracks[i-1],next=ev.tracks[i+1],tg=ev.targets[i];
+  s.rej[i]=s.rej[i]||[];s.rej[i].push(s.ids[i]);
+  const inSet=new Set(s.ids);let best=null,bs=-1;
+  for(const id of s.pool){if(inSet.has(id)||s.rej[i].includes(id))continue;const t=byId.get(id);if(!t)continue;
+    let sc=prev?trans(prev,t,tg).total:100*clamp(1-Math.abs(t.energy-tg)/4,0,1);
+    if(next)sc+=trans(t,next,ev.targets[i+1]).total;
+    if(sc>bs){bs=sc;best=t}}
+  if(!best){toast('Keine weitere passende Alternative');return}
+  s.ids[i]=best.id;renderSet();
+}
+
+/* ================= Exports ================= */
+const setName=()=>state.brand.title||`Setwerk – ${MOODS.find(m=>m.id===state.set.mood).name.replace(/^\S+\s/,'')}`;
+function exportM3U(){
+  const ev=evalSet();let o='#EXTM3U\n#PLAYLIST:'+setName()+'\n';
+  for(const t of ev.tracks)o+=`#EXTINF:${Math.round(t.dur||-1)},${t.artist} - ${t.title}\n${t.path||(t.artist+' - '+t.title)}\n`;
+  download(slug(setName())+'.m3u8',o,'audio/x-mpegurl');
+}
+const xa=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function toRbLocation(p){if(!p)return'';let q=p.replace(/\\/g,'/');if(!q.startsWith('/'))q='/'+q;return'file://localhost'+encodeURI(q).replace(/#/g,'%23').replace(/\?/g,'%3F')}
+function exportRekordbox(){
+  const ev=evalSet();const ts=ev.tracks;
+  let o=`<?xml version="1.0" encoding="UTF-8"?>\n<DJ_PLAYLISTS Version="1.0.0">\n  <PRODUCT Name="Setwerk" Version="1.0" Company="Setwerk"/>\n  <COLLECTION Entries="${ts.length}">\n`;
+  ts.forEach((t,i)=>{o+=`    <TRACK TrackID="${i+1}" Name="${xa(t.title)}" Artist="${xa(t.artist)}" Album="${xa(t.album)}" Genre="${xa(t.genre)}" Kind="${xa(t.kind||'')}" TotalTime="${Math.round(t.dur||0)}" AverageBpm="${t.bpm.toFixed(2)}" Tonality="${xa(t.keyRaw||t.key||'')}" Comments="${xa(t.comment||'')}" Location="${xa(toRbLocation(t.path))}"/>\n`});
+  o+=`  </COLLECTION>\n  <PLAYLISTS>\n    <NODE Type="0" Name="ROOT" Count="1">\n      <NODE Name="${xa(setName())}" Type="1" KeyType="0" Entries="${ts.length}">\n`;
+  ts.forEach((t,i)=>{o+=`        <TRACK Key="${i+1}"/>\n`});
+  o+=`      </NODE>\n    </NODE>\n  </PLAYLISTS>\n</DJ_PLAYLISTS>\n`;
+  download(slug(setName())+'-rekordbox.xml',o,'application/xml');
+}
+/* Serato crate (.crate): binary, UTF-16BE, paths relative to the volume root */
+function seratoPathOf(t){
+  if(t.seratoPath)return t.seratoPath;
+  const p=t.path||'';
+  if(/^[A-Za-z]:/.test(p))return p.slice(2).replace(/^[\\/]+/,'').replace(/\//g,'\\');
+  const vol=p.match(/^\/Volumes\/[^/]+\/(.*)$/);if(vol)return vol[1];
+  return p.replace(/^\/+/,'');
+}
+function exportSeratoCrate(tracks,crateName){
+  if(!tracks){tracks=evalSet().tracks;crateName=setName()}
+  const parts=[];
+  const u16=s=>{const b=new Uint8Array(s.length*2);for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);b[2*i]=c>>8;b[2*i+1]=c&255}return b};
+  const cat=arr=>{const n=arr.reduce((a,b)=>a+b.length,0),o=new Uint8Array(n);let p=0;for(const a of arr){o.set(a,p);p+=a.length}return o};
+  const rec=(tag,data)=>{const h=new Uint8Array(8);for(let i=0;i<4;i++)h[i]=tag.charCodeAt(i);new DataView(h.buffer).setUint32(4,data.length);return cat([h,data])};
+  parts.push(rec('vrsn',u16('1.0/Serato ScratchLive Crate')));
+  for(const[c,w]of[['song','250'],['artist','250'],['bpm','30'],['key','30'],['genre','150'],['length','60']])parts.push(rec('ovct',cat([rec('tvcn',u16(c)),rec('tvcw',u16(w))])));
+  for(const t of tracks)parts.push(rec('otrk',rec('ptrk',u16(seratoPathOf(t)))));
+  const name=crateName.replace(/[\\/:*?"<>|%]/g,'-').trim()||'Setwerk';
+  download(name+'.crate',new Blob([cat(parts)],{type:'application/octet-stream'}));
+}
+function hexRgb(h){h=h.replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');const n=parseInt(h,16);return[n>>16&255,n>>8&255,n&255]}
+function exportPDF(){
+  if(!window.jspdf){toast('PDF-Bibliothek nicht geladen (offline?)');return}
+  const ev=evalSet(),b=state.brand,{jsPDF}=window.jspdf;
+  const doc=new jsPDF({unit:'mm',format:'a4'}),W=210,col=hexRgb(b.color||'#ff5c39');
+  const header=()=>{doc.setFillColor(...col);doc.rect(0,0,W,34,'F');let x=14;
+    if(b.logo){try{const fmt=b.logo.startsWith('data:image/png')?'PNG':'JPEG';doc.addImage(b.logo,fmt,14,6,22,22);x=42}catch(e){}}
+    doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(20);doc.text(b.dj||'DJ',x,16);
+    doc.setFont('helvetica','normal');doc.setFontSize(11);doc.text([setName(),b.event].filter(Boolean).join('  ·  '),x,24);
+    doc.setFontSize(9);doc.text(`${ev.tracks.length} Tracks · ${Math.round(ev.tracks.length*state.set.ppt)} min · Flow-Score ${Math.round(ev.score)}/100`,x,30)};
+  header();
+  let y=44;doc.setTextColor(120);doc.setFontSize(8);doc.setFont('helvetica','bold');
+  const head=()=>{doc.text('#',14,y);doc.text('ZEIT',22,y);doc.text('ARTIST – TITEL',38,y);doc.text('BPM',160,y);doc.text('KEY',174,y);doc.text('E',188,y);y+=3;doc.setDrawColor(220);doc.line(14,y,196,y);y+=5};head();
+  ev.tracks.forEach((t,i)=>{
+    if(y>282){doc.addPage();header();y=44;doc.setTextColor(120);doc.setFontSize(8);doc.setFont('helvetica','bold');head()}
+    doc.setFont('helvetica','bold');doc.setTextColor(...col);doc.setFontSize(9);doc.text(String(i+1).padStart(2,'0'),14,y);
+    doc.setFont('helvetica','normal');doc.setTextColor(110);doc.text(fmtTime(i*state.set.ppt*60),22,y);
+    doc.setTextColor(20);let line=`${t.artist} – ${t.title}`;while(doc.getTextWidth(line)>118&&line.length>4)line=line.slice(0,-2);if(line!==`${t.artist} – ${t.title}`)line+='…';
+    doc.text(line,38,y);doc.setTextColor(90);doc.text(String(Math.round(t.bpm)),160,y);doc.text(t.key||'–',174,y);doc.text(String(t.energy),188,y);
+    y+=7;});
+  const pages=doc.getNumberOfPages();for(let p=1;p<=pages;p++){doc.setPage(p);doc.setFontSize(8);doc.setTextColor(150);doc.text(`Erstellt mit Setwerk · Seite ${p}/${pages}`,14,290)}
+  doc.save(slug(setName())+'-tracklist.pdf');
+}
+
+/* ================= Rendering ================= */
+function curveSvg(c,w=74,h=30){const pts=[];for(let i=0;i<=30;i++){const t=i/30;pts.push(`${(t*w).toFixed(1)},${(h-3-clamp(c.f(t),0,1)*(h-6)).toFixed(1)}`)}return`<svg viewBox="0 0 ${w} ${h}"><polyline points="${pts.join(' ')}" fill="none" stroke="url(#g)" stroke-width="2.5" stroke-linecap="round"/></svg>`}
+function renderControls(){
+  $('#moods').innerHTML=MOODS.map(m=>`<button class="chip ${m.id===state.mood?'on':''}" data-m="${m.id}">${m.name}</button>`).join('');
+  $('#curves').innerHTML=CURVES.map(c=>`<div class="curve ${c.id===state.curve?'on':''}" data-c="${c.id}">${curveSvg(c)}<div><b>${c.name}</b><span>${c.desc}</span></div></div>`).join('');
+  renderSource();
+  $('#hint').textContent=state.tracks.length?`Ziel: ca. ${Math.round(+$('#len').value/+$('#ppt').value)} Tracks`:'Bibliothek ist leer – zuerst importieren oder Demo laden.';
+  $('#go').disabled=!state.tracks.length;
+}
+function renderLib(){
+  const ts=state.tracks;$('#libCnt').textContent=ts.length;
+  const genres=new Set(ts.map(t=>t.genre).filter(Boolean)),bpms=ts.map(t=>t.bpm).filter(Boolean),withKey=ts.filter(t=>t.key).length,est=ts.filter(t=>t.eSrc==='est').length;
+  $('#libStats').innerHTML=[[ts.length,'Tracks'],[genres.size,'Genres'],[bpms.length?Math.round(Math.min(...bpms))+'–'+Math.round(Math.max(...bpms)):'–','BPM-Bereich'],[ts.length?Math.round(withKey/ts.length*100)+'%':'–','mit Tonart'],[est,'Energie geschätzt']].map(([v,l])=>`<div class="stat"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
+  const q=$('#q').value.trim().toLowerCase();
+  const list=q?ts.filter(t=>(t.title+' '+t.artist+' '+t.genre+' '+t.key+' '+Math.round(t.bpm)).toLowerCase().includes(q)):ts;
+  const show=list.slice(0,600);
+  $('#qInfo').textContent=list.length>show.length?`${show.length} von ${list.length} angezeigt`:`${list.length} Tracks`;
+  $('#libTbl tbody').innerHTML=show.map(t=>`<tr><td class="t"><b>${esc(t.title)}</b></td><td class="t">${esc(t.artist)}</td><td>${esc(t.genre)}</td><td>${t.bpm?t.bpm.toFixed(1):'–'}</td><td>${keyHtml(t.key)}</td><td><input type="number" min="1" max="10" value="${t.energy}" data-e="${t.id}" title="${t.eSrc==='est'?'geschätzt':t.eSrc==='manual'?'manuell':'aus Tag'}" style="${t.eSrc==='est'?'border-style:dashed':''}"></td><td>${fmtTime(t.dur)}</td></tr>`).join('')||`<tr><td colspan="7" class="empty">Noch keine Tracks.</td></tr>`;
+}
+let crDraft={keys:[]},crEdit=null;const crSel=new Set();
+function mergeUnion(ids){const seen=new Set(),ts=[];let sum=0;for(const id of ids){const c=state.crates.find(x=>x.id===id);if(!c)continue;const l=crateTracks(c);sum+=l.length;for(const t of l)if(!seen.has(t.id)){seen.add(t.id);ts.push(t)}}return{ts,sum}}
+function renderCrates(){
+  $('#crCnt').textContent=state.crates.length;
+  const kb=(l)=>Array.from({length:12},(_,i)=>{const k=(i+1)+l,on=crDraft.keys.includes(k);return`<button data-k="${k}" class="${on?'on':''}" style="${on?'background:'+keyColor(k):''}">${k}</button>`}).join('');
+  $('#crKeysA').innerHTML=kb('A');$('#crKeysB').innerHTML=kb('B');
+  $('#crLive').textContent=state.tracks.filter(t=>crateMatch(readCrateForm(),t)).length;
+  const rules=state.crates.filter(c=>!c.kind),lists=state.crates.filter(c=>c.kind==='list'),merges=state.crates.filter(c=>c.kind==='merge');
+  for(const id of[...crSel])if(!state.crates.find(c=>c.id===id))crSel.delete(id);
+  const row=(c,icon,desc,edit)=>{const n=crateTracks(c).length;return`<div class="crate"><label class="row" style="gap:10px;flex:1;min-width:0;cursor:pointer"><input type="checkbox" data-sel="${c.id}" ${crSel.has(c.id)?'checked':''} style="width:18px;height:18px;accent-color:var(--accent);flex:none"><div style="min-width:0"><b>${icon} ${esc(c.name)}</b> <span class="muted small">· ${n} Tracks</span><div class="small muted">${desc}</div></div></label><div class="row"><button class="btn sm pri" data-cb="${c.id}" ${n<3?'disabled':''}>Set bauen</button>${edit?`<button class="btn sm" data-ce="${c.id}">Bearbeiten</button>`:''}<button class="btn sm" data-cx="${c.id}" title="Als Serato-Crate exportieren" ${n?'':'disabled'}>⬇ Serato</button><button class="btn sm" data-cd="${c.id}" title="Nur aus Setwerk entfernen">✕</button></div></div>`};
+  const selN=crSel.size,selTracks=selN?mergeUnion([...crSel]):null;
+  let h=`<div class="card" style="background:var(--panel2);margin-bottom:16px;${selN?'border-color:var(--accent)':''}"><h3 style="margin-bottom:6px">🔗 Crates zusammenführen</h3>`+
+    (selN<2?`<div class="small muted">Hake mindestens 2 Crates an – egal ob Smart Crate, Serato, Rekordbox oder Traktor.${selN?` (${selN} ausgewählt)`:''}</div>`:
+    `<div class="small muted" style="margin-bottom:8px">${selN} Crates ausgewählt · ${selTracks.sum} Einträge → <b style="color:var(--text)">${selTracks.ts.length} Tracks</b> nach Entfernen von ${selTracks.sum-selTracks.ts.length} Duplikaten</div>
+     <div class="row"><input type="text" id="mgName" placeholder="Name der neuen Crate" value="${esc(state.crates.filter(c=>crSel.has(c.id)).map(c=>c.name.split(' › ').pop()).join(' + ').slice(0,60))}" style="flex:1;min-width:180px">
+     <label class="small muted row" style="gap:5px"><input type="checkbox" id="mgDel"> Originale aus Setwerk entfernen</label>
+     <button class="btn pri" id="mgGo">Zusammenführen</button><button class="btn" id="mgClr">Auswahl aufheben</button></div>
+     <div class="small muted" style="margin-top:6px">Die neue Crate bleibt live: Änderungen an den Quell-Crates (z. B. neuer Import) werden übernommen. Mit „⬇ Serato“ kannst du sie als echte Serato-Crate speichern.</div>`)+`</div>`;
+  h+=`<h2>Deine Smart Crates</h2><p class="sub">Klick auf „Set bauen“, um direkt aus einer Crate zu planen.</p>`;
+  h+=rules.map(c=>row(c,'📦',esc(crateDesc(c)),true)).join('')||'<div class="empty" style="padding:24px">Noch keine Smart Crates. Leg links deine erste an.</div>';
+  if(merges.length){h+=`<h2 style="margin-top:24px">Zusammengeführte Crates</h2>`;h+=merges.map(c=>{const names=c.members.map(id=>state.crates.find(x=>x.id===id)?.name).filter(Boolean);const miss=c.members.length-names.length;return row(c,'🔗',`aus: ${names.map(esc).join(' + ')||'—'}${miss?` · <span style="color:var(--mid)">${miss} Quelle(n) gelöscht</span>`:''}`,false)}).join('')}
+  h+=`<h2 style="margin-top:24px">Aus deiner DJ-Software</h2><p class="sub">Serato-Crates (<code>_Serato_/Subcrates/*.crate</code> oder den ganzen <code>_Serato_</code>-Ordner), Rekordbox- und Traktor-Playlists werden beim Import automatisch übernommen. Importiere zuerst die Bibliothek, damit die Tracks gefunden werden.</p>`;
+  h+=lists.length?lists.map(c=>{const f=crateTracks(c).length,miss=c.paths.length-f;return row(c,'💿',`${c.from} · ${c.paths.length} Einträge${miss?` · <span style="color:var(--mid)">${miss} nicht in der Bibliothek</span>`:''}`,false)}).join(''):'<div class="empty" style="padding:24px">Noch keine Crates importiert. In „Bibliothek“ .crate-Dateien oder den _Serato_-Ordner hineinziehen.</div>';
+  $('#crList').innerHTML=h;
+}
+function readCrateForm(){const n=id=>+$(id).value||0;return{name:$('#crName').value.trim(),genres:$('#crGenre').value.trim(),bmin:n('#crBmin'),bmax:n('#crBmax'),emin:n('#crEmin'),emax:n('#crEmax'),keys:[...crDraft.keys]}}
+function fillCrateForm(c){$('#crName').value=c?.name||'';$('#crGenre').value=c?.genres||'';$('#crBmin').value=c?.bmin||'';$('#crBmax').value=c?.bmax||'';$('#crEmin').value=c?.emin||'';$('#crEmax').value=c?.emax||'';crDraft={keys:[...(c?.keys||[])]};crEdit=c?.id||null;$('#crFormTitle').textContent=c?'Crate bearbeiten':'Neue Smart Crate';$('#crSave').textContent=c?'Änderungen speichern':'Crate speichern';renderCrates()}
+
+function chartSvg(ev){
+  const W=800,H=190,P=26,N=ev.tracks.length,x=i=>P+(N>1?i/(N-1):.5)*(W-2*P),y=e=>H-P-(e-1)/9*(H-2*P);
+  const dense=[];for(let i=0;i<=80;i++){const t=i/80;const[lo,hi]=ev.mood.e;dense.push(`${(P+t*(W-2*P)).toFixed(1)},${y(lo+(hi-lo)*clamp(ev.curve.f(t),0,1)).toFixed(1)}`)}
+  const act=ev.tracks.map((t,i)=>`${x(i).toFixed(1)},${y(t.energy).toFixed(1)}`).join(' ');
+  let grid='';for(const e of[1,4,7,10])grid+=`<line x1="${P}" x2="${W-P}" y1="${y(e)}" y2="${y(e)}" stroke="#2a3040"/><text x="4" y="${y(e)+4}" fill="#8b93a7" font-size="11">${e}</text>`;
+  const dots=ev.tracks.map((t,i)=>`<circle cx="${x(i)}" cy="${y(t.energy)}" r="4.5" fill="${keyColor(t.key)}" stroke="#0d0f14" stroke-width="1.5"><title>${i+1}. ${esc(t.artist)} – ${esc(t.title)} · E${t.energy} · ${t.key||'?'} · ${Math.round(t.bpm)} BPM</title></circle>`).join('');
+  return`<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${grid}<polyline points="${dense.join(' ')}" fill="none" stroke="#8b93a7" stroke-dasharray="5 5" stroke-width="1.5"/><polyline points="${act}" fill="none" stroke="url(#g)" stroke-width="3" stroke-linejoin="round"/>${dots}</svg><div class="row small muted"><span>┄ Ziel-Energiekurve</span><span style="color:var(--accent)">━ Dein Set</span><span>Punktfarbe = Camelot-Tonart</span></div>`;
+}
+function renderSet(){
+  const ev=evalSet(),box=$('#result');
+  if(!ev||!ev.tracks.length){box.innerHTML='<div class="empty">Kein Set.</div>';return}
+  const s=Math.round(ev.score),bpms=ev.tracks.map(t=>t.bpm),b=state.brand;
+  const clashes=ev.tx.filter(t=>t.k.s<.3).length,jumps=ev.tx.filter(t=>Math.abs(t.bp.d)>5).length;
+  let h=`<div class="row" style="justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+    <div><div class="muted small">FLOW-SCORE</div><span class="score" style="color:${scoreColor(s)}">${s}</span><span class="grade" style="background:${scoreColor(s)};color:#0d0f14">${grade(s)}</span></div>
+    <div class="stats" style="margin:0;flex:1;max-width:640px;grid-template-columns:repeat(4,1fr)">
+      <div class="stat"><div class="v">${ev.tracks.length}</div><div class="l">Tracks</div></div>
+      <div class="stat"><div class="v">${Math.round(ev.tracks.length*state.set.ppt)}′</div><div class="l">Spielzeit</div></div>
+      <div class="stat"><div class="v">${Math.round(Math.min(...bpms))}–${Math.round(Math.max(...bpms))}</div><div class="l">BPM</div></div>
+      <div class="stat"><div class="v">${(state.set.ms/1000).toFixed(2)}s</div><div class="l">gebaut in</div></div>
+    </div></div>
+    <div class="small muted" style="margin-bottom:6px">${ev.mood.name} · ${ev.curve.name} · ${clashes} Key-Clash${clashes===1?'':'es'} · ${jumps} große Tempo-Sprünge</div>
+    ${chartSvg(ev)}
+    <div class="row" style="margin:16px 0 8px;justify-content:space-between">
+      <h3 style="margin:0">Trackliste</h3>
+      <div class="row"><button class="btn sm" id="reroll">🎲 Neu würfeln</button></div>
+    </div><div>`;
+  ev.tracks.forEach((t,i)=>{
+    if(i>0){const x=ev.tx[i-1],tc=Math.round(x.total),d=x.bp.d;
+      h+=`<div class="tx"><span class="sc" style="background:${scoreColor(tc)}">${tc}</span><span class="pill" style="border-color:${x.k.s>=.8?'var(--good)':x.k.s>=.45?'var(--mid)':'var(--bad)'}">${ev.tracks[i-1].key||'?'} → ${t.key||'?'} · ${x.k.l}</span><span class="pill" style="border-color:${x.bp.s>=.8?'var(--good)':x.bp.s>=.5?'var(--mid)':'var(--bad)'}">BPM ${d>=0?'+':''}${d.toFixed(1)}%${x.bp.hd?' (½/2×)':''}</span><span class="pill" style="border-color:${x.es>=.75?'var(--good)':x.es>=.5?'var(--mid)':'var(--bad)'}">Energie ${ev.tracks[i-1].energy}→${t.energy} (Ziel ${ev.targets[i].toFixed(1)})</span></div>`}
+    h+=`<div class="tr"><div class="n">${i+1}</div><div><div class="ti">${esc(t.title)}</div><div class="ar">${esc(t.artist)} · ${esc(t.genre||'—')} · <span class="small">${fmtTime(i*state.set.ppt*60)}</span></div></div>
+      <div class="meta"><span>${t.bpm.toFixed(1)}</span>${keyHtml(t.key)}${eHtml(t.energy)}<div class="act"><button class="btn sm" data-up="${i}" title="nach oben" ${i===0?'disabled':''}>↑</button><button class="btn sm" data-dn="${i}" title="nach unten" ${i===ev.tracks.length-1?'disabled':''}>↓</button><button class="btn sm" data-rp="${i}" title="Durch beste Alternative ersetzen">⟳</button><button class="btn sm" data-rm="${i}" title="entfernen">✕</button></div></div></div>`;
+  });
+  h+=`</div>
+  <div class="card" style="margin-top:18px;background:var(--panel2)">
+    <h3>Export</h3>
+    <div class="export"><button class="btn" id="exM3u">⬇ M3U8-Playlist</button><button class="btn" id="exRb">⬇ Rekordbox-XML</button><button class="btn" id="exSer">⬇ Serato-Crate</button><button class="btn pri" id="exPdf">⬇ PDF-Trackliste</button></div>
+    <details><summary>Branding für PDF</summary>
+      <div class="brandgrid">
+        <label class="f">DJ-Name<input type="text" id="bDj" value="${esc(b.dj)}" placeholder="DJ Name"></label>
+        <label class="f">Set-Titel<input type="text" id="bTitle" value="${esc(b.title)}" placeholder="${esc(setName())}"></label>
+        <label class="f">Event / Datum<input type="text" id="bEvent" value="${esc(b.event)}" placeholder="Club XY · 28.11.2026"></label>
+        <label class="f">Akzentfarbe<input type="color" id="bColor" value="${esc(b.color)}" style="height:38px;width:100%;background:none;border:0"></label>
+        <label class="f">Logo (PNG/JPG)<input type="file" id="bLogo" accept="image/png,image/jpeg"></label>
+        <div class="row">${b.logo?`<img src="${b.logo}" style="height:38px;border-radius:6px"><button class="btn sm" id="bLogoRm">Logo entfernen</button>`:'<span class="small muted">Kein Logo</span>'}</div>
+      </div>
+    </details>
+    <p class="small muted" style="margin:8px 0 0"><b>Rekordbox:</b> Einstellungen → Erweitert → rekordbox xml → Datei wählen, dann die Playlist in der Seitenleiste unter „rekordbox xml“ importieren.<br>
+    <b>Serato DJ Pro:</b> Serato schließen, die <code>.crate</code>-Datei nach <code>Musik/_Serato_/Subcrates/</code> kopieren (bei Tracks auf einer externen Festplatte: <code>_Serato_/Subcrates/</code> auf dieser Platte) und Serato neu starten. Alternativ die M3U8 einfach in Seratos Crate-Leiste ziehen.<br>
+    <b>Traktor:</b> M3U8 in den Playlists-Bereich ziehen.</p>
+  </div>`;
+  box.innerHTML=h;
+}
+function renderAll(){renderControls();renderLib();renderCrates();if(state.set)renderSet()}
+
+/* ================= Events ================= */
+$$('nav button').forEach(b=>b.onclick=()=>{$$('nav button').forEach(x=>x.classList.toggle('on',x===b));$$('.tab').forEach(t=>t.classList.toggle('on',t.id==='tab-'+b.dataset.tab))});
+$('#moods').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;state.mood=b.dataset.m;save();renderControls()};
+$('#curves').onclick=e=>{const b=e.target.closest('[data-c]');if(!b)return;state.curve=b.dataset.c;save();renderControls()};
+$('#srcBox').addEventListener('change',e=>{const id=e.target.dataset.src;if(!id)return;
+  if(id==='all')srcSel.clear();else e.target.checked?srcSel.add(id):srcSel.delete(id);renderControls()});
+$('#srcBox').addEventListener('input',e=>{if(e.target.id==='srcQ'){srcQ=e.target.value;renderSource()}});
+$('#srcBox').addEventListener('click',e=>{if(e.target.id!=='srcSave')return;
+  const name=$('#srcName').value.trim()||state.crates.filter(c=>srcSel.has(c.id)).map(c=>c.name.split(' › ').pop()).join(' + ').slice(0,60);
+  const c={id:uid(),kind:'merge',name,members:[...srcSel]};state.crates.push(c);srcSel.clear();srcSel.add(c.id);save();renderAll();toast(`Crate „${name}“ gespeichert`)});
+$('#len').oninput=e=>{$('#lenV').textContent=e.target.value+' min';renderControls()};
+$('#ppt').onchange=renderControls;
+$('#go').onclick=()=>generate();
+$('#result').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b||!state.set)return;const ids=state.set.ids,d=b.dataset;
+  if(b.id==='reroll')return generate(Date.now());
+  if(b.id==='exM3u')return exportM3U();if(b.id==='exRb')return exportRekordbox();if(b.id==='exSer')return exportSeratoCrate();if(b.id==='exPdf')return exportPDF();
+  if(b.id==='bLogoRm'){state.brand.logo='';save();return renderSet()}
+  if(d.up){const i=+d.up;[ids[i-1],ids[i]]=[ids[i],ids[i-1]];state.set.rej={};renderSet()}
+  else if(d.dn){const i=+d.dn;[ids[i+1],ids[i]]=[ids[i],ids[i+1]];state.set.rej={};renderSet()}
+  else if(d.rm){if(ids.length<=2)return toast('Mindestens 2 Tracks');ids.splice(+d.rm,1);state.set.rej={};renderSet()}
+  else if(d.rp){replaceAt(+d.rp)}
+});
+$('#result').addEventListener('change',e=>{
+  const id=e.target.id,B=state.brand;
+  if(id==='bDj')B.dj=e.target.value;else if(id==='bTitle')B.title=e.target.value;else if(id==='bEvent')B.event=e.target.value;else if(id==='bColor')B.color=e.target.value;
+  else if(id==='bLogo'){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{B.logo=r.result;save();renderSet();$('#result details').open=true};r.readAsDataURL(f);return}
+  save();
+});
+// library
+const drop=$('#drop'),fi=$('#file');
+drop.onclick=()=>fi.click();
+drop.ondragover=e=>{e.preventDefault();drop.classList.add('over')};drop.ondragleave=()=>drop.classList.remove('over');
+const SKIP_DIR=/^(export backups|logs|reports|midi|effects|seratovideo|metadata|library|recording|imported|history|smartcrates)$/i;
+const RELEVANT=n=>/^database v2$/i.test(n)||/\.(crate|xml|nml)$/i.test(n);
+async function collectEntry(en,out){
+  if(en.isFile){if(RELEVANT(en.name))out.push(await new Promise((res,rej)=>en.file(res,rej)));return}
+  if(SKIP_DIR.test(en.name))return;
+  const rd=en.createReader();let batch;do{batch=await new Promise((res,rej)=>rd.readEntries(res,rej));for(const c of batch)await collectEntry(c,out)}while(batch.length);
+}
+drop.ondrop=async e=>{e.preventDefault();drop.classList.remove('over');
+  const entries=[...e.dataTransfer.items].map(i=>i.webkitGetAsEntry&&i.webkitGetAsEntry()).filter(Boolean);
+  if(entries.some(x=>x.isDirectory)){const files=[];for(const en of entries)await collectEntry(en,files);return importMany(files)}
+  importMany([...e.dataTransfer.files]);
+};
+fi.onchange=()=>{importMany([...fi.files]);fi.value=''};
+$('#dir').onchange=e=>{const files=[...e.target.files].filter(f=>RELEVANT(f.name)&&!(f.webkitRelativePath||'').split('/').slice(0,-1).some(d=>SKIP_DIR.test(d)));importMany(files);e.target.value=''};
+function readFile(f){return new Promise(res=>{const r=new FileReader();r.onload=()=>{try{importBuffer(r.result,f.name)}catch(err){if(bulk)bulk.err.push(err.message);else toast('Fehler: '+err.message)}res()};r.onerror=()=>res();r.readAsArrayBuffer(f)})}
+async function importMany(files){
+  if(!files.length)return toast('Keine passenden Dateien gefunden');
+  if(files.length===1)return readFile(files[0]);
+  // libraries first, then crates (so crate tracks can be resolved)
+  files.sort((a,b)=>(/\.crate$/i.test(a.name)?1:0)-(/\.crate$/i.test(b.name)?1:0));
+  bulk={tracks:0,crates:0,err:[]};
+  for(const f of files)await readFile(f);
+  const b=bulk;bulk=null;renderAll();
+  toast(`Import fertig: ${b.tracks} neue Tracks, ${b.crates} Crates/Playlists${b.err.length?` · ${b.err.length} übersprungen`:''}`);
+}
+$('#demo').onclick=()=>{state.tracks=demoLibrary();state.set=null;save();renderAll();$('#result').innerHTML='<div class="empty"><div class="big">✅</div>Demo-Bibliothek mit 260 Tracks geladen. Jetzt Stimmung wählen und <b>Set bauen</b>.</div>';toast('260 Demo-Tracks geladen')};
+$('#clear').onclick=()=>{const b=$('#clear');
+  if(!b.dataset.armed){b.dataset.armed='1';b.textContent='Wirklich leeren? Nochmal klicken';b.style.borderColor='var(--bad)';b.style.color='var(--bad)';
+    clearTimeout(b._t);b._t=setTimeout(()=>{delete b.dataset.armed;b.textContent='Bibliothek leeren';b.style.borderColor='';b.style.color=''},4000);return}
+  clearTimeout(b._t);delete b.dataset.armed;b.textContent='Bibliothek leeren';b.style.borderColor='';b.style.color='';
+  const n=state.tracks.length;state.tracks=[];state.set=null;
+  // imported/merged crates point at the removed tracks → remove them too; own rule-based Smart Crates stay
+  state.crates=state.crates.filter(c=>!c.kind);srcSel.clear();
+  save();renderAll();$('#q').value='';renderLib();$('#result').innerHTML='<div class="empty">Bibliothek geleert.</div>';toast(`${n} Tracks und importierte Crates entfernt`)};
+$('#q').oninput=renderLib;
+$('#halftime').onchange=e=>{state.halftime=e.target.value;state.tracks.forEach(t=>{if(t.eSrc==='est')t.energy=estimateEnergy(t.bpm,t.genre)});save();renderAll();toast('Energie neu geschätzt')};
+$('#libTbl').addEventListener('change',e=>{const id=e.target.dataset.e;if(!id)return;const t=state.tracks.find(t=>t.id===id);t.energy=clamp(Math.round(+e.target.value)||1,1,10);t.eSrc='manual';e.target.value=t.energy;e.target.style.borderStyle='';save();if(state.set)renderSet()});
+// crates
+$('#tab-crates').addEventListener('input',e=>{if(e.target.closest('.card')&&e.target.matches('input'))$('#crLive').textContent=state.tracks.filter(t=>crateMatch(readCrateForm(),t)).length});
+$('#tab-crates').addEventListener('change',e=>{const id=e.target.dataset?.sel;if(!id)return;e.target.checked?crSel.add(id):crSel.delete(id);renderCrates()});
+$('#tab-crates').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  if(d.k){const i=crDraft.keys.indexOf(d.k);i<0?crDraft.keys.push(d.k):crDraft.keys.splice(i,1);renderCrates()}
+  else if(b.id==='crSave'){const c=readCrateForm();if(!c.name)return toast('Bitte einen Namen vergeben');
+    if(crEdit){Object.assign(state.crates.find(x=>x.id===crEdit),c)}else state.crates.push({id:uid(),...c});save();fillCrateForm(null);renderControls();toast('Crate gespeichert')}
+  else if(b.id==='crReset')fillCrateForm(null);
+  else if(d.ce)fillCrateForm(state.crates.find(c=>c.id===d.ce));
+  else if(d.cd){state.crates=state.crates.filter(c=>c.id!==d.cd);crSel.delete(d.cd);save();renderAll()}
+  else if(d.cx){const c=state.crates.find(x=>x.id===d.cx);exportSeratoCrate(crateTracks(c),c.name.replace(/ › /g,'%%'))}
+  else if(b.id==='mgClr'){crSel.clear();renderCrates()}
+  else if(b.id==='mgGo'){const name=$('#mgName').value.trim();if(!name)return toast('Bitte einen Namen vergeben');
+    const members=[...crSel],del=$('#mgDel').checked;
+    if(del){// freeze into a static list, because the sources will be gone
+      const snap=ts=>ts.map(t=>t.path||t.seratoPath).filter(Boolean);
+      // other merged crates that use a removed source keep their tracks as a fixed list
+      for(const c of state.crates)if(c.kind==='merge'&&c.members.some(id=>crSel.has(id))){const p=snap(crateTracks(c));delete c.members;c.kind='list';c.from='Setwerk';c.paths=p}
+      const ts=mergeUnion(members).ts;state.crates=state.crates.filter(c=>!crSel.has(c.id));
+      state.crates.push({id:uid(),kind:'list',from:'Setwerk',name,paths:snap(ts)});
+    }else state.crates.push({id:uid(),kind:'merge',name,members});
+    crSel.clear();save();renderAll();toast(`Crate „${name}“ erstellt`)}
+  else if(d.cb){srcSel.clear();srcSel.add(d.cb);renderControls();$('nav button[data-tab=build]').click();generate()}
+});
+
+load();renderAll();
+
+/* ================= Installable web app (PWA) ================= */
+if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+const standalone=()=>matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: window-controls-overlay)').matches||navigator.standalone;
+let deferredInstall=null;const ib=$('#installBtn');
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;ib.hidden=false});
+addEventListener('appinstalled',()=>{ib.hidden=true;deferredInstall=null;toast('Setwerk ist installiert 🎉')});
+// Safari (iPhone/iPad/Mac) has no install prompt → show instructions instead
+const ua=navigator.userAgent,isIOS=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1),isSafari=/Safari/.test(ua)&&!/Chrome|Chromium|Edg|OPR|Firefox/.test(ua);
+if(!standalone()&&isSafari)ib.hidden=false;
+ib.onclick=async()=>{
+  if(deferredInstall){deferredInstall.prompt();const r=await deferredInstall.userChoice;if(r.outcome==='accepted')ib.hidden=true;deferredInstall=null;return}
+  $('#installTxt').innerHTML=isIOS?'Tippe unten auf <b>Teilen</b> <span style="font-size:18px">⎋</span> und dann auf <b>„Zum Home-Bildschirm“</b>.':
+    isSafari?'Wähle in der Menüleiste <b>Ablage → Zum Dock hinzufügen …</b>':
+    'Öffne Setwerk in <b>Chrome</b> oder <b>Edge</b> und klicke rechts in der Adressleiste auf das Installieren-Symbol ⊕.';
+  $('#installHelp').hidden=false;
+};
+// open files directly with the installed app (Chrome/Edge desktop: "Öffnen mit → Setwerk")
+if('launchQueue' in window)launchQueue.setConsumer(async p=>{if(!p.files?.length)return;const files=[];for(const h of p.files)files.push(await h.getFile());$('nav button[data-tab=lib]').click();importMany(files)});
+// app shortcuts / deep links: #build #lib #crates
+const openHash=()=>{const t=location.hash.slice(1);const b=$(`nav button[data-tab="${t}"]`);if(b)b.click()};addEventListener('hashchange',openHash);openHash();
+</script>
+</body>
+</html>

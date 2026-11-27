@@ -1,0 +1,33 @@
+{
+  "name": "Setwerk – DJ-Set-Planer",
+  "short_name": "Setwerk",
+  "description": "Du nennst die Stimmung – Setwerk baut das Set. DJ-Sets nach Tonart, BPM und Energiekurve aus deiner Rekordbox-, Traktor- oder Serato-Bibliothek.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "background_color": "#0d0f14",
+  "theme_color": "#0b0d11",
+  "lang": "de",
+  "categories": ["music", "entertainment", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "file_handlers": [
+    {
+      "action": "./",
+      "accept": {
+        "application/xml": [".xml", ".nml"],
+        "application/octet-stream": [".crate"]
+      }
+    }
+  ],
+  "shortcuts": [
+    { "name": "Set bauen", "url": "./#build", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Bibliothek", "url": "./#lib", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Smart Crates", "url": "./#crates", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

@@ -845,19 +845,22 @@ $('#tab-crates').addEventListener('click',e=>{
 load();renderAll();
 
 /* ================= Installable web app (PWA) ================= */
-if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(()=>{});
 const standalone=()=>matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: window-controls-overlay)').matches||navigator.standalone;
 let deferredInstall=null;const ib=$('#installBtn');
+const isMac=/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints<2;
+const MAC_DL='<br><br>Oder lade die <b>native Mac-App</b>: <a href="https://github.com/zthsydnhbt-hub/setwerk/releases/latest" target="_blank" style="color:var(--accent2)">Setwerk.dmg herunterladen</a>';
+
 addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;ib.hidden=false});
 addEventListener('appinstalled',()=>{ib.hidden=true;deferredInstall=null;toast('Setwerk ist installiert 🎉')});
 // Safari (iPhone/iPad/Mac) has no install prompt → show instructions instead
 const ua=navigator.userAgent,isIOS=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1),isSafari=/Safari/.test(ua)&&!/Chrome|Chromium|Edg|OPR|Firefox/.test(ua);
-if(!standalone()&&isSafari)ib.hidden=false;
+if(!standalone()&&!window.__SETWERK_NATIVE__&&(isSafari||isMac))ib.hidden=false;
 ib.onclick=async()=>{
   if(deferredInstall){deferredInstall.prompt();const r=await deferredInstall.userChoice;if(r.outcome==='accepted')ib.hidden=true;deferredInstall=null;return}
   $('#installTxt').innerHTML=isIOS?'Tippe unten auf <b>Teilen</b> <span style="font-size:18px">⎋</span> und dann auf <b>„Zum Home-Bildschirm“</b>.':
-    isSafari?'Wähle in der Menüleiste <b>Ablage → Zum Dock hinzufügen …</b>':
-    'Öffne Setwerk in <b>Chrome</b> oder <b>Edge</b> und klicke rechts in der Adressleiste auf das Installieren-Symbol ⊕.';
+    isSafari?'Wähle in der Menüleiste <b>Ablage → Zum Dock hinzufügen …</b>'+MAC_DL:
+    'Öffne Setwerk in <b>Chrome</b> oder <b>Edge</b> und klicke rechts in der Adressleiste auf das Installieren-Symbol ⊕.'+(isMac?MAC_DL:'');
   $('#installHelp').hidden=false;
 };
 const closeHelp=()=>{$('#installHelp').hidden=true};

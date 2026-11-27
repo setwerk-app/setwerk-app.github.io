@@ -463,7 +463,8 @@ function renderHome(){
             <div class="metric"><span>Braucht Aufmerksamkeit</span><b style="color:${H.todo?'var(--mid)':'var(--good)'}">${H.todo+H.dups.length}</b></div></div></div>`:'<div class="small muted" style="margin-top:8px">Noch keine Bibliothek.</div>'}</div>
         <div class="card"><div class="row" style="justify-content:space-between"><h3 style="margin:0">Nächster Gig</h3><button class="btn sm" data-go="gigs">Alle Gigs →</button></div>
           ${next?(()=>{const dd=new Date(next.date+'T00:00'),done=CHECK.filter(([k])=>next.check&&next.check[k]).length;return`<div class="row" style="margin-top:10px;align-items:flex-start;gap:12px"><div class="datebox" style="width:58px"><b>${dd.getDate()}</b><span>${MON[dd.getMonth()]}</span></div><div style="flex:1"><b>${esc(next.name)}</b><div class="small muted">${[next.place,next.time,fmtDur(next.len)].filter(Boolean).map(esc).join(' · ')} · <b style="color:var(--accent2)">${relDay(daysUntil(next.date))}</b></div><div class="small muted" style="margin-top:4px">🎒 Packliste ${done}/${CHECK.length}</div><div class="row" style="margin-top:8px;gap:6px"><button class="btn sm pri" data-hgig="${next.id}">⚡ Set für diesen Gig</button>${next.setId&&state.sets.find(s=>s.id===next.setId)?`<button class="btn sm" data-hopen="${next.setId}">Set öffnen</button>`:''}</div></div></div>`})():'<div class="small muted" style="margin-top:8px">Kein Gig geplant.</div>'}</div>
-      </div></div>`;
+      </div></div>
+    <div class="small muted" style="text-align:center;margin:28px 0 6px">Setwerk ${APP_VERSION} · <a href="${SITE_URL}" target="_blank" style="color:inherit">Website</a> · <a href="${SITE_URL}impressum/" target="_blank" style="color:inherit">Impressum</a> · <a href="${SITE_URL}datenschutz/" target="_blank" style="color:inherit">Datenschutz</a></div>`;
 }
 $('#home').addEventListener('click',e=>{const el=e.target.closest('[data-go],[data-hopen],[data-hgig]');if(!el)return;const d=el.dataset;
   if(d.go){if(d.go==='lib'&&!state.tracks.length)toast('Tipp: Ohne eigene Bibliothek kannst du die Demo laden');goTab(d.go)}
@@ -508,7 +509,7 @@ async function checkForUpdate(){
 }
 function updateBannerHtml(){
   if(!updateInfo)return'';
-  const dl=SITE_URL+(/Windows/.test(navigator.userAgent)?'#web':'#pkg');
+  const dl=SITE_URL+(/Windows/.test(navigator.userAgent)?'#win':'#pkg');
   return`<div class="hintbox" style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:14px 0 0;border-color:#3ddc9766;background:#3ddc9712">
     <span>🔔 <b>Neue Version ${esc(updateInfo.tag.replace(/^v/,''))} verfügbar</b> – du nutzt ${esc(window.__SETWERK_VERSION__)}.</span>
     <a class="btn sm pri" href="${dl}" target="_blank" style="text-decoration:none">Jetzt aktualisieren</a></div>`;

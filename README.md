@@ -9,7 +9,7 @@
   <a href="https://github.com/setwerk-app/setwerk-app.github.io/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/setwerk-app/setwerk-app.github.io/total?style=for-the-badge&color=1c212d&label=Downloads"></a>
 </p>
 
-<h3 align="center">DJ-Sets nach echter Mix-Theorie – für Mac, Web und iPhone.</h3>
+<h3 align="center">DJ-Sets nach echter Mix-Theorie – für Mac, Windows, Web und iPhone.</h3>
 
 <p align="center"><a href="https://setwerk-app.github.io/"><b>🌐 setwerk-app.github.io</b></a></p>
 
@@ -31,7 +31,7 @@ Mit <b>Mix-Coach</b> für jeden Übergang, <b>Live-Assistent</b> und <b>DJ-Schul
 | 🍎 **Mac** (empfohlen) | [**Setwerk-macOS.pkg**](https://github.com/setwerk-app/setwerk-app.github.io/releases/latest/download/Setwerk-macOS.pkg) | Installer öffnen, durchklicken, fertig |
 | 🍎 Mac (Alternative) | [Setwerk-macOS.dmg](https://github.com/setwerk-app/setwerk-app.github.io/releases/latest/download/Setwerk-macOS.dmg) | Setwerk auf „Programme“ ziehen |
 | 📱 iPhone & iPad | [Web-App öffnen](https://setwerk-app.github.io/app/) | Safari → Teilen → „Zum Home-Bildschirm“ |
-| 🌐 Windows, Android, Linux | [Web-App öffnen](https://setwerk-app.github.io/app/) | In Chrome/Edge auf „App installieren“ |
+| 🌐 Android, Linux, Browser | [Web-App öffnen](https://setwerk-app.github.io/app/) | In Chrome/Edge auf „App installieren“ |
 
 ### 🍎 Mac in 4 Schritten
 
@@ -93,3 +93,7 @@ Setwerk speichert deine Bibliothek, Crates, Sets und Gigs **nur auf deinem Gerä
 ```
 
 Erzeugt `Setwerk.app`, `Setwerk-macOS.dmg` und `Setwerk-macOS.pkg` (benötigt die Xcode Command Line Tools). Die Web-App liegt in `app/` (`index.html`, `extra.js`) und läuft ohne Build-Schritt. Die Website (Vorstellung & Download) ist `index.html` im Hauptordner.
+
+---
+
+<p align="center"><a href="https://setwerk-app.github.io/">Website</a> · <a href="https://setwerk-app.github.io/impressum/">Impressum</a> · <a href="https://setwerk-app.github.io/datenschutz/">Datenschutz</a></p>

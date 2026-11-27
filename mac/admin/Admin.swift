@@ -3,12 +3,52 @@ import Cocoa
 import WebKit
 
 let adminURL = URL(string: "https://zthsydnhbt-hub.github.io/setwerk/admin/")!
+let repoAPI = "https://api.github.com/repos/zthsydnhbt-hub/setwerk"
+
+// Holt GitHub-Statistiken mit der vorhandenen GitHub-Anmeldung dieses Macs (gh CLI).
+// Der Zugangsschlüssel bleibt in der App und wird nie an die Webseite weitergegeben.
+// Erlaubt sind ausschließlich die Statistik-Endpunkte dieses einen Repositorys.
+final class GitHubBridge: NSObject, WKScriptMessageHandlerWithReply {
+    static let allowed: Set<String> = ["/traffic/views", "/traffic/clones", "/traffic/popular/referrers", "/traffic/popular/paths"]
+    static var cachedToken: String?
+    static func token() -> String? {
+        if let t = cachedToken { return t }
+        for path in ["/opt/homebrew/bin/gh", "/usr/local/bin/gh", "/usr/bin/gh"] where FileManager.default.isExecutableFile(atPath: path) {
+            let p = Process(); p.executableURL = URL(fileURLWithPath: path); p.arguments = ["auth", "token", "-h", "github.com"]
+            let out = Pipe(); p.standardOutput = out; p.standardError = Pipe()
+            do { try p.run() } catch { continue }
+            p.waitUntilExit()
+            if p.terminationStatus == 0, let t = String(data: out.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)?
+                .trimmingCharacters(in: .whitespacesAndNewlines), !t.isEmpty { cachedToken = t; return t }
+        }
+        return nil
+    }
+    func userContentController(_ ucc: WKUserContentController, didReceive message: WKScriptMessage, replyHandler: @escaping (Any?, String?) -> Void) {
+        guard let path = message.body as? String, GitHubBridge.allowed.contains(path) else { replyHandler(nil, "nicht erlaubt"); return }
+        DispatchQueue.global(qos: .userInitiated).async {
+            guard let token = GitHubBridge.token() else {
+                DispatchQueue.main.async { replyHandler(nil, "Keine GitHub-Anmeldung auf diesem Mac gefunden") }; return
+            }
+            var req = URLRequest(url: URL(string: repoAPI + path)!)
+            req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            req.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
+            URLSession.shared.dataTask(with: req) { data, resp, _ in
+                let code = (resp as? HTTPURLResponse)?.statusCode ?? 0
+                DispatchQueue.main.async {
+                    if code == 200, let d = data, let s = String(data: d, encoding: .utf8) { replyHandler(s, nil) }
+                    else { replyHandler(nil, "GitHub antwortet mit \(code)") }
+                }
+            }.resume()
+        }
+    }
+}
 
 final class AdminWindow: NSWindowController, WKNavigationDelegate, WKUIDelegate {
     let web: WKWebView
     init() {
         let cfg = WKWebViewConfiguration()
         cfg.websiteDataStore = .default()
+        cfg.userContentController.addScriptMessageHandler(GitHubBridge(), contentWorld: .page, name: "gh")
         web = WKWebView(frame: .zero, configuration: cfg)
         web.setValue(false, forKey: "drawsBackground")
         let w = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 1240, height: 860),

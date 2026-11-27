@@ -65,7 +65,10 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const fmt=n=>Number(n||0).toLocaleString('de-DE');
 const LS='setwerk.admin.token';
 const getToken=()=>{try{return localStorage.getItem(LS)||''}catch(_){return''}};
+// In der Mac-App „Setwerk Admin“ holt die App selbst die Daten über die GitHub-Anmeldung des Macs.
+const native=()=>!!(window.webkit&&window.webkit.messageHandlers&&window.webkit.messageHandlers.gh);
 async function gh(path,auth){
+  if(auth&&native()){const r=await window.webkit.messageHandlers.gh.postMessage(path);return JSON.parse(r)}
   const h={Accept:'application/vnd.github+json'};const t=getToken();if(auth&&t)h.Authorization='Bearer '+t;
   const r=await fetch(API+path,{headers:h});if(!r.ok)throw new Error(r.status+' '+(await r.text()).slice(0,120));return r.json();
 }
@@ -106,7 +109,7 @@ async function loadPublic(){
 
 async function loadTraffic(){
   const box=$('#traffic');
-  if(!getToken()){box.innerHTML=lockHtml();return}
+  if(!getToken()&&!native()){box.innerHTML=lockHtml();return}
   try{
     const [views,clones,refs,paths]=await Promise.all([gh('/traffic/views',1),gh('/traffic/clones',1),gh('/traffic/popular/referrers',1),gh('/traffic/popular/paths',1)]);
     $('#kpiTraffic').innerHTML=kpi(fmt(views.count),'GitHub-Seitenaufrufe (14 T.)',fmt(views.uniques)+' eindeutige Besucher')+kpi(fmt(clones.uniques),'Code-Kopien (14 T.)',fmt(clones.count)+' Klone');
@@ -114,8 +117,8 @@ async function loadTraffic(){
     box.innerHTML=`<div class="grid"><div class="card"><h3>Besucher pro Tag</h3>${line(views.views,'count','uniques')}</div>
       <div class="card"><h3>Woher kommen die Besucher?</h3>${refs.length?`<table><tr><th>Quelle</th><th></th><th style="text-align:right">Aufrufe</th><th style="text-align:right">Personen</th></tr>${refs.map(r=>`<tr><td>${esc(r.referrer)}</td><td style="width:30%"><div class="bar"><i style="width:${r.count/maxR*100}%"></i></div></td><td class="n">${fmt(r.count)}</td><td class="n">${fmt(r.uniques)}</td></tr>`).join('')}</table>`:'<div class="muted">Noch keine externen Quellen.</div>'}</div></div>
       <div class="card" style="margin-top:16px"><h3>Meistbesuchte GitHub-Seiten</h3>${paths.length?`<table><tr><th>Seite</th><th style="text-align:right">Aufrufe</th><th style="text-align:right">Personen</th></tr>${paths.map(p=>`<tr><td>${esc(p.path.replace('/'+REPO,'')||'/')} <span class="muted small">${esc(p.title)}</span></td><td class="n">${fmt(p.count)}</td><td class="n">${fmt(p.uniques)}</td></tr>`).join('')}</table>`:'<div class="muted">Noch keine Daten.</div>'}
-      <div class="row small muted" style="margin-top:10px">Zugang ist nur in diesem Browser gespeichert. <button class="btn" id="logout" style="padding:4px 10px;font-size:12px">Zugang entfernen</button></div></div>`;
-  }catch(e){box.innerHTML=lockHtml(`Zugang funktioniert nicht (${esc(e.message)}). Bitte prüfen.`)}
+      <div class="small muted" style="margin-top:10px">${native()?'✓ Automatisch verbunden über die GitHub-Anmeldung dieses Macs.':'Zugang ist nur in diesem Browser gespeichert. <button class="btn" id="logout" style="padding:4px 10px;font-size:12px">Zugang entfernen</button>'}</div></div>`;
+  }catch(e){const m=esc(e.message||e);box.innerHTML=native()?`<div class="lock"><b>⚠️ Besucherzahlen nicht abrufbar</b><div class="muted small" style="margin-top:6px">${m}. Ist auf diesem Mac jemand bei GitHub angemeldet (Terminal: <code>gh auth status</code>)?</div></div>`:lockHtml(`Zugang funktioniert nicht (${m}). Bitte prüfen.`)}
 }
 function lockHtml(err){return`<div class="lock"><b>🔒 Besucherzahlen, Herkunft & Seiten freischalten</b>
   <div class="muted small" style="margin-top:4px">GitHub gibt diese Daten nur an den Besitzer heraus. Erstelle einmalig einen Lese-Zugang:</div>

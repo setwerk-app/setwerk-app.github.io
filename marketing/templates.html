@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><title>Setwerk Social</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#0b0d11;color:#e8ebf2;font-family:-apple-system,system-ui,"SF Pro Display",sans-serif;overflow:hidden}
+.c{position:relative;overflow:hidden;background:#0b0d11}
+.bg{position:absolute;inset:0;background:radial-gradient(70% 45% at 80% 15%,#ff5c3940,transparent 70%),radial-gradient(60% 40% at 10% 95%,#ffb23826,transparent 70%),#0b0d11}
+.grid{position:absolute;inset:0;background-image:linear-gradient(#ffffff08 2px,transparent 2px),linear-gradient(90deg,#ffffff08 2px,transparent 2px);background-size:72px 72px;mask-image:radial-gradient(ellipse at 50% 0%,#000 20%,transparent 75%)}
+.brand{position:absolute;display:flex;align-items:center;gap:22px;font-weight:850;letter-spacing:-.03em}
+.brand img{border-radius:22%;filter:drop-shadow(0 14px 34px #ff5c3966)}
+h1{margin:0;font-weight:880;letter-spacing:-.045em;line-height:.98}
+h1 span,.g{background:linear-gradient(90deg,#ff5c39,#ffb238);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:#9aa2b5;font-weight:500;line-height:1.35}
+.win{position:absolute;border-radius:22px;overflow:hidden;border:2px solid #2a3040;box-shadow:0 60px 120px #000d;background:#0d0f14}
+.win .bar{height:44px;background:#151922;display:flex;align-items:center;gap:12px;padding:0 20px;border-bottom:2px solid #2a3040}.win .bar i{width:15px;height:15px;border-radius:50%}.win .bar i:nth-child(1){background:#ff5f57}.win .bar i:nth-child(2){background:#febc2e}.win .bar i:nth-child(3){background:#28c840}
+.win img,.phone img{display:block;width:100%}
+.phone{position:absolute;border-radius:56px;overflow:hidden;border:12px solid #1c212d;box-shadow:0 50px 110px #000e;background:#0d0f14}
+.chips{display:flex;gap:14px;flex-wrap:wrap}.chip{border:2px solid #2a3040;background:#151922dd;border-radius:999px;padding:14px 26px;font-weight:700;color:#d5dae5}
+.cta{display:inline-flex;align-items:center;gap:14px;background:linear-gradient(135deg,#ff5c39,#ffb238);color:#1a0c05;font-weight:850;border-radius:999px;box-shadow:0 20px 50px #ff5c3966}
+.url{color:#ffb238;font-weight:700}
+.tag{display:inline-block;background:#ff5c3922;border:2px solid #ff5c3966;color:#ffb238;font-weight:800;letter-spacing:.12em;text-transform:uppercase;border-radius:999px}
+.score{font-weight:900;line-height:1;color:#3ddc97}
+.badge{position:absolute;background:#151922f2;border:2px solid #2a3040;border-radius:26px;box-shadow:0 30px 70px #000c;padding:26px 30px}
+.check{display:flex;gap:16px;align-items:center;font-weight:650}.check:before{content:"✓";width:44px;height:44px;flex:none;border-radius:12px;background:linear-gradient(135deg,#ff5c39,#ffb238);color:#1a0c05;display:flex;align-items:center;justify-content:center;font-weight:900}
+</style></head><body>
+<div id="root"></div>
+<script>
+const P=new URLSearchParams(location.search),F=P.get('f')||'post',I=+(P.get('i')||1);
+const S='../assets/screens/';
+const W=F==='story'?1080:1080,H=F==='story'?1920:1080;
+const win=(img,css)=>`<div class="win" style="${css}"><div class="bar"><i></i><i></i><i></i></div><img src="${S+img}"></div>`;
+const phone=(img,css)=>`<div class="phone" style="${css}"><img src="${S+img}"></div>`;
+const brand=(css,size=64,font=46)=>`<div class="brand" style="${css};font-size:${font}px"><img src="../icons/icon-512.png" style="width:${size}px;height:${size}px">Setwerk</div>`;
+const POSTS={
+1:()=>`${brand('left:72px;top:68px')}
+  <div style="position:absolute;left:72px;top:190px;width:940px"><h1 style="font-size:92px">Du nennst<br>die Stimmung.<br><span>Setwerk baut<br>das Set.</span></h1></div>
+  ${win('builder.jpg','left:470px;top:600px;width:900px;transform:rotate(-4deg)')}
+  <div class="badge" style="left:72px;top:760px"><div class="sub" style="font-size:24px">Flow-Score</div><div class="score" style="font-size:110px">95</div></div>`,
+2:()=>`${brand('left:72px;top:68px',56,40)}
+  <div style="position:absolute;left:72px;top:170px;width:940px"><span class="tag" style="font-size:22px;padding:10px 20px">Mix-Coach</span><h1 style="font-size:82px;margin-top:26px">Jeder Übergang.<br><span>Schritt für Schritt.</span></h1>
+  <p class="sub" style="font-size:32px;margin-top:22px">Wann B startet, wie weit du pitchst und wann der Bass-Swap kommt.</p></div>
+  ${win('coach.jpg','left:120px;top:600px;width:1000px')}`,
+3:()=>`${brand('left:72px;top:68px',56,40)}
+  <div style="position:absolute;left:72px;top:170px;width:940px"><span class="tag" style="font-size:22px;padding:10px 20px">Live-Assistent</span><h1 style="font-size:88px;margin-top:26px">Was passt<br><span>als Nächstes?</span></h1></div>
+  ${win('live.jpg','left:300px;top:470px;width:960px;transform:rotate(-3deg)')}
+  <div class="badge" style="left:72px;top:640px;width:330px"><div style="font-size:26px;font-weight:800">⬆ Hochfahren</div><div class="sub" style="font-size:22px;margin-top:8px">Sag Setwerk, wohin die Energie soll – sofort kommen die besten Tracks.</div></div>`,
+4:()=>`<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px">
+  <img src="../icons/icon-512.png" style="width:190px;height:190px;filter:drop-shadow(0 24px 60px #ff5c3988)">
+  <h1 style="font-size:96px;margin-top:40px">Kostenlos.<br><span>Für Mac, Web & iPhone.</span></h1>
+  <div class="chips" style="justify-content:center;margin-top:50px;font-size:30px"><span class="chip">Serato DJ Pro</span><span class="chip">Rekordbox</span><span class="chip">Traktor</span></div>
+  <div class="sub" style="font-size:30px;margin-top:46px">Ohne Anmeldung · Deine Daten bleiben bei dir</div></div>`,
+5:()=>`${brand('left:72px;top:68px',56,40)}
+  <div style="position:absolute;left:72px;top:170px;width:560px"><span class="tag" style="font-size:22px;padding:10px 20px">Für Einsteiger</span><h1 style="font-size:78px;margin-top:26px">DJ werden.<br><span>Mit Plan.</span></h1>
+  <div style="display:grid;gap:22px;margin-top:44px;font-size:30px"><div class="check">Beatmatching</div><div class="check">Phrasing & Bass-Swap</div><div class="check">Camelot-Rad</div><div class="check">Tap-Tempo & Pitch</div></div></div>
+  ${win('school.jpg','left:560px;top:250px;width:900px')}`,
+};
+const STORIES={
+1:()=>`${brand('left:80px;top:120px',72,52)}
+  <div style="position:absolute;left:80px;top:300px;width:920px"><h1 style="font-size:118px">Du nennst<br>die Stimmung.<br><span>Setwerk baut<br>das Set.</span></h1></div>
+  ${phone('mobile.jpg','left:230px;top:960px;width:620px;transform:rotate(-4deg)')}`,
+2:()=>`<div style="position:absolute;left:80px;top:150px;width:920px"><span class="tag" style="font-size:28px;padding:12px 24px">Mix-Coach</span><h1 style="font-size:104px;margin-top:34px">Jeder Übergang<br><span>erklärt.</span></h1>
+  <p class="sub" style="font-size:40px;margin-top:30px">Startpunkt · Pitch · Bass-Swap · Tonart – und zum Anhören.</p></div>
+  ${win('coach.jpg','left:60px;top:860px;width:1500px')}
+  <div style="position:absolute;left:0;right:0;bottom:150px;text-align:center"><span class="cta" style="font-size:40px;padding:28px 50px">Kostenlos laden – Link in Bio</span></div>`,
+3:()=>`<div style="position:absolute;left:80px;top:150px;width:920px"><span class="tag" style="font-size:28px;padding:12px 24px">Live-Assistent</span><h1 style="font-size:110px;margin-top:34px">Was passt<br><span>als Nächstes?</span></h1></div>
+  ${win('live.jpg','left:60px;top:720px;width:1480px;transform:rotate(-3deg)')}
+  <div style="position:absolute;left:0;right:0;bottom:150px;text-align:center"><span class="cta" style="font-size:40px;padding:28px 50px">Probier’s aus – Link in Bio</span></div>`,
+4:()=>`<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:90px">
+  <img src="../icons/icon-512.png" style="width:240px;height:240px;filter:drop-shadow(0 30px 70px #ff5c3999)">
+  <h1 style="font-size:130px;margin-top:50px">Setwerk</h1>
+  <p class="sub" style="font-size:46px;margin:24px 0 60px">DJ-Sets nach echter Mix-Theorie</p>
+  <div style="display:grid;gap:26px;font-size:40px;text-align:left"><div class="check">Kostenlos & ohne Anmeldung</div><div class="check">Serato · Rekordbox · Traktor</div><div class="check">Mac · Web · iPhone</div></div>
+  <span class="cta" style="font-size:44px;padding:30px 56px;margin-top:80px">⬇ Link in Bio</span>
+  <div class="url" style="font-size:32px;margin-top:30px">zthsydnhbt-hub.github.io/setwerk</div></div>`,
+};
+const c=document.createElement('div');c.className='c';c.style.width=W+'px';c.style.height=H+'px';
+c.innerHTML='<div class="bg"></div><div class="grid"></div>'+(F==='story'?STORIES:POSTS)[I]();
+document.getElementById('root').appendChild(c);
+</script></body></html>

@@ -48,7 +48,7 @@ svg text{fill:#8b93a7;font-size:10px}
   <div class="grid" style="margin-top:16px">
     <div class="card"><h3>Downloads pro Version</h3><div id="relChart"></div><div id="relTable" style="margin-top:12px"></div></div>
     <div class="card"><h3>Downloads nach Datei</h3><div id="assetTable"></div>
-      <div class="small muted" style="margin-top:10px">Mac-Installationen ≈ Downloads von <b>.pkg</b> und <b>.dmg</b>. GitHub zählt jeden Download, auch wiederholte.</div></div>
+      <div class="small muted" style="margin-top:10px">Mac-Installationen ≈ Downloads von <b>.pkg</b> und <b>.dmg</b>, Windows ≈ <b>.exe</b>. GitHub zählt jeden Download, auch wiederholte.</div></div>
   </div>
 
   <h2>Besucher & Herkunft <span class="tag">GitHub, letzte 14 Tage</span></h2>
@@ -88,19 +88,20 @@ function line(days,keyA,keyB){ // daily views: [{timestamp,count,uniques}]
 async function loadPublic(){
   const [repo,rels]=await Promise.all([gh(''),gh('/releases?per_page=100')]);
   const assets=rels.flatMap(r=>r.assets.map(a=>({rel:r.tag_name,name:a.name,dl:a.download_count,date:r.published_at})));
-  const total=assets.reduce((a,x)=>a+x.dl,0),mac=assets.filter(a=>/\.(pkg|dmg)$/i.test(a.name)).reduce((a,x)=>a+x.dl,0);
+  const total=assets.reduce((a,x)=>a+x.dl,0),mac=assets.filter(a=>/\.(pkg|dmg)$/i.test(a.name)).reduce((a,x)=>a+x.dl,0),win=assets.filter(a=>/\.(exe|msi)$/i.test(a.name)).reduce((a,x)=>a+x.dl,0);
   const latest=rels[0],latestDl=latest?latest.assets.reduce((a,x)=>a+x.download_count,0):0;
   $('#kpis').innerHTML=kpi(fmt(mac),'Mac-Downloads gesamt','≈ Installationen der Mac-App',true)+
-    kpi(fmt(latestDl),'Downloads aktuelle Version',latest?esc(latest.tag_name)+' · seit '+new Date(latest.published_at).toLocaleDateString('de-DE'):'')+
+    kpi(fmt(win),'Windows-Downloads','≈ Installationen unter Windows')+kpi(fmt(latestDl),'Downloads aktuelle Version',latest?esc(latest.tag_name)+' · seit '+new Date(latest.published_at).toLocaleDateString('de-DE'):'')+
     kpi(fmt(repo.stargazers_count),'⭐ Sterne auf GitHub')+kpi(fmt(repo.subscribers_count),'👀 Beobachter','bekommen Release-Benachrichtigungen')+
     kpi(fmt(repo.forks_count),'Forks')+kpi(fmt(rels.length),'Veröffentlichte Versionen')+
     `<div id="kpiTraffic" style="display:contents"></div>`;
   const perRel=rels.slice().reverse().map(r=>({label:r.tag_name,value:r.assets.reduce((a,x)=>a+x.download_count,0)}));
   $('#relChart').innerHTML=bars(perRel);
   $('#relTable').innerHTML=`<table><tr><th>Version</th><th>Datum</th><th style="text-align:right">Downloads</th></tr>${rels.map(r=>`<tr><td><a href="${r.html_url}" target="_blank" style="color:var(--accent2)">${esc(r.name||r.tag_name)}</a></td><td>${new Date(r.published_at).toLocaleDateString('de-DE')}</td><td class="n">${fmt(r.assets.reduce((a,x)=>a+x.download_count,0))}</td></tr>`).join('')}</table>`;
-  const byName={};assets.forEach(a=>{const k=a.name.replace(/-\d+\.\d+\.\d+/,'');byName[k]=(byName[k]||0)+a.dl});
+  const kind=n=>/\.pkg$/i.test(n)?'🍎 Mac-Installer (.pkg)':/\.dmg$/i.test(n)?'🍎 Mac Disk-Image (.dmg)':/\.(exe|msi)$/i.test(n)?'🪟 Windows-Installer (.exe)':n;
+  const byName={};assets.forEach(a=>{const k=kind(a.name);byName[k]=(byName[k]||0)+a.dl});
   const maxA=Math.max(1,...Object.values(byName));
-  $('#assetTable').innerHTML=`<table><tr><th>Datei</th><th></th><th style="text-align:right">Downloads</th></tr>${Object.entries(byName).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<tr><td>${esc(k)}</td><td style="width:40%"><div class="bar"><i style="width:${v/maxA*100}%"></i></div></td><td class="n">${fmt(v)}</td></tr>`).join('')}</table>`;
+  $('#assetTable').innerHTML=`<table><tr><th>Typ</th><th></th><th style="text-align:right">Downloads</th></tr>${Object.entries(byName).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<tr><td>${esc(k)}</td><td style="width:40%"><div class="bar"><i style="width:${v/maxA*100}%"></i></div></td><td class="n">${fmt(v)}</td></tr>`).join('')}</table>`;
 }
 
 async function loadTraffic(){
